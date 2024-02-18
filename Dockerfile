@@ -4,6 +4,6 @@ WORKDIR /sikpi
 RUN mvn clean package -DskipTests
 
 FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /sikpi/target/sikpi-0.0.1-SNAPSHOT.jar.original sikpi.jar
+COPY --from=build /sikpi/target/sikpi-0.0.1-SNAPSHOT.jar sikpi.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","sikpi.jar"]
+ENTRYPOINT ["java", "-jar", "sikpi.jar"]
