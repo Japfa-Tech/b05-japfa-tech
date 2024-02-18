@@ -61,6 +61,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<mainClass>com.propensi.sikpi.SikpiApplication</mainClass>
+					<layout>JAR</layout>				
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
