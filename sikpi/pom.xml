@@ -69,6 +69,11 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<archive>
+						<manifest>
+							<mainClass>com.propensi.sikpi.SikpiApplication</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 				<executions>
 					<execution>
