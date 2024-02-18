@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SikpiApplication<sikpi>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.propensi.sikpi.SikpiApplication",
+            "projectName": "sikpi",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
