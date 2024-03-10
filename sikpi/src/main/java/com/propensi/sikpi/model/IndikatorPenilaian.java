@@ -24,16 +24,12 @@ import lombok.Setter;
 public class IndikatorPenilaian {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idIndikatorPenilaian;
+    private long idIndikatorPenilaian;
 
     @Column(name="judul_indikator", nullable=false)
     private String judulIndikator;
 
     @Column(name="skor", nullable=false)
     private Integer skor;
-
-    @ManyToOne
-    @JoinColumn(name = "id_kriteria")
-    @JsonIgnore
-    private Long idKriteriaPenilaian;
 }
+

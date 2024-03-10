@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>View All Template</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .center-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 800px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: #112155;
+            color: #f4f4f4;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .card {
+            background: #f4f4f4;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            overflow: hidden;
+            display: inline-block; /* Display cards inline */
+            width: calc(33.33% - 20px); /* Adjust width to fit three cards in a row */
+            margin-right: 20px; /* Add spacing between cards */
+            vertical-align: top; /* Align cards to the top of the row */
+        }
+
+        .card:last-child {
+            margin-right: 0; /* Remove right margin from the last card */
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            margin-top: 0;
+            text-align: center; /* Center card title */
+        }
+
+        .card-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center card content vertically */
+            margin-top: 20px;
+        }
+
+        .card-text .btn {
+            margin-top: 10px; /* Add space between image and button */
+        }
+
+        .card img {
+            max-width: 150px;
+            height: auto;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar-login :: navbar('evaluation')}"></nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="center-text">
+                    <h1>Daftar Template Penilaian</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-title">Indeks Kinerja Individu</div>
+                    <div class="card-text">
+                        <img th:src="@{/images/archive.png}" alt="Placeholder Image">
+                        <a href="/template-penilaian-iki" class="btn btn-primary">Lihat Template</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-title">Indeks Kinerja Unit</div>
+                    <div class="card-text">
+                        <img th:src="@{/images/archive.png}" alt="Placeholder Image">
+                        <a href="/template-penilaian-iku" class="btn btn-primary">Lihat Template</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-title">Norma</div>
+                    <div class="card-text">
+                        <img th:src="@{/images/archive.png}" alt="Placeholder Image">
+                        <a href="/template-penilaian-norma" class="btn btn-primary">Lihat Template</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

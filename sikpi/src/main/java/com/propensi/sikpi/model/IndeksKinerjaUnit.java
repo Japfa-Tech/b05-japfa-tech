@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,15 +26,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="iku")
+@DiscriminatorValue("iku")
 public class IndeksKinerjaUnit extends TemplatePenilaian{
-    @Column(name="id_manajer", nullable=false)
-    private Long idManajer;
+    @Column(name="id_manajer")
+    private long idManajer;
 
-    @Column(name="id_unit", nullable=false)
-    private Long idUnit;
+    @Column(name="id_unit")
+    private long idUnit;
 
-    @OneToMany(mappedBy = "iku", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "templatePenilaian", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonIgnore
     private List<Pesan> listPesan;
 }

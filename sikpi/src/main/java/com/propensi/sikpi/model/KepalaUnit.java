@@ -1,9 +1,11 @@
 package com.propensi.sikpi.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,14 +23,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="kepala_unit")
+@DiscriminatorValue("kepala_unit")
 public class KepalaUnit extends UserModel {
-    @Column(name="list_karyawan", nullable=false)
-    private List<Long> listKaryawan;
+    @Column(name="list_karyawan")
+    private List<Long> listKaryawan = new ArrayList<>();
 
-    @Column(name="id_manajer", nullable=false)
+    @Column(name="id_manajer")
     private Long idManajer;
 
-    @Column(name="id_unit", nullable=false)
+    @Column(name="id_unit")
     private Long idUnit;
 }

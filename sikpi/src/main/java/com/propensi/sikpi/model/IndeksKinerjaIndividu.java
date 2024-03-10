@@ -6,9 +6,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -25,16 +30,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="iki")
-public class IndeksKinerjaIndividu extends TemplatePenilaian{
-    @Column(name="id_manajer", nullable=false)
-    private Long idManajer;
+@DiscriminatorValue("iki")
+public class IndeksKinerjaIndividu extends TemplatePenilaian {
+    @Column(name="id_manajer")
+    private long idManajer;
 
-    @Column(name="id_kepala_unit", nullable=false)
-    private Long idKepalaUnit;
+    @Column(name="id_kepala_unit")
+    private long idKepalaUnit;
 
-    @OneToMany(mappedBy = "iki", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "templatePenilaian", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonIgnore
     private List<Pesan> listPesan;
-
 }
+

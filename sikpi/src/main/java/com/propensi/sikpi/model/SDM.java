@@ -1,6 +1,7 @@
 package com.propensi.sikpi.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,7 +19,7 @@ import lombok.Setter;
 // @AllArgsConstructor
 // @NoArgsConstructor
 @Entity
-@Table(name="sdm")
+@DiscriminatorValue("sdm")
 public class SDM extends Karyawan{
     
 }

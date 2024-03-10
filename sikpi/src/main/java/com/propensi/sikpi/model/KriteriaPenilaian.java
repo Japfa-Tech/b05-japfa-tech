@@ -31,7 +31,7 @@ public class KriteriaPenilaian {
     @Id
     @Column(name="id_kriteria")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idKriteriaPenilaian;
+    private long idKriteriaPenilaian;
 
     @Column(name="judul_kriteria", nullable=false)
     private String judulKriteria;
@@ -39,13 +39,13 @@ public class KriteriaPenilaian {
     @Column(name="bobot", nullable=false)
     private Integer bobot;
 
-    // @Column(name="id_kriteria", nullable=false)
-    @OneToMany(mappedBy = "kriteria_penilaian", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonIgnore
-    private List<IndikatorPenilaian> listIndikator;
+    @Column(name="skor", nullable=false)
+    private Integer skor;
 
     @ManyToOne
     @JoinColumn(name = "id_template")
     @JsonIgnore
     private TemplatePenilaian templatePenilaian;
 }
+
+

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,15 +26,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="norma")
+@DiscriminatorValue("norma")
 public class Norma extends TemplatePenilaian{
     @Column(name="id_manajer", nullable=false)
-    private Long idManajer;
+    private long idManajer;
 
     @Column(name="id_kepala_unit", nullable=false)
-    private Long idUnit;
+    private long idUnit;
 
-    @OneToMany(mappedBy = "norma", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "templatePenilaian", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonIgnore
     private List<Pesan> listPesan;
 }

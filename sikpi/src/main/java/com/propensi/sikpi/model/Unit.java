@@ -28,8 +28,8 @@ public class Unit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUnit;
 
-    @Column(name="list_karyawan", nullable=false)
-    private List<Karyawan> listKaryawan;
+    // @Column(name="list_karyawan", nullable=false)
+    // private List<Karyawan> listKaryawan;
 
     @Column(name="nama_unit", nullable=false)
     private String namaUnit;
