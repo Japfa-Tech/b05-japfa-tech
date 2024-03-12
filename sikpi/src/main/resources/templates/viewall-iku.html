@@ -138,13 +138,13 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="row">
-                    <div class="col-md-4" th:each="iku, iterationStatus: ${listIku}">
+                    <div class="col-md-6" th:each="iku, iterationStatus: ${listIku}">
                       <div class="card">
                         <div class="d-flex align-items-center">
-                          <img class="mx-auto d-block logo-img" th:src="@{/images/template.png}" width="100px" style="margin-bottom: 20px;" alt="logo SIKPI-TEMPLATE" />
+                          <img class="mx-auto d-block logo-img" th:src="@{/images/template.png}" width="100px" style="margin-bottom: 20px; margin-top: 20px;" alt="logo SIKPI-TEMPLATE" />
                           <div class="card-text">
                             <h2 class="card-title" th:text="${iku.namaTemplate}"></h2>
-                            <div class="d-flex justify-content-center gap-3" style="margin-top: 20px;">
+                            <div class="d-flex justify-content-center gap-3" style="margin-top: 20px; margin-right: 40px;">
                               <a type="button" class="btn btn-outline-success" th:href="@{/template-penilaian-iku/edit/{id}(id=${iku.idTemplatePenilaian})}" style="background-color: #56C5F1; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Edit</a>
                               <a type="button" class="btn btn-outline-success" th:href="@{/template-penilaian-iku/delete/{id}(id=${iku.idTemplatePenilaian})}" style="background-color: #E94761; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Delete</a>
                           </div>
