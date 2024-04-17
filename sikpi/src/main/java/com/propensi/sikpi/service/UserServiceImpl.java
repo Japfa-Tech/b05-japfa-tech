@@ -18,8 +18,6 @@ import com.propensi.sikpi.repository.DokumenDb;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
-
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -33,7 +31,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     DokumenDb dokumenDb;
-
 
     @Override
     public UserModel addUser(UserModel user) {
@@ -72,22 +69,21 @@ public class UserServiceImpl implements UserService {
     public String loginJwtUser(LoginFormDTO loginFormDTO) {
         String username = loginFormDTO.getUsername();
         String providedPassword = loginFormDTO.getPassword();
-    
+
         UserModel user = userDb.findByUsername(username);
         System.out.println(user.getNamaLengkap());
         System.out.println(user);
-    
+
         if (user != null) {
             // Validate the provided password with the stored hashed password
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();        
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             if (passwordEncoder.matches(providedPassword, user.getPassword())) {
                 return jwtUtils.generateJwtToken(username);
             }
         }
-    
+
         return null;
     } // Return null if the user doesn't exist or the password is incorrect
-
 
     @Override
     public List<UserModel> getAllUser() {
@@ -119,7 +115,7 @@ public class UserServiceImpl implements UserService {
             Dokumen newDok = new Dokumen();
             newDok.setNamaDokumen(dok.getNamaDokumen());
             newDok.setIdUser(user);
-            newDok.setStatus(false);
+            newDok.setStatus(0);
             newDok.setUploadedDate(LocalDateTime.now());
             dokumenDb.save(newDok);
         }

@@ -20,10 +20,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Data
 @Getter
 @Setter
 @AllArgsConstructor
@@ -49,10 +51,13 @@ public class TemplatePenilaian {
     @Column(name="bobot_total")
     private Integer bobotTotal;
 
-    @Column(name="status")
-    private String status;
+    // @Column(name="status")
+    // private String status;
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = Boolean.FALSE;
+
+    @Column(name ="evaluated_user")
+    private Long evaluatedUser;
 }
 

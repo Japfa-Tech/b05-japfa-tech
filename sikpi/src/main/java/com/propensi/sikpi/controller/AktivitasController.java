@@ -2,6 +2,7 @@ package com.propensi.sikpi.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.propensi.sikpi.model.UserModel;
 import com.propensi.sikpi.repository.UserDb;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,9 +31,11 @@ public class AktivitasController {
 
             UserDetails userDetails = (UserDetails) principal;
             String username = userDetails.getUsername();
-            Long id = userDb.findByUsername(username).getId();
+            UserModel user = userDb.findByUsername(username);
+            Long id = user.getId();
 
             model.addAttribute("isLoggedIn", true);
+            model.addAttribute("loggedInUserRole", user.getRole().getRole());
             model.addAttribute("idUser", id);
 
 

@@ -146,7 +146,21 @@
 </head>
 
 <body>
-    <nav th:replace="~{fragments/navbar-login :: navbar('evaluation')}"></nav>
+    <th:block th:switch="${loggedInUserRole}" id="loggedInUserRole">
+        <th:block th:case="'SDM'">
+            <nav th:replace="~{fragments/navbar-login :: navbar('evaluation')}"></nav>
+        </th:block>
+        <th:block th:case="'Karyawan'">
+            <nav th:replace="~{fragments/navbar-karyawan :: navbar('evaluation')}"></nav>
+        </th:block>
+        <th:block th:case="'KepalaUnit'">
+            <nav th:replace="~{fragments/navbar-kepala-unit :: navbar('evaluation')}"></nav>
+        </th:block>
+        <th:block th:case="'Manajer'">
+            <nav th:replace="~{fragments/navbar-manager :: navbar('evaluation')}"></nav>
+        </th:block>
+        <!-- Add additional cases for other roles if needed -->
+    </th:block>
     <div class="container">
         <div class="col text-center"> <!-- menambahkan kelas "text-center" di sini -->
             <h2 class="m-2">Template Penilaian IKI</h2>

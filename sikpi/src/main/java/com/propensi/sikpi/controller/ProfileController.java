@@ -5,7 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.io.IOException;
 import java.time.LocalDateTime;
+
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,14 +34,22 @@ import com.propensi.sikpi.DTO.request.CreateRiwayatPenugasanRequestDTO;
 import com.propensi.sikpi.DTO.request.UserDTO;
 import com.propensi.sikpi.model.Cabinet;
 import com.propensi.sikpi.model.Dokumen;
+import com.propensi.sikpi.model.Karyawan;
+import com.propensi.sikpi.model.KepalaUnit;
 import com.propensi.sikpi.model.RiwayatJabatan;
 import com.propensi.sikpi.model.RiwayatPenugasan;
+import com.propensi.sikpi.model.Unit;
+import com.propensi.sikpi.model.UserModel;
 import com.propensi.sikpi.repository.UserDb;
+import com.propensi.sikpi.service.BorangPenilaianService;
 import com.propensi.sikpi.service.DokumenService;
+import com.propensi.sikpi.service.PdfGenerateService;
 import com.propensi.sikpi.service.RiwayatJabatanService;
 import com.propensi.sikpi.service.RiwayatPenugasanService;
+import com.propensi.sikpi.service.UnitService;
 import com.propensi.sikpi.service.UserService;
 import jakarta.validation.Valid;
+import javassist.NotFoundException;
 
 @Controller
 public class ProfileController {
@@ -56,13 +70,19 @@ public class ProfileController {
     private RiwayatJabatanService riwayatJabatanService;
     @Autowired
     private RiwayatPenugasanService riwayatPenugasanService;
-
+    @Autowired
+    private PdfGenerateService pdfGenerateService;
+    @Autowired
+    private BorangPenilaianService borangPenilaianService;
     @Autowired
     private UserDb userDb;
+    @Autowired
+    private UnitService unitService;
 
     private Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
             Object principal = authentication.getPrincipal();
             if (principal instanceof UserDetails) {
                 UserDetails userDetails = (UserDetails) principal;
@@ -72,7 +92,7 @@ public class ProfileController {
         }
         // Return a default value or handle as needed
         return null;
-    }    
+    }
 
     // @GetMapping("/profile/{id}/edit")
     // public String formEditProfile(@PathVariable("id") Long id, Model model) {
@@ -89,16 +109,36 @@ public class ProfileController {
     // }
 
     @GetMapping("/profile/{id}")
-    public String getProfile(@PathVariable("id") Long id, Model model) {
+    public String getProfile(@PathVariable("id") Long id, Model model) throws NotFoundException {
         var user = userService.getUserById(id);
+        var evaluatedUnit = new Unit();
+        if (user.getRole().getId() == 1) {
+            Karyawan ku = (Karyawan) user;
+            evaluatedUnit = unitService.getUnitByUserId(ku.getId());
+        } else if (user.getRole().getId() == 5) {
+            KepalaUnit man = (KepalaUnit) user;
+            evaluatedUnit = unitService.getUnitByKepalaUnitId(man.getId());
+        }
+        var iki = borangPenilaianService.getBorangPenilaianIKIByEvaluatedUser(id);
+        var iku = borangPenilaianService.getBorangPenilaianIKUByEvaluatedUnit(evaluatedUnit.getId());
+        var norma = borangPenilaianService.getBorangPenilaianNormaByEvaluatedUser(id);
         List<Dokumen> listDok = dokumenService.getAllDokumenByUserId(user);
         List<RiwayatJabatan> listJabatan = riwayatJabatanService.getAllJabatanByUserId(user);
         List<RiwayatPenugasan> listPenugasan = riwayatPenugasanService.getAllPenugasanByUserId(user);
+        if (iki != null && iku != null && norma != null && iki.getStatus().equals("finished")
+                && iku.getStatus().equals("finished") && norma.getStatus().equals("finished")) {
+            System.out.println("rapornya ready");
+            model.addAttribute("raporReady", true);
+        } else {
+            System.out.println("rapornya tiduck ready");
+            model.addAttribute("raporReady", false);
+        }
         model.addAttribute("listDokumen", listDok);
         model.addAttribute("user", user);
         model.addAttribute("RiwayatJabatan", listJabatan);
         model.addAttribute("RiwayatPenugasan", listPenugasan);
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
 
         // model.addAttribute("daftarBarang", daftarBarang);
         return "profile-page";
@@ -114,8 +154,29 @@ public class ProfileController {
         model.addAttribute("user", user);
         model.addAttribute("listDokumen", listDok);
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
 
         return "form-tambah-dokumen";
+    }
+
+    @GetMapping("/profile/{idUser}/approve/{idDokumen}")
+    public String approveDokumen(@PathVariable("idUser") Long idUser, @PathVariable("idDokumen") Long idDokumen,
+            Model model) {
+        Dokumen dok = dokumenService.getDokumenById(idDokumen);
+        dok.setStatus(1);
+        dok.setReviewedDate(LocalDateTime.now());
+        dokumenService.saveDokumen(dok);
+        return "redirect:/profile/" + idUser;
+    }
+
+    @GetMapping("/profile/{idUser}/reject/{idDokumen}")
+    public String rejectDokumen(@PathVariable("idUser") Long idUser, @PathVariable("idDokumen") Long idDokumen,
+            Model model) {
+        Dokumen dok = dokumenService.getDokumenById(idDokumen);
+        dok.setStatus(2);
+        dok.setReviewedDate(LocalDateTime.now());
+        dokumenService.saveDokumen(dok);
+        return "redirect:/profile/" + idUser;
     }
 
     @GetMapping("/profile/{id}/tambahJabatan")
@@ -128,6 +189,7 @@ public class ProfileController {
         model.addAttribute("user", user);
         model.addAttribute("riwayatJabatan", listJabatan);
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
 
         return "form-tambah-jabatan";
     }
@@ -144,7 +206,7 @@ public class ProfileController {
         model.addAttribute("idUser", getUserId());
 
         return "form-tambah-penugasan";
-    } 
+    }
 
     @PostMapping("/profile/tambahDokumen")
     public String tambahDokumen(@Valid @ModelAttribute CreateDokumenRequestDTO createDokumenRequestDTO,
@@ -160,14 +222,15 @@ public class ProfileController {
         var user = userService.getUserById(dokumenModel.getIdUser().getId());
         model.addAttribute("user", user);
         return "success-add-dokumen";
-    }   
-    
+    }
+
     @PostMapping("/profile/tambahJabatan")
     public String tambahJabatan(@Valid @ModelAttribute CreateRiwayatJabatanRequestDTO createRiwayatJabatanRequestDTO,
             @RequestParam("JabatanDiganti") MultipartFile dokumenJabatan,
             Model model) throws IOException {
         byte[] dokumenJabatanBytes = dokumenJabatan.getBytes();
-        RiwayatJabatan dokumenJabatanModel = riwayatJabatanMapper.createRiwayatJabatanRequestDTOToRiwayatJabatan(createRiwayatJabatanRequestDTO);
+        RiwayatJabatan dokumenJabatanModel = riwayatJabatanMapper
+                .createRiwayatJabatanRequestDTOToRiwayatJabatan(createRiwayatJabatanRequestDTO);
         dokumenJabatanModel.setDokumen(dokumenJabatanBytes);
         dokumenJabatanModel.setJabatan(dokumenJabatan.getOriginalFilename());
         dokumenJabatanModel.setUploadedDate(LocalDateTime.now());
@@ -180,11 +243,13 @@ public class ProfileController {
     }
 
     @PostMapping("/profile/tambahPenugasan")
-    public String tambahPenugasan(@Valid @ModelAttribute CreateRiwayatPenugasanRequestDTO createRiwayatPenugasanRequestDTO,
+    public String tambahPenugasan(
+            @Valid @ModelAttribute CreateRiwayatPenugasanRequestDTO createRiwayatPenugasanRequestDTO,
             @RequestParam("PenugasanDiganti") MultipartFile dokumenPenugasan,
             Model model) throws IOException {
         byte[] dokumenPenugasanBytes = dokumenPenugasan.getBytes();
-        RiwayatPenugasan dokumenPenugasanModel = riwayatPenugasanMapper.createRiwayatPenugasanRequestDTOToRiwayatPenugasan(createRiwayatPenugasanRequestDTO);
+        RiwayatPenugasan dokumenPenugasanModel = riwayatPenugasanMapper
+                .createRiwayatPenugasanRequestDTOToRiwayatPenugasan(createRiwayatPenugasanRequestDTO);
         dokumenPenugasanModel.setDokumen(dokumenPenugasanBytes);
         dokumenPenugasanModel.setPenugasan(dokumenPenugasan.getOriginalFilename());
         dokumenPenugasanModel.setUploadedDate(LocalDateTime.now());
@@ -207,7 +272,8 @@ public class ProfileController {
     }
 
     @GetMapping("/profile/{idUser}/deleteJabatan/{idRiwayatJabatan}")
-    public String deleteRiwayatJabatan(@PathVariable("idUser") Long idUser, @PathVariable("idRiwayatJabatan") Long idRiwayatJabatan,
+    public String deleteRiwayatJabatan(@PathVariable("idUser") Long idUser,
+            @PathVariable("idRiwayatJabatan") Long idRiwayatJabatan,
             Model model) {
         var user = userService.getUserById(idUser);
         RiwayatJabatan jabatan = riwayatJabatanService.getJabatanById(idRiwayatJabatan);
@@ -217,7 +283,8 @@ public class ProfileController {
     }
 
     @GetMapping("/profile/{idUser}/deletePenugasan/{idRiwayatPenugasan}")
-    public String deleteRiwayatPenugasan(@PathVariable("idUser") Long idUser, @PathVariable("idRiwayatPenugasan") Long idRiwayatPenugasan,
+    public String deleteRiwayatPenugasan(@PathVariable("idUser") Long idUser,
+            @PathVariable("idRiwayatPenugasan") Long idRiwayatPenugasan,
             Model model) {
         var user = userService.getUserById(idUser);
         RiwayatPenugasan penugasan = riwayatPenugasanService.getPenugasanById(idRiwayatPenugasan);
@@ -225,33 +292,6 @@ public class ProfileController {
         model.addAttribute("user", user);
         return "success-delete-penugasan";
     }
-
-    // @PostMapping(value = "/profile/edit", params = { "addRow" })
-    // public String addRowDokumen(@ModelAttribute UserDTO userDTO, Model model) {
-    // if (userDTO.getListDokumen() == null || userDTO.getListDokumen().size() == 0)
-    // {
-    // userDTO.setListDokumen(new ArrayList<>());
-    // }
-    // var newDoc = new Dokumen();
-    // var ambilUser = userService.getUserById(userDTO.getId());
-    // newDoc.setIdUser(ambilUser);
-    // System.out.println("ini untuk usernya " + newDoc.getIdUser().getId());
-    // userDTO.getListDokumen().add(newDoc);
-
-    // model.addAttribute("userDTO", userDTO);
-    // // model.addAttribute("listDokumen", dokumenService.getAllDokumen());
-
-    // return "form-edit-profile";
-    // }
-
-    // @PostMapping(value = "/profile/edit", params = { "deleteRow" })
-    // public String deleteRowDokumen(@ModelAttribute UserDTO userDTO,
-    // @RequestParam("deleteRow") int row, Model model) {
-    // userDTO.getListDokumen().remove(row);
-    // model.addAttribute("userDTO", userDTO);
-    // // model.addAttribute("listDokumen", dokumenService.getAllDokumen())
-    // return "form-edit-profile";
-    // }
 
     @PostMapping(value = "/profile/edit")
     public String saveRowDokumenUserUpdate(@Valid @ModelAttribute UserDTO userDTO, BindingResult bindingResult,
@@ -281,6 +321,28 @@ public class ProfileController {
         model.addAttribute("user", user);
         // model.addAttribute("listDokumen", dokumenService.getAllDokumen());
         return "success-edit";
+    }
+
+    @GetMapping("/profile/{idUser}/download/{idDokumen}")
+    public ResponseEntity<ByteArrayResource> downloadAttachment(@PathVariable("idUser") Long idUser,
+            @PathVariable("idDokumen") Long idDokumen,
+            Model model) {
+        var dok = dokumenService.getDokumenById(idDokumen);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/pdf"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dok.getNamaDokumen() + "\"")
+                .body(new ByteArrayResource(dok.getDokumen()));
+    }
+
+    @GetMapping("/list-employee")
+    public String getAllEmployee(Model model) {
+        List<UserModel> listUser = userService.getAllUser();
+        UserModel user = userDb.findById(getUserId()).get();
+        model.addAttribute("listUser", listUser);
+        model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+        return "list-user";
     }
 
 }

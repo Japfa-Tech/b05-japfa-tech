@@ -163,7 +163,21 @@ top: 20px;
 </head>
 
 <body>
-    <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav>
+    <th:block th:switch="${loggedInUserRole}">
+        <th:block th:case="'SDM'">
+            <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav>
+        </th:block>
+        <th:block th:case="'Karyawan'">
+            <nav th:replace="~{fragments/navbar-karyawan :: navbar('profile')}"></nav>
+        </th:block>
+        <th:block th:case="'KepalaUnit'">
+            <nav th:replace="~{fragments/navbar-kepala-unit :: navbar('profile')}"></nav>
+        </th:block>
+        <th:block th:case="'Manajer'">
+            <nav th:replace="~{fragments/navbar-manager :: navbar('profile')}"></nav>
+        </th:block>
+        <!-- Add additional cases for other roles if needed -->
+    </th:block>
 
     <div class="container">
         <div class="card">

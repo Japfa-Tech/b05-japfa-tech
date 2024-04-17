@@ -15,7 +15,21 @@
 
     <!-- Navigation Bar -->
     <th:block th:if="${isLoggedIn}">
-        <nav th:replace="~{fragments/navbar-login :: navbar('home')}"></nav>
+        <th:block th:switch="${loggedInUserRole}">
+            <th:block th:case="'SDM'">
+                <nav th:replace="~{fragments/navbar-login :: navbar('home')}"></nav>
+            </th:block>
+            <th:block th:case="'Karyawan'">
+                <nav th:replace="~{fragments/navbar-karyawan :: navbar('home')}"></nav>
+            </th:block>
+            <th:block th:case="'KepalaUnit'">
+                <nav th:replace="~{fragments/navbar-kepala-unit :: navbar('home')}"></nav>
+            </th:block>
+            <th:block th:case="'Manajer'">
+                <nav th:replace="~{fragments/navbar-manager :: navbar('home')}"></nav>
+            </th:block>
+            <!-- Add additional cases for other roles if needed -->
+        </th:block>
     </th:block>
     <th:block th:unless="${isLoggedIn}">
         <nav th:replace="~{fragments/navbar :: navbar('home')}"></nav>

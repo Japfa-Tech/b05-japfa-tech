@@ -18,8 +18,10 @@ import com.propensi.sikpi.model.IndeksKinerjaUnit;
 import com.propensi.sikpi.model.KriteriaPenilaian;
 import com.propensi.sikpi.model.Norma;
 import com.propensi.sikpi.model.TemplatePenilaian;
+import com.propensi.sikpi.model.UserModel;
 import com.propensi.sikpi.repository.TemplatePenilaianDb;
 import com.propensi.sikpi.repository.UserDb;
+import com.propensi.sikpi.repository.IndeksKinerjaIndividuDb;
 import com.propensi.sikpi.repository.KriteriaPenilaianDb;
 import com.propensi.sikpi.service.TemplateService;
 
@@ -48,6 +50,9 @@ public class TemplatePenilaianController {
     @Autowired
     private UserDb userDb;
 
+    @Autowired
+    IndeksKinerjaIndividuDb indeksKinerjaIndividuDb;
+
     private Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
@@ -68,20 +73,28 @@ public class TemplatePenilaianController {
         List<IndeksKinerjaIndividu> listIki = templateService.getAllIki();
         List<IndeksKinerjaUnit> listIku = templateService.getAllIku();
         List<Norma> listNorma = templateService.getAllNorma();
+        UserModel user = userDb.findById(getUserId()).get();
+
         model.addAttribute("listIki", listIki);
         model.addAttribute("listIku", listIku);
         model.addAttribute("listNorma", listNorma);
-        model.addAttribute("idUser", getUserId());
+        model.addAttribute("idUser", user.getId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+
         return "viewall-template";
     }
 
     @GetMapping("/template-penilaian-iki")
     public String viewAllIki(Model model) {
 
-        List<IndeksKinerjaIndividu> listIki = templateService.getAllIki();
+        List<IndeksKinerjaIndividu> listIki = indeksKinerjaIndividuDb.findByEvaluatedUser(getUserId());
+        UserModel user = userDb.findById(getUserId()).get();
+
 
         model.addAttribute("listIki", listIki);
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+
         return "viewall-iki";
     }
 
@@ -89,9 +102,13 @@ public class TemplatePenilaianController {
     public String formIki(Model model) {
         
         IndeksKinerjaIndividu ikiDTO = new IndeksKinerjaIndividu();
+        UserModel user = userDb.findById(getUserId()).get();
+
 
         model.addAttribute("ikiDTO", ikiDTO);
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+
         return "form-iki";
     }
 
@@ -112,6 +129,7 @@ public class TemplatePenilaianController {
         List<KriteriaPenilaian> listDTO = ikiDTO.getListKriteria();
         var indeksKinerjaIndividu = new IndeksKinerjaIndividu();
         templateService.createTemplatePenilaian(indeksKinerjaIndividu);
+        UserModel evaluatedUser = userDb.findById(getUserId()).get();
 
         for (KriteriaPenilaian kpDTO : listDTO) {
             KriteriaPenilaian kriteriaPenilaian = new KriteriaPenilaian();
@@ -122,7 +140,8 @@ public class TemplatePenilaianController {
             kriteriaPenilaian.setTemplatePenilaian(indeksKinerjaIndividu);
             kriteriaPenilaianDb.save(kriteriaPenilaian);
         }
-        indeksKinerjaIndividu.setNamaTemplate("Template IKI 1");
+        indeksKinerjaIndividu.setEvaluatedUser(evaluatedUser.getId());
+        indeksKinerjaIndividu.setNamaTemplate("Template IKI " + evaluatedUser.getUsername());
         templateService.createTemplatePenilaian(indeksKinerjaIndividu);
 
         return "success-create-iki";
@@ -142,9 +161,13 @@ public class TemplatePenilaianController {
             System.out.println(kp.getJudulKriteria());
         }
         System.out.println(iki.getListKriteria().size());
+        UserModel user = userDb.findById(getUserId()).get();
+
         model.addAttribute("ikiDTO", iki);
         model.addAttribute("existingList", iki.getListKriteria());
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+
         return "form-ubah-iki";
     }
 
@@ -198,9 +221,13 @@ public class TemplatePenilaianController {
     public String viewAllIku(Model model) {
 
         List<IndeksKinerjaUnit> listIku = templateService.getAllIku();
+        UserModel user = userDb.findById(getUserId()).get();
+
 
         model.addAttribute("listIku", listIku);
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+
         return "viewall-iku";
     }
 
@@ -208,9 +235,13 @@ public class TemplatePenilaianController {
     public String formIku(Model model) {
         
         IndeksKinerjaUnit ikuDTO = new IndeksKinerjaUnit();
+        UserModel user = userDb.findById(getUserId()).get();
+
 
         model.addAttribute("ikuDTO", ikuDTO);
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+
         return "form-iku";
     }
 
@@ -261,9 +292,13 @@ public class TemplatePenilaianController {
             System.out.println(kp.getJudulKriteria());
         }
         System.out.println(iku.getListKriteria().size());
+        UserModel user = userDb.findById(getUserId()).get();
+
         model.addAttribute("ikuDTO", iku);
         model.addAttribute("existingList", iku.getListKriteria());
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+
         return "form-ubah-iku";
     }
 
@@ -313,9 +348,13 @@ public class TemplatePenilaianController {
     public String viewAllNorma(Model model) {
 
         List<Norma> listNorma = templateService.getAllNorma();
+        UserModel user = userDb.findById(getUserId()).get();
+
 
         model.addAttribute("listNorma", listNorma);
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+
         return "viewall-norma";
     }
 
@@ -323,9 +362,13 @@ public class TemplatePenilaianController {
     public String formNorma(Model model) {
         
         Norma normaDTO = new Norma();
+        UserModel user = userDb.findById(getUserId()).get();
+
 
         model.addAttribute("normaDTO", normaDTO);
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+
         return "form-norma";
     }
 
@@ -348,9 +391,13 @@ public class TemplatePenilaianController {
             System.out.println(kp.getJudulKriteria());
         }
         System.out.println(norma.getListKriteria().size());
+        UserModel user = userDb.findById(getUserId()).get();
+
         model.addAttribute("normaDTO", norma);
         model.addAttribute("existingList", norma.getListKriteria());
         model.addAttribute("idUser", getUserId());
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+
         return "form-ubah-norma";
     }
 

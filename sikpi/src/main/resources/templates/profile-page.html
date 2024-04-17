@@ -167,7 +167,21 @@ top: 20px;
 </head>
 
 <body>
-    <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav>
+    <th:block th:switch="${loggedInUserRole}">
+        <th:block th:case="'SDM'">
+            <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav>
+        </th:block>
+        <th:block th:case="'Karyawan'">
+            <nav th:replace="~{fragments/navbar-karyawan :: navbar('profile')}"></nav>
+        </th:block>
+        <th:block th:case="'KepalaUnit'">
+            <nav th:replace="~{fragments/navbar-kepala-unit :: navbar('profile')}"></nav>
+        </th:block>
+        <th:block th:case="'Manajer'">
+            <nav th:replace="~{fragments/navbar-manager :: navbar('profile')}"></nav>
+        </th:block>
+        <!-- Add additional cases for other roles if needed -->
+    </th:block>
 
    <div class="container">
     <div class="card m-4 p-4">
@@ -193,6 +207,17 @@ top: 20px;
                         </div>
                     </div>
                     <div class="row mb-4">
+<<<<<<< HEAD
+                        <div class="col-md-3 text-right">
+                            <a th:href="@{/profile/{idUser}/rapor(idUser=${user.id})}" class="btn btn-secondary btn-simpan">Rapor</a>
+=======
+                        
+                        <div class="col-md-3 text-right">
+                            <div th:if="${raporReady}"><a th:href="@{/profile/{idUser}/rapor(idUser=${user.id})}" class="btn btn-secondary btn-simpan">Rapor</a></div>
+>>>>>>> d32e3d4bb5013862c106f79638cf554c602640d3
+                        </div>
+                    </div>
+                    <div class="row mb-4">
                         <div class="col-md-6">
                             <h2 style="font-size: 25px; font-weight: bolder; color: #203268;">Attachments</h2>
                         </div>
@@ -205,20 +230,29 @@ top: 20px;
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nama</th>
-                                <th scope="col">Date</th>
+                                <th scope="col">Uploaded Date</th>
+                                <th scope="col">Reviewed Date</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" th:if="${#authorization.expression('hasRole(''SDM'')')}">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="dokumen, iterationStatus : ${listDokumen}">
                                 <th scope="row" th:text="${iterationStatus.index + 1}"></th>
-                                <td th:text="${dokumen.namaDokumen}"></td>
+                                <td ><a th:text="${dokumen.namaDokumen}" th:href="@{/profile/{idUser}/download/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}"></a> </td>
                                 <td th:text="${dokumen.uploadedDate}"></td>
-                                <td th:text="${dokumen.status}"></td>
-                                <td>
-                                    <!-- <a th:href="@{/profile/{idUser}/delete/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}" class="btn btn-secondary">Delete</a> -->
+                                <td th:text="${dokumen.reviewedDate}"></td>                   
+                                <td th:if="${dokumen.status == 0}">Submitted</td>
+                                <td th:if="${dokumen.status == 1}">Approved</td>
+                                <td th:if="${dokumen.status == 2}">Rejected</td>
+                                <td th:if="${dokumen.status == 0} and ${#authorization.expression('hasRole(''SDM'')')}">
+                                    <a href="#" th:onclick="'confirmApproval(\'' + @{/profile/{idUser}/approve/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})} + '\')'" class="btn btn-primary">Approve</a>
+                                    <a href="#" th:onclick="'confirmRejection(\'' + @{/profile/{idUser}/reject/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})} + '\')'" class="btn btn-danger">Reject</a>
+
+                                    <!-- <a th:href="@{/profile/{idUser}/approve/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}" class="btn btn-primary">Approve</a> -->
+                                    <!-- <a th:href="@{/profile/{idUser}/reject/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}" class="btn btn-secondary btn-delete">Reject</a> -->
                                 </td>
+                                <td th:if="${dokumen.status != 0} and ${#authorization.expression('hasRole(''SDM'')')}"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -290,7 +324,27 @@ top: 20px;
             href="/logout">Sign Out</a>
     </div>
 </div>
+<script>
+    function confirmApproval(approveUrl) {
+        var confirmation = confirm("Are you sure you want to approve?");
+        if (confirmation) {
+            // If user clicks OK in the confirmation dialog, execute the approval action
+            window.location.href = approveUrl;
+        } else {
+            // If user clicks Cancel in the confirmation dialog, do nothing
+        }
+    }
 
+    function confirmRejection(rejectUrl) {
+        var confirmation = confirm("Are you sure you want to reject?");
+        if (confirmation) {
+            // If user clicks OK in the confirmation dialog, execute the rejection action
+            window.location.href = rejectUrl;
+        } else {
+            // If user clicks Cancel in the confirmation dialog, do nothing
+        }
+    }
+</script>
 </body>
 
 

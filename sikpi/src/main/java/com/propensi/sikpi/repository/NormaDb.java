@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NormaDb extends JpaRepository<Norma, Long>{
-    
+    Norma findByIdTemplatePenilaian(Long idTemplatePenilaian);
 }

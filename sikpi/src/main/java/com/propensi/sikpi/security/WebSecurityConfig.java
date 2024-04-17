@@ -41,6 +41,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/user/add").hasAuthority("Admin")
                         .requestMatchers("/api/penerbit", "/api/buku", "/api/buku/create").hasAuthority("Pustakawan")
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -57,7 +58,7 @@ public class WebSecurityConfig {
          .authorizeHttpRequests(requests -> requests
              .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
              .requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()
-             .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+             .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
              .anyRequest().authenticated()
          )
          .formLogin((form) -> form

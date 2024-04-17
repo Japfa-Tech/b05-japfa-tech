@@ -101,7 +101,7 @@ public class TemplateServiceImpl implements TemplateService{
 
     @Override
     public IndeksKinerjaIndividu getIkiById(Long id) {
-        return indeksKinerjaIndividuDb.findById(id).get();
+        return indeksKinerjaIndividuDb.findByIdTemplatePenilaian(id);
     }
 
     @Override

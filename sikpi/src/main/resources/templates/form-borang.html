@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <title>Template Penilaian IKI</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .center-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 800px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif; /* Menambahkan font family */
+        }
+
+        .btn-primary {
+            color: #f4f4f4;
+            background-color: #203268;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        #tambah-kriteria-btn {
+            background-color: #56c5f1; /* Warna latar belakang tombol "Tambah Kriteria" */
+        }
+
+        .btn-danger {
+            background-color: #e94761; /* Warna tombol Delete */
+            color: #fff;
+        }
+
+        .card {
+            background: #f4f4f4;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+
+        /* Atur warna Datatables menjadi #f4f4f4 */
+        table.dataTable {
+            background-color: #f4f4f4;
+        }
+
+        table.dataTable thead th {
+            background-color: black;
+        }
+
+        table.dataTable tbody td {
+            background-color: #f4f4f4;
+        }
+
+        table.dataTable tbody tr:hover {
+            background-color: #ddd; /* Warna hover saat mengarahkan kursor */
+        }
+
+        /* CSS untuk menengahkan teks */
+        .text-center {
+            text-align: center;
+        }
+
+        /* CSS untuk mengatur lebar kolom dan jarak antar field */
+        .form-control {
+            width: 100%; /* Menyesuaikan lebar field dengan lebar kolom */
+        }
+
+        .gap-2 > * {
+            margin-right: 10px; /* Menambahkan jarak antar field */
+        }
+
+        /* CSS untuk card tambahan */
+        .outer-card {
+            background-color: #fff; /* Warna background putih */
+            border: 1px solid #f4f4f4; /* Garis berwarna #f4f4f4 */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Efek shadow */
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* CSS untuk menengahkan tombol pada card */
+        .card-buttons {
+            text-align: center;
+            margin-top: 10px; /* Ubah margin atas sesuai kebutuhan */
+        }
+        
+        /* CSS untuk tombol Back */
+        .btn-back {
+            background-color: #fff;
+            color: #203268;
+            border: 1px solid #203268;
+        }
+
+        .btn-back:hover {
+            background-color: #bbbec9;
+            color: #203268;
+            border: 1px solid #203268;
+        }
+
+        .radio-buttons {
+            /* display: flex; */
+            justify-content: space-between;
+        }
+
+        .radio-buttons input[type="radio"] {
+            margin-right: 5px; /* Adjust as needed */
+        }
+
+        /* Styling untuk pesan */
+        .message-card {
+            background-color: #e9e9e9;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: auto; /* Mengurangi tinggi card pesan */
+            overflow: hidden; /* Menghindari konten melebihi batas card */
+            transition: transform 0.3s ease; /* Efek transisi untuk hover */
+        }
+
+        .message-card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Efek shadow saat hover */
+        }
+
+        .message-date {
+            font-size: 0.8em;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .message-content {
+            font-size: 1em;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <th:block th:switch="${loggedInUserRole}" id="loggedInUserRole">
+        <th:block th:case="'SDM'">
+            <nav th:replace="~{fragments/navbar-login :: navbar('evaluation')}"></nav>
+        </th:block>
+        <th:block th:case="'Karyawan'">
+            <nav th:replace="~{fragments/navbar-karyawan :: navbar('evaluation')}"></nav>
+        </th:block>
+        <th:block th:case="'KepalaUnit'">
+            <nav th:replace="~{fragments/navbar-kepala-unit :: navbar('evaluation')}"></nav>
+        </th:block>
+        <th:block th:case="'Manajer'">
+            <nav th:replace="~{fragments/navbar-manager :: navbar('evaluation')}"></nav>
+        </th:block>
+        <!-- Add additional cases for other roles if needed -->
+    </th:block>
+    <div class="container">
+        <div class="col text-center"> <!-- menambahkan kelas "text-center" di sini -->
+            <h2 class="m-2">Borang Penilaian IKI</h2>
+        </div>
+        <div style="
+        text-align: center; /* Mengatur teks (dan elemen inline-block) ke tengah */
+        padding-top: 20px; /* Menambahkan jarak antara atas halaman dan card */
+    ">
+        <div style="
+            display: inline-block; /* Membuat card hanya selebar konten di dalamnya */
+            border: 2px solid #112155; /* Border dengan warna biru tua */
+            border-radius: 12px; /* Sudut melengkung yang lebih besar */
+            padding: 10px; /* Memberi jarak antara konten dan border */
+            margin: 10px; /* Jarak antara card dan elemen lainnya */
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.12); /* Efek bayangan lebih kuat */
+            background-color: #fff; /* Warna latar belakang putih */
+            font-family: 'Helvetica Neue', sans-serif; /* Font modern */
+            font-size: 16px; /* Ukuran font yang lebih besar */
+            color: #112155; /* Warna teks biru tua */
+        ">
+            <th:block th:text='${loggedInUserRole}'> </th:block>
+        </div>
+    </div>       
+        <div class="outer-card m-4"> <!-- Card tambahan di luar card yang sudah ada -->
+            <div id="status-borang"></div>
+            <div class="card m-4">
+                <div class="card-header p-2 text-center">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center" style="width: 10%;">Bobot</th>
+                                <th scope="col" class="text-center">Indikator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">5</td>
+                                <td>Hasil kerja yang ingin dicapai terealisasi 96% -100%</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">4</td>
+                                <td>Hasil kerja yang ingin dicapai terealisasi 86% - 95%</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">3</td>
+                                <td>Hasil kerja yang ingin dicapai terealisasi 76%  - 85%</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td>Hasil kerja yang ingin dicapai terealisasi 51% -75%</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td>Hasil kerja yang ingin dicapai terealisasi 50%</td>
+                            </tr>
+                        </tbody>
+                    </table>    
+                </div>
+                <div class="card-body">                
+                    <div class="col">
+                        <form th:action="@{/borang/template-penilaian-iki/{id}(id=${ikiDTO.idTemplatePenilaian})}" th:object="${ikiDTO}" method="POST">
+                            <input class="form-control" type="hidden" th:field="*{idTemplatePenilaian}" />
+                            <div class="row mb-4 align-items-center">
+                                <div class="row table-gap mb-4">
+                                    <table id="ikiTable" class="table">
+                                        <thead class="bg-dark text-white">
+                                            <tr>
+                                                <th scope="col" class="text-center">#</th>
+                                                <th scope="col" class="text-center">Kriteria</th>
+                                                <th scope="col" class="text-center">Bobot</th>
+                                                <th scope="col" class="text-center">Nilai</th> 
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="kp, iterationStatus : *{listKriteria}">
+                                                <td th:text="${iterationStatus.count}" class="text-center"></td>
+                                                <td class="text-center">
+                                                    <p th:text="*{listKriteria[__${iterationStatus.index}__].judulKriteria}">
+                                                </td>
+                                                <td class="text-center">
+                                                    <div>
+                                                        <p th:text="*{listKriteria[__${iterationStatus.index}__].bobot}">
+                                                    </div>
+                                                </td>
+                                                <td class="text-center radio-buttons" id="kriteria-radio" name="kriteria-radio">
+                                                    <input type="hidden"  th:name="'kriteriaScores[' + ${iterationStatus.index} + '][0]'" th:value="*{listKriteria[__${iterationStatus.index}__].idKriteriaPenilaian}" />
+                                                    <input type="radio"  th:name="'kriteriaScores[' + ${iterationStatus.index} + '][1]'" th:value="1" th:id="'kriteriaScores' + ${iterationStatus.index} + '_1'">
+                                                    <input type="radio"  th:name="'kriteriaScores[' + ${iterationStatus.index} + '][1]'" th:value="2" th:id="'kriteriaScores' + ${iterationStatus.index} + '_2'">
+                                                    <input type="radio"  th:name="'kriteriaScores[' + ${iterationStatus.index} + '][1]'" th:value="3" th:id="'kriteriaScores' + ${iterationStatus.index} + '_3'">
+                                                    <input type="radio"  th:name="'kriteriaScores[' + ${iterationStatus.index} + '][1]'" th:value="4" th:id="'kriteriaScores' + ${iterationStatus.index} + '_4'">
+                                                    <input type="radio"  th:name="'kriteriaScores[' + ${iterationStatus.index} + '][1]'" th:value="5" th:id="'kriteriaScores' + ${iterationStatus.index} + '_5'">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="pesan-container">
+                                    <!-- pesan akan ditampilkan di sini -->
+                                </div>
+                                <div class="form-group">
+                                    <label for="pesan" class="form-label">Pesan:</label>
+                                    <textarea id="pesan" class="form-control" rows="4" name="pesan"></textarea>
+                                    <div style="text-align: center; margin-top: 10px;">
+                                        <a href="" id="send-btn" class="btn" onclick="sendPesan()" style="background-color: green; width: 80px; padding: 5px; color: white; border-radius: 5px;">Send</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-buttons" style="margin-top: 10px;">
+                    <a href="/template-penilaian-iki" class="btn btn-back">Back</a>
+                    <a href="#" class="btn btn-primary" onclick="document.querySelector('form').submit(); return false;" id="submit-btn">Submit</a>
+                    <a href="#" class="btn btn-success" onclick="acceptForm()" id="accept-btn">Accept</a>
+                    <a href="#" class="btn btn-warning" onclick="acceptForm()" id="accept-template-btn">Accept Template</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <!-- th:if="${loggedInUserRole == 'Karyawan' && acceptStatus}" -->
+    <script>
+        // Deklarasi variabel id dengan nilai yang sesuai
+        var path = window.location.pathname;
+        let idUserLogin;
+        let evaluatedUser;
+        let evaluator;
+
+        // Mendapatkan bagian dari URL yang sesuai dengan ID
+        console.log("path=", path);
+        var id = path.substring(path.lastIndexOf('/') + 1);
+
+        // Pastikan id yang diambil adalah angka
+        if (!isNaN(id)) {
+            // Lakukan operasi yang diperlukan dengan id
+            console.log("ID dari URL:", id);
+        } else {
+            console.log("Tidak dapat menemukan ID di URL");
+        }
+    
+        var role = '';
+        $(document).ready(function () {
+            $('#ikiTable').DataTable({
+                "dom": "",
+            });
+            loadPesan();
+        });
+
+
+        function sendPesan() {
+            let pesan = document.getElementById('pesan').value;
+            let url = '/api/borang/template-penilaian-iki/' + id + '/pesan'; // Gunakan nilai id yang sudah dideklarasikan
+            
+            // Mendapatkan waktu saat ini
+            let now = new Date();
+            
+            // Memformat waktu sesuai dengan format yang diinginkan
+            let formattedDate = new Intl.DateTimeFormat('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            }).format(now);
+
+            let pesanToSend = `${formattedDate}\n${pesan}`; // Menambahkan waktu dan pesan ke dalam format yang diinginkan
+
+            console.log("sendpesan : ", pesanToSend);
+            
+            // Mengirim data pesan menggunakan AJAX
+            $.ajax({
+                url: url,
+                type: 'POST', // Metode POST
+                data: { pesan: pesanToSend },
+                success: function () {
+                    // loadPesan(); // Memuat kembali pesan setelah berhasil mengirim
+                    document.getElementById('pesan').value = ''; // Membersihkan textarea
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    
+        function loadPesan() {
+            let url = '/api/borang/template-penilaian-iki/' + id + '/pesan';
+            var role = '[[${loggedInUserRole}]]';
+            var listKriteria = '[[${#lists.size(existingList)}]]';
+            console.log("role=", role);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { role: role },
+                success: function (data) {
+                    console.log("data=", data);
+                    let pesanHtml = '';
+                    data.listPesan.forEach(k => {
+                        let pesanSplit = k.isiPesan.split('\n');
+                        pesanHtml += `<div class="message-card"><span class="message-date">${pesanSplit[0]}</span><p class="message-content">${pesanSplit[1]}</p></div>`;
+                    });
+                    document.getElementById('pesan-container').innerHTML = pesanHtml;
+                    data.borangPenilaianIKI.kriteriaScores.forEach(k => {
+                        console.log("masuk")
+                        let idKriteria = k.kriteria.idKriteriaPenilaian-1;
+                        $(`#kriteriaScores${idKriteria}_${k.score}`).prop('checked', true);  
+                    });
+
+                    if (data.idUserLogin == data.borangPenilaianIKI.evaluatedUser){
+                        document.getElementById('accept-template-btn').style.display = 'none';
+                        document.getElementById('accept-btn').style.display = 'none';
+                    }
+
+                    // if (data.borangPenilaianIKI.kriteriaScores.length == 0 || data.borangPenilaianIKI.acceptedByEvaluator == true || data.idUserLogin != data.borangPenilaianIKI.evaluator ) {
+                    //     document.getElementById('accept-btn').style.display = 'none';
+                    // }
+
+                    // if (data.borangPenilaianIKI.status == 'accepted by evaluator' && data.idUserLogin == data.borangPenilaianIKI.evaluatedUser) {
+                    //     document.getElementById('accept-btn').style.display = 'inline';
+                    // }
+
+                    if (data.borangPenilaianIKI.status == 'template accepted') {
+                        if(data.idUserLogin == data.borangPenilaianIKI.evaluator) {
+                            document.getElementById('accept-template-btn').style.display = 'none';
+                            document.getElementById('status-borang').innerHTML = "Segera isi IKI";
+                            document.getElementById('accept-btn').style.display = 'none';
+                            
+                        }else if(data.idUserLogin == data.borangPenilaianIKI.evaluatedUser){
+                            document.getElementById('submit-btn').style.display = 'none';
+                            document.getElementById('status-borang').innerHTML = "Penilaian IKI diproses";
+                        }
+                    }
+
+                    if (data.borangPenilaianIKI.status == 'pending'){
+                        if (data.idUserLogin == data.borangPenilaianIKI.evaluatedUser) {
+                            document.getElementById('status-borang').innerHTML = "Menunggu konfirmasi penilai";
+                        }else if (data.idUserLogin == data.borangPenilaianIKI.evaluator){
+                            document.getElementById('status-borang').innerHTML = "Segera konfirmasi template";
+                            document.getElementById('accept-btn').style.display = 'none';
+                            document.getElementById('submit-btn').style.display = 'none';
+                        }
+                    }else if (data.borangPenilaianIKI.status == 'accepted by evaluator'){
+                        if (data.idUserLogin == data.borangPenilaianIKI.evaluator){
+                            document.getElementById('submit-btn').style.display = 'none';
+                            document.getElementById('status-borang').innerHTML = "Menunggu konfirmasi penilai";
+                        }else if (data.idUserLogin == data.borangPenilaianIKI.evaluatedUser){
+                            document.getElementById('submit-btn').style.display = 'none';
+                            document.getElementById('status-borang').innerHTML = "Segera konfirmasi nilai";
+                        }
+
+                    }else if (data.borangPenilaianIKI.status == 'finished') {
+                        document.getElementById('submit-btn').style.display = 'none';
+                        document.getElementById('status-borang').innerHTML = "Penilaian IKI selesai";
+                        document.getElementById('accept-btn').style.display = 'none';
+                        document.getElementById('accept-template-btn').style.display = 'none';
+                        document.getElementById('send-btn').style.display = 'none';
+                        document.getElementById('pesan').disabled = true;
+                        
+                    } else if (data.borangPenilaianIKI.status == 'on progress'){
+                        document.getElementById('accept-template-btn').style.display = 'none';
+                        if (data.idUserLogin == data.borangPenilaianIKI.evaluatedUser) {
+                            document.getElementById('submit-btn').style.display = 'none';
+                            document.getElementById('accept-btn').style.display = 'none';
+                        }
+                    }
+                    
+                    if ((data.idUserLogin == data.borangPenilaianIKI.evaluatedUser) || (data.borangPenilaianIKI.status == 'pending') || (data.borangPenilaianIKI.status == 'finished')){
+
+                        for (var i=0; i<listKriteria; i++){
+                            for (var a=0; a<6; a++){
+                                $(`#kriteriaScores${i}_${a}`).prop('disabled', true);  
+                            }
+                        }
+                    }
+
+                    idUserLogin = data.idUserLogin;
+                    evaluatedUser = data.borangPenilaianIKI.evaluatedUser;
+                    evaluator = data.borangPenilaianIKI.evaluator;
+                },
+                error: function(xhr, status, error) {
+                    console.error("error=", xhr.responseText);
+                }
+            });
+        }
+        
+
+
+
+        function acceptForm() {
+        let url = '/api/borang/template-penilaian-iki/' + id + '/status';
+        // Konfirmasi apakah pengguna yakin untuk menyetujui template
+        if (confirm("Apakah Anda yakin ingin menyetujui template ini?")) {
+            // Lakukan pengiriman data ke server menggunakan AJAX
+            $.ajax({
+                url: url, // Ganti URL sesuai dengan endpoint yang benar di server Anda
+                type: 'PUT',
+                data: {idUserLogin: idUserLogin, evaluatedUser: evaluatedUser, evaluator: evaluator}, // Ganti data sesuai dengan data yang ingin dikirim
+                success: function(response) {
+                    loadPesan();
+                    alert(response);
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Handle kesalahan saat melakukan AJAX
+                    console.error(xhr.responseText);
+                    alert("Terjadi kesalahan saat mengirim data. Silakan coba lagi.");
+                }
+            });
+        }
+    }
+    </script>
+
+<footer></footer>
+</body>
+
+</html>

@@ -36,11 +36,15 @@ public class Dokumen {
     @Column(name = "nama_dokumen", nullable = false)
     private String namaDokumen;
 
+    // 0: Submitted, 1:Approved, 2:Rejected
     @Column(name = "status", nullable = false)
-    private boolean status;
+    private int status = 0;
 
     @Column(name = "uploaded_date", nullable = false)
     private LocalDateTime uploadedDate;
+
+    @Column(name = "reviewed_date", nullable = true)
+    private LocalDateTime reviewedDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user", referencedColumnName = "id", nullable = false)

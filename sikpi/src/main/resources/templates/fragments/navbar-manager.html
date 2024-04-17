@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy8rb7L7D/QWZ3UJn4HgX5UpJc/KtMIJ2g"
+          crossorigin="anonymous">
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pzjw8tr8YlJS2pJjHJ0LgGJp/Nz9YHvXxQOp6+1TcgJwA6dExf5UZlflfRA2bwM"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"
+            integrity="sha384-3ho4Efzxcmi+jo0FkZg/B6BiAS7WVdQrtxIEa5KkRSMQ/DIWh9GYz4iMH7MejDfg"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<nav th:fragment="navbar(page)" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="https://rsummi.co.id/assets/images/Logo%20RS%20UMMI.png" width="211" height="55" alt="Logo">
+    </a>
+
+    <div class="navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link mx-4"
+                   th:classappend="${page == 'home' ? 'active' : ''}"
+                   href="/">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link mx-4 dropdown-toggle"
+                   th:classappend="${page == 'evaluation' ? 'active' : ''}"
+                   href="#" id="evaluationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Evaluation
+                </a>
+                <div class="dropdown-menu" aria-labelledby="evaluationDropdown">
+                    <!-- Dropdown items go here -->
+                    <!-- <a class="dropdown-item" href="/viewall-template">All</a> -->
+                    <a class="dropdown-item" href="/borang/template-penilaian-iki">IKI</a>
+                    <a class="dropdown-item" href="/borang/template-penilaian-iku">IKU</a>
+                    <a class="dropdown-item" href="/borang/template-penilaian-norma">Norma</a>
+                    <!-- <a class="dropdown-item" href="/borang/template-penilaian-norma">Norma</a> -->
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link mx-4 dropdown-toggle"
+                   th:classappend="${page == 'dashboard' ? 'active' : ''}"
+                   href="#" id="dashboardDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dashboard
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dashboardDropdown">
+                    <!-- Dropdown items go here -->
+                    <a class="dropdown-item" th:href="@{/dashboard-penilaian/{id}(id=${idUser})}">My Dashboard</a>
+                    <a class="dropdown-item" href="#">Employee</a>
+                    <a class="dropdown-item" href="#">Documents</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <!-- Profile button with circular style -->
+                <a class="nav-link btn btn-outline-danger rounded-circle text-center mx-4"
+                   th:classappend="${page == 'profile' ? 'active' : ''}"
+                   th:href="@{/profile/{id}(id=${idUser})}">
+                    <!-- Add your user profile icon or avatar here -->
+                    <i class="bi bi-person"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- Add the rest of your body content here -->
+</body>
+
+</html>

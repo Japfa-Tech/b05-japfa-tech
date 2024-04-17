@@ -1,5 +1,8 @@
 package com.propensi.sikpi.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -8,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,10 +20,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-// @AllArgsConstructor
-// @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @DiscriminatorValue("sdm")
-public class SDM extends Karyawan{
+public class SDM extends Karyawan {
+    @OneToMany(mappedBy = "sdm")
+    private List<Rapor> listRapor = new ArrayList<>();
     
 }

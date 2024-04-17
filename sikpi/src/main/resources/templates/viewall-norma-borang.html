@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+  <title>View All Template</title>
+</head>
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .center-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .container {
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 800px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background-color: #112155;
+    color: #f4f4f4;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .card {
+    background: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .table-container {
+    margin-top: 20px;
+  }
+
+  .card-header {
+    background-color: #f4f4f4;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .card-content {
+    padding: 20px;
+  }
+
+  .card-footer {
+    background-color: #f4f4f4;
+    padding: 10px 20px;
+    border-top: 1px solid #ddd;
+    text-align: center;
+  }
+
+  .card-footer .btn {
+    margin-right: 10px;
+  }
+
+  .card img {
+    max-width: 150px; 
+    height: auto;
+    float: left;
+    margin-right: 10px;
+  }
+
+  .card-title {
+    font-size: 18px;
+    margin-top: 0;
+    text-align: left;
+  }
+
+  .card-text {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin-top: 20px;
+  }
+
+  .card-text .btn {
+    margin-top: center;
+  }
+
+  table#ikiTable thead th {
+    color: black !important;
+}
+
+</style>
+
+<body>
+  <th:block th:switch="${loggedInUserRole}">
+    <th:block th:case="'SDM'">
+        <nav th:replace="~{fragments/navbar-login :: navbar('evaluation')}"></nav>
+    </th:block>
+    <th:block th:case="'Karyawan'">
+        <nav th:replace="~{fragments/navbar-karyawan :: navbar('evaluation')}"></nav>
+    </th:block>
+    <th:block th:case="'KepalaUnit'">
+        <nav th:replace="~{fragments/navbar-kepala-unit :: navbar('evaluation')}"></nav>
+    </th:block>
+    <th:block th:case="'Manajer'">
+      <nav th:replace="~{fragments/navbar-manager :: navbar('evaluation')}"></nav>
+    </th:block>
+    <!-- Add additional cases for other roles if needed -->
+</th:block>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="center-text">
+          <h1>Borang Penilaian Norma</h1>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <div class="table-container">
+          <div class="card">
+            <div class="card-content">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-6" th:each="norma, iterationStatus: ${listNorma}">
+                      <div class="card">
+                        <div class="d-flex align-items-center">
+                          <img class="mx-auto d-block logo-img" th:src="@{/images/template.png}" width="100px" style="margin-bottom: 20px; margin-top: 20px;" alt="logo SIKPI-TEMPLATE" />
+                          <div class="card-text">
+                            <h2 class="card-title" th:text="${norma.namaTemplate}"></h2>
+                            <div class="d-flex justify-content-center gap-3" style="margin-top: 20px; margin-right: 40px;">
+                              <a type="button" class="btn btn-outline-success" th:href="@{'/borang/template-penilaian-norma/' + ${norma.idTemplatePenilaian}  + '/' + '4'}" style="background-color: #56C5F1; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Isi Template</a>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="center-text">
+                <th:block th:if="${listNorma != null and listNorma.size() > 1}">
+                  <!-- Tidak menampilkan tombol -->
+              </th:block>
+              <th:block th:if="${listNorma == null or listNorma.size() == 0}">
+                  <a th:href="@{/template-penilaian-norma/create}" class="btn btn-primary" style="background-color: #203268;">+ Buat Template</a>
+              </th:block>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $('#ikiTable').DataTable({
+        "dom": "",
+      });
+    });
+  </script>
+</body>
+</html>

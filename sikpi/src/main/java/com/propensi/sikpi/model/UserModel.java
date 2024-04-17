@@ -1,6 +1,5 @@
 package com.propensi.sikpi.model;
 
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +23,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,38 +35,38 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="user_model")
+@Table(name = "user_model")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="nama_lengkap", nullable=false)
+    @Column(name = "nama_lengkap", nullable = false)
     private String namaLengkap;
 
-    @Column(name="divisi", nullable=false)
+    @Column(name = "divisi", nullable = false)
     private String divisi;
 
-    @Column(name="title", nullable=false)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name="username", nullable=false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
 
-    @Column(name="birth_date", nullable=false)
+    @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
-    @Column(name="nrp", nullable=false)
+    @Column(name = "nrp", nullable = false)
     private String nrp;
 
     @OneToMany(mappedBy = "idUser", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private List<Dokumen> listDokumen;
 
-    @Column(name="report")
+    @Column(name = "report")
     private Byte report;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -74,4 +74,7 @@ public class UserModel {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Role role;
+
+    @OneToOne(mappedBy = "evaluatedUser", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    private Rapor rapor;
 }

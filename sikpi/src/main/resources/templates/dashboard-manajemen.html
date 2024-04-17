@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+    <title>Dashboard Manajemen</title>
+    <style>
+        .center-horizontal {
+    margin-top: 2%;
+    margin-bottom: 5%;
+    text-align: center;
+}
+body, button, input, select, textarea {
+font-family: CircularSp,CircularSp-Arab,CircularSp-Hebr,CircularSp-Cyrl,CircularSp-Grek,CircularSp-Deva,var(--fallback-fonts,sans-serif),sans-serif;}
+html {
+--fallback-fonts: Helvetica Neue,helvetica,arial,Hiragino Kaku Gothic Pro,Meiryo,MS Gothic;}
+
+/* Darken thead background */
+.table thead th {
+    background-color: #203268; /* Ganti dengan warna gelap yang Anda inginkan */
+    color: white;
+    text-align: center; 
+}
+.table tbody {
+    background-color: rgba(240, 248, 255, 0);
+    color: #203268;
+    text-align: center; 
+}
+
+/* CSS untuk mengatur ukuran card */
+.card {
+max-width: 100%; /* Atur lebar maksimum card sesuai kebutuhan Anda */
+margin: 0 auto;
+background-color: #26483332;
+
+ /* Mengatur margin auto untuk pusatkan card */
+}
+
+/* CSS untuk mengatur ukuran konten dalam card */
+
+.table {
+width: 100%;
+margin-top: 5%;
+align-content: center;
+border-collapse: collapse;
+}
+
+.centered-td {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.table.table-hover.table-borderless tbody tr:hover {
+    background-color: #ddd;
+    border: none;
+}
+
+h1 {
+font-weight: bolder;
+font-size: 40px;
+color: 203268;
+margin-bottom: 3%;
+position: center;
+}
+
+h2 {
+font-weight: bolder;
+font-size: 40px;
+color: 203268;
+margin-bottom: 3%;
+position: center;
+}
+
+.container {
+margin-top: 5%;
+background-color: #FFFFFF;
+padding-top: 0%;
+padding: 2%;
+border-radius: 100px;
+display:flexbox;
+align-items: center;
+width: 60%;
+}
+.btn {
+background-color: #56C5F1;
+color: aliceblue;
+top: 20px;
+  right: 10px;
+  float: right;
+}
+
+/* label{
+    color: aliceblue;
+    font-size: large;
+} */
+/* .form-group {
+    margin-bottom: 3%;
+}
+.moveRight{
+    float: right;
+} */
+
+.moveRight{
+    float: right;
+    margin-bottom: 3%;
+}
+.btn-simpan {
+    background-color: #56C5F1;
+    width: 100px; 
+    padding: 6px; 
+    border-radius: 5px;
+    border: 1px solid aliceblue; 
+    transition-duration: 0.4s;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bolder;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.btn-simpan:hover {
+    background-color: #555555;
+    color: white;
+}
+
+.btn-delete {
+    background-color: #E94761;
+    width: 80px; 
+    padding: 4px; 
+    border-radius: 5px;
+    border: 1px solid aliceblue; 
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background-color: #555555;
+    color: white;
+}
+
+.btn-back {
+    background-color: #555555;
+    width: 80px;
+    padding: 4px;
+    border-radius: 5px;
+    border: 1px solid aliceblue;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    float: left;
+    bottom: 10px;
+    left: 10px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.btn-back:hover {
+    background-color: #000000;
+    color: white;
+}
+.card{
+    background-color: #feffff;
+    border-color: #203268;
+    padding: 30px;
+    border: 1px solid #ddd; /* Optional border */
+    border-radius: 15px; /* Optional border-radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 30%;
+    width:100%;
+}
+    </style>
+</head>
+
+<body>
+    <!-- Your existing navbar inclusion -->
+    <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav>
+
+    <div class="container">
+        <h1 class="text-center">Dashboard Manajemen</h1>
+        <table id="buku-table" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nama Unit</th>
+                    <th>Total Skor</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here by Thymeleaf -->
+                <tr th:each="entry, iterStat : ${unitScoreMap}">
+                    <td th:text="${stat.index + 1}"></td>
+                    <td th:text="${entry.key.namaUnit}"></td> 
+                    <td th:text="${entry.value}"></td>
+                    <td class="centered-td">
+                        <a type="button" class="btn btn-md btn-primary" th:href="@{/dashboard-manajemen/{idUnit}(idUnit=${entry.key.id})}">Detail</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Required scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            // Initialize DataTable
+            $('#buku-table').DataTable({
+                lengthMenu: [5, 10, 15], // Set the length menu options
+                pageLength: 10
+            });
+        });
+    </script>
+</body>
+</html>

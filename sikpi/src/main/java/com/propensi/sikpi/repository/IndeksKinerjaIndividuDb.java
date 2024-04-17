@@ -10,5 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IndeksKinerjaIndividuDb extends JpaRepository<IndeksKinerjaIndividu, Long>{
-    
+    IndeksKinerjaIndividu findByIdTemplatePenilaian(Long idTemplatePenilaian);
+    List<IndeksKinerjaIndividu> findByEvaluatedUser(Long evaluatedUser);
 }

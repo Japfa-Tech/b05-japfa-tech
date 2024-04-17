@@ -2,20 +2,18 @@ package com.propensi.sikpi.model;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,14 +24,16 @@ import lombok.Setter;
 public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUnit;
+    private Long id;
 
-    // @Column(name="list_karyawan", nullable=false)
-    // private List<Karyawan> listKaryawan;
-
-    @Column(name="nama_unit", nullable=false)
+    @Column(name="nama_unit")
     private String namaUnit;
 
-    @Column(name="id_kepala_unit", nullable=false)
+    @Column(name="id_kepala_unit")
     private Long idKepalaUnit;
+
+    @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<Karyawan> users;
 }
