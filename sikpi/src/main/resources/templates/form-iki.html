@@ -14,6 +14,7 @@
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <title>Template Penilaian IKI</title>
+    <link rel="icon" href="/images/logo-sikpi.png" type="image/png">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -21,51 +22,50 @@
             padding: 0;
             background-color: #fff;
         }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .center-text {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
-        .container {
-            margin: 50px auto;
-            padding: 20px;
-            max-width: 800px;
-        }
-
+    
+        /* Tombol */
         .btn {
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
-            font-family: 'Poppins', sans-serif; /* Menambahkan font family */
+            font-family: 'Poppins', sans-serif;
         }
-
+    
         .btn-primary {
             color: #f4f4f4;
             background-color: #203268;
         }
-
+    
         .btn-primary:hover {
             background-color: #0056b3;
         }
-
+    
         #tambah-kriteria-btn {
-            background-color: #56c5f1; /* Warna latar belakang tombol "Tambah Kriteria" */
+            background-color: #56c5f1;
         }
-
+    
         .btn-danger {
-            background-color: #e94761; /* Warna tombol Delete */
+            background-color: #e94761;
             color: #fff;
         }
-
+    
+        /* Kontainer */
+        .center-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+    
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 1000px;
+        }
+    
+        /* Kartu */
         .card {
             background: #f4f4f4;
             border-radius: 10px;
@@ -73,76 +73,93 @@
             transition: transform 0.3s ease;
             margin-bottom: 20px;
             overflow: hidden;
+            width: 100%;
         }
-
+    
         .card-body {
             padding: 20px;
+            display: flex;
         }
-
+    
+        .card-buttons {
+            text-align: center;
+            margin-top: 10px;
+        }
+    
+        /* Tabel */
         .table-container {
-            margin-top: 20px;
+            margin: 0 auto;
+            width: 100%;
+            overflow-x: auto;
         }
-
-        /* Atur warna Datatables menjadi #f4f4f4 */
+    
         table.dataTable {
+            margin: 0 auto;
             background-color: #f4f4f4;
         }
-
-        table.dataTable thead th {
-            background-color: black;
+    
+        #ikiTable td:nth-child(2) input {
+            width: 100%;
         }
-
+        
+        /* CSS untuk membuat input field dari kolom 'Bobot' menjadi rata tengah */
+        #ikiTable td:nth-child(3) input {
+            width: 100px;
+            margin: 0 auto; /* Menjadikan input field rata tengah */
+            display: block; /* Mengubah input field menjadi blok agar dapat menggunakan margin: 0 auto; */
+        }
+    
+        table.dataTable thead th {
+            background-color: #112155;
+        }
+    
         table.dataTable tbody td {
             background-color: #f4f4f4;
         }
-
+    
         table.dataTable tbody tr:hover {
-            background-color: #ddd; /* Warna hover saat mengarahkan kursor */
+            background-color: #ddd;
         }
-
-        /* CSS untuk menengahkan teks */
+    
+        /* Penyesuaian */
         .text-center {
             text-align: center;
         }
-
-        /* CSS untuk mengatur lebar kolom dan jarak antar field */
+    
         .form-control {
-            width: 100%; /* Menyesuaikan lebar field dengan lebar kolom */
+            width: 100%;
+            align-items: center;
         }
-
+    
         .gap-2 > * {
-            margin-right: 10px; /* Menambahkan jarak antar field */
+            margin-right: 10px;
         }
-
-        /* CSS untuk card tambahan */
+    
+        /* Kartu Tambahan */
         .outer-card {
-            background-color: #fff; /* Warna background putih */
-            border: 1px solid #f4f4f4; /* Garis berwarna #f4f4f4 */
+            background-color: #fff;
+            border: 1px solid #f4f4f4;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Efek shadow */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-bottom: 20px;
+            width: 100%;
+            display: flex;
         }
-        
-        /* CSS untuk menengahkan tombol pada card */
-        .card-buttons {
-            text-align: center;
-            margin-top: 10px; /* Ubah margin atas sesuai kebutuhan */
-        }
-        
-        /* CSS untuk tombol Back */
+    
+        /* Tombol Kembali */
         .btn-back {
             background-color: #fff;
             color: #203268;
             border: 1px solid #203268;
         }
-
+    
         .btn-back:hover {
             background-color: #bbbec9;
             color: #203268;
             border: 1px solid #203268;
         }
-    </style>
+    </style>    
 </head>
 
 <body>
@@ -166,25 +183,54 @@
             <h2 class="m-2">Template Penilaian IKI</h2>
         </div>
         <div class="outer-card m-4"> <!-- Card tambahan di luar card yang sudah ada -->
-            <div class="card m-4">
-                <div class="card-header p-2 text-center">
-                </div>
-                <div class="card-body">
                     <div class="col">
-                        <form th:action="@{/template-penilaian-iki/create}" th:object="${ikiDTO}" method="POST">
-                            <div class="row mb-4 align-items-center">
-                                <div class="col"></div>
-                                <div class="col-auto">
-                                    <button id="tambah-kriteria-btn" class="btn btn-primary" type="submit" name="addRow" style="margin-bottom: 10px;">+ Tambah Kriteria</button>
-                                </div>
+                        <div class="row table-gap mb-4">
+                <div style="border-radius: 10px; overflow: hidden; width: 100%;">
+                    <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
+                        <thead style="background-color: #203268; color: white;">
+                            <tr>
+                                <th style="padding: 10px 20px; text-align: left; border-top-left-radius: 10px;">#</th>
+                                <th style="padding: 10px 20px; text-align: left; border-top-right-radius: 10px;">Indicators</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background-color: #f4f4f4;">
+                                <td style="padding: 10px 20px; text-align: center;">5</td>
+                                <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 96% -100%</td>
+                            </tr>
+                            <tr style="background-color: #fff;">
+                                <td style="padding: 10px 20px; text-align: center;">4</td>
+                                <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 86% - 95%</td>
+                            </tr>
+                            <tr style="background-color: #f4f4f4;">
+                                <td style="padding: 10px 20px; text-align: center;">3</td>
+                                <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 76%  - 85%</td>
+                            </tr>
+                            <tr style="background-color: #fff;">
+                                <td style="padding: 10px 20px; text-align: center;">2</td>
+                                <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 51% -75%</td>
+                            </tr>
+                            <tr style="background-color: #f4f4f4;">
+                                <td style="padding: 10px 20px; text-align: center; border-bottom-left-radius: 10px;">1</td>
+                                <td style="padding: 10px 20px; text-align: left; border-bottom-right-radius: 10px;">Hasil kerja yang ingin dicapai terealisasi 50%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                                    <form th:action="@{/template-penilaian-iki/create}" th:object="${ikiDTO}" method="POST">
+                        <div class="row mb-4 align-items-center justify-content-end"> <!-- Menggunakan kelas justify-content-end di sini -->
+                            <div class="col-auto"> <!-- Menggunakan kelas col-auto di sini -->
+                                <button id="tambah-kriteria-btn" class="btn btn-primary" type="submit" name="addRow" style="margin-bottom: 10px;">+ Add Criteria</button>
+                            </div>
                             </div>
                             <div class="row table-gap mb-4">
                                 <table id="ikiTable" class="table">
                                     <thead class="bg-dark text-white">
                                         <tr>
                                             <th scope="col" class="text-center">#</th>
-                                            <th scope="col" class="text-center">Kriteria</th>
-                                            <th scope="col" class="text-center">Bobot</th>
+                                            <th scope="col" class="text-center">Criteria</th>
+                                            <th scope="col" class="text-center">Weight</th>
                                             <th scope="col" class="text-center">Action</th> <!-- Tambah kolom "Action" -->
                                         </tr>
                                     </thead>
@@ -192,11 +238,11 @@
                                         <tr th:each="kp, iterationStatus : *{listKriteria}">
                                             <td th:text="${iterationStatus.count}" class="text-center"></td>
                                             <td class="d-flex gap-2">
-                                                <input type="text" class="form-control" id="string" th:field="*{listKriteria[__${iterationStatus.index}__].judulKriteria}">
+                                                <input type="text" class="form-control" id="string" th:field="*{listKriteria[__${iterationStatus.index}__].judulKriteria}" required>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control" id="amount" th:field="*{listKriteria[__${iterationStatus.index}__].bobot}">
+                                                    <input type="number" class="form-control" id="amount" th:field="*{listKriteria[__${iterationStatus.index}__].bobot}" required>
                                                 </div>
                                             </td>
                                             <td class="text-center">
@@ -206,14 +252,14 @@
                                     </tbody>
                                 </table>
                             </div>
+                            </div>
                     </div>
-                </div>
-            </div>
         </div>
-    </div>
+                </div>
                     <div class="card-buttons" style="margin-top: 10px;"> <!-- Menambahkan div untuk menengahkan tombol -->
                     <a href="/template-penilaian-iki" class="btn btn-back">Back</a>
-                    <a href="#" class="btn btn-primary" onclick="document.querySelector('form').submit(); return false;">Simpan</a>
+                    <!-- <a href="#" class="btn btn-primary" onclick="document.querySelector('form').submit(); return false">Simpan</a> -->
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
     </form>
     <script>
@@ -227,6 +273,41 @@
             var row = btn.parentNode.parentNode;
             row.parentNode.removeChild(row);
         }
+
+        $('#ikiTable').on('input', 'input[type="number"]', function () {
+            var maxValue = 50; // Set the maximum allowed value
+            var enteredValue = parseFloat($(this).val()); // Get the entered value as a number
+            if (enteredValue < 0) {
+                // If entered value is negative, set it to 0
+                $(this).val(0);
+            } else if (enteredValue > maxValue) {
+                // If entered value is greater than the maximum allowed value, set it to the maximum
+                $(this).val(maxValue);
+            } else if (enteredValue == 0) {
+                // If entered value is 0, set it to 1
+                $(this).val(1);
+            }
+        });
+
+        $('#ikiTable').on('keydown', 'input[type="number"]', function (event) {
+            // Prevent entry of minus sign (-) key
+            if (event.key === '-' || event.key === 'Minus' || event.keyCode === 189 || event.which === 189) {
+                event.preventDefault();
+            }
+        });
+
+        function validateForm() {
+        var inputs = document.querySelectorAll('#ikiForm input[type="text"], #ikiForm input[type="number"]');
+        for (var i = 0; i < inputs.length; i++) {
+            if (!inputs[i].value.trim()) { // Check if the field is empty or contains only whitespace
+                alert("Please fill in all fields."); // You can customize the alert message
+                return false; // Prevent form submission
+            }
+        }
+        return true; // Form is valid
+    }
+
+        
     </script>
 </body>
 

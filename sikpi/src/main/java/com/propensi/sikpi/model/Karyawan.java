@@ -39,7 +39,7 @@ public class Karyawan extends UserModel {
     private Long idKepalaUnit;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_unit", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "id_unit", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Unit unit;

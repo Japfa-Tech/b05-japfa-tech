@@ -8,10 +8,12 @@ import com.propensi.sikpi.repository.TemplatePenilaianDb;
 import com.propensi.sikpi.repository.IndeksKinerjaIndividuDb;
 import com.propensi.sikpi.repository.IndeksKinerjaUnitDb;
 import com.propensi.sikpi.repository.KriteriaPenilaianDb;
+import com.propensi.sikpi.repository.KriteriaPenilaianIKUDb;
 import com.propensi.sikpi.repository.NormaDb;
 import com.propensi.sikpi.model.IndeksKinerjaIndividu;
 import com.propensi.sikpi.model.IndeksKinerjaUnit;
 import com.propensi.sikpi.model.KriteriaPenilaian;
+import com.propensi.sikpi.model.KriteriaPenilaianIKU;
 import com.propensi.sikpi.model.Norma;
 import com.propensi.sikpi.model.TemplatePenilaian;
 
@@ -23,6 +25,9 @@ public class TemplateServiceImpl implements TemplateService{
 
     @Autowired
     KriteriaPenilaianDb kriteriaPenilaianDb;
+
+    @Autowired
+    KriteriaPenilaianIKUDb kriteriaPenilaianIKUDb;
 
     @Autowired
     IndeksKinerjaIndividuDb indeksKinerjaIndividuDb;
@@ -75,12 +80,12 @@ public class TemplateServiceImpl implements TemplateService{
         IndeksKinerjaUnit indeksKinerjaUnit = indeksKinerjaUnitDb.findById(indeksKinerjaUnitDTO.getIdTemplatePenilaian()).get();
 
         if (indeksKinerjaUnit != null) {
-            for (int i = 0; i < indeksKinerjaUnitDTO.getListKriteria().size(); i++) {
-                KriteriaPenilaian kp = indeksKinerjaUnit.getListKriteria().get(i);
+            for (int i = 0; i < indeksKinerjaUnitDTO.getListKriteriaIKU().size(); i++) {
+                KriteriaPenilaianIKU kp = indeksKinerjaUnit.getListKriteriaIKU().get(i);
 
-                kp.setJudulKriteria(indeksKinerjaUnitDTO.getListKriteria().get(i).getJudulKriteria());
-                kp.setBobot(indeksKinerjaUnitDTO.getListKriteria().get(i).getBobot());
-                kriteriaPenilaianDb.save(kp);
+                kp.setJudulKriteria(indeksKinerjaUnitDTO.getListKriteriaIKU().get(i).getJudulKriteria());
+                kp.setBobot(indeksKinerjaUnitDTO.getListKriteriaIKU().get(i).getBobot());
+                kriteriaPenilaianIKUDb.save(kp);
             }
         }
         return indeksKinerjaUnit;

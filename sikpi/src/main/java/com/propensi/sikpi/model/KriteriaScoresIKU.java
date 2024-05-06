@@ -11,8 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "kriteria_scores")
-public class KriteriaScores {
+@Table(name = "kriteria_scores_iku")
+public class KriteriaScoresIKU {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,8 +27,7 @@ public class KriteriaScores {
     
     @ManyToOne // Add this annotation
     @JoinColumn(name = "id_kriteria")
-    private KriteriaPenilaian kriteria;
+    private KriteriaPenilaianIKU kriteria;
 
     private Integer score;
 }
-

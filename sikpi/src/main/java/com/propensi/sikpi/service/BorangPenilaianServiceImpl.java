@@ -151,11 +151,11 @@ public class BorangPenilaianServiceImpl implements BorangPenilaianService {
             KepalaUnit kepalaUnit = (KepalaUnit) user;
 
             Long manajerId = kepalaUnit.getIdManajer();
-            Unit unit = unitDb.findById(kepalaUnit.getIdUnit()).get();
+            Unit unit = kepalaUnit.getUnit();
             List<Karyawan> users = unit.getUsers();
             List<SDM> listSDM = sdmDb.findAll();
 
-            borang.setEvaluatedUnit(kepalaUnit.getIdUnit());
+            borang.setEvaluatedUnit(kepalaUnit.getUnit().getId());
             borang.setEvaluator(kepalaUnit.getId());
 
             listAkses.add(kepalaUnit.getId());
@@ -229,7 +229,11 @@ public class BorangPenilaianServiceImpl implements BorangPenilaianService {
 
     @Override
     public BorangPenilaianIKI getBorangPenilaianIKIByEvaluatedUser(Long evaluatedUser) {
-        return borangPenilaianIKIDb.findByEvaluatedUser(evaluatedUser).orElse(null);
+        List<BorangPenilaianIKI> borangList = borangPenilaianIKIDb.findByEvaluatedUserAndIsDeletedNot(evaluatedUser, true);
+        if (!borangList.isEmpty()) {
+            return borangList.get(0);
+        }
+        return null; // Or handle this case according to your application logic
     }
 
     @Override
@@ -251,12 +255,20 @@ public class BorangPenilaianServiceImpl implements BorangPenilaianService {
     }
 
     public BorangPenilaianIKU getBorangPenilaianIKUByEvaluatedUnit(Long evaluatedUnit) {
-        return borangPenilaianIKUDb.findByEvaluatedUnit(evaluatedUnit).orElse(null);
+        List<BorangPenilaianIKU> borangList = borangPenilaianIKUDb.findByEvaluatedUnitAndIsDeletedNot(evaluatedUnit, true);
+        if (!borangList.isEmpty()) {
+            return borangList.get(0);
+        }
+        return null; // Or handle this case according to your application logic
     }
 
     @Override
     public BorangPenilaianNorma getBorangPenilaianNormaByEvaluatedUser(Long evaluatedUser) {
-        return borangPenilaianNormaDb.findByEvaluatedUser(evaluatedUser).orElse(null);
+        List<BorangPenilaianNorma> borangList = borangPenilaianNormaDb.findByEvaluatedUserAndIsDeletedNot(evaluatedUser, true);
+        if (!borangList.isEmpty()) {
+            return borangList.get(0);
+        }
+        return null; // Or handle this case according to your application logic
     }
 
     @Override
@@ -266,7 +278,7 @@ public class BorangPenilaianServiceImpl implements BorangPenilaianService {
         List<BorangPenilaianIKI> filteredIki = new ArrayList<>();
 
         for (BorangPenilaianIKI iki : allIki) {
-            if (id == iki.getEvaluatedUser())
+            if (id == iki.getEvaluatedUser() && !iki.getStatus().equals("template accepted"))
                 filteredIki.add(iki);
         }
 

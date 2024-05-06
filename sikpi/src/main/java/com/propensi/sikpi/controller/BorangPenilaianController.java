@@ -1,6 +1,7 @@
 package com.propensi.sikpi.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.propensi.sikpi.DTO.request.BorangPenilaianDTO;
+import com.propensi.sikpi.DTO.request.BorangPenilaianIKIDTO;
+import com.propensi.sikpi.DTO.request.BorangPenilaianIKUDTO;
 import com.propensi.sikpi.DTO.request.BorangPenilaianNormaDTO;
 import com.propensi.sikpi.model.BorangPenilaian;
 import com.propensi.sikpi.model.BorangPenilaianIKI;
@@ -34,6 +37,8 @@ import com.propensi.sikpi.model.KepalaUnit;
 import com.propensi.sikpi.model.KriteriaPenilaian;
 import com.propensi.sikpi.model.KriteriaPenilaianNorma;
 import com.propensi.sikpi.model.KriteriaScores;
+import com.propensi.sikpi.model.KriteriaScoresIKI;
+import com.propensi.sikpi.model.KriteriaScoresIKU;
 import com.propensi.sikpi.model.KriteriaScoresNorma;
 import com.propensi.sikpi.model.Pesan;
 import com.propensi.sikpi.model.TemplatePenilaian;
@@ -43,8 +48,11 @@ import com.propensi.sikpi.repository.BorangPenilaianDb;
 import com.propensi.sikpi.repository.BorangPenilaianIKIDb;
 import com.propensi.sikpi.repository.BorangPenilaianIKUDb;
 import com.propensi.sikpi.repository.BorangPenilaianNormaDb;
+import com.propensi.sikpi.repository.KriteriaPenilaianIKUDb;
 import com.propensi.sikpi.repository.KriteriaPenilaianNormaDb;
 import com.propensi.sikpi.repository.KriteriaScoresDb;
+import com.propensi.sikpi.repository.KriteriaScoresIKIDb;
+import com.propensi.sikpi.repository.KriteriaScoresIKUDb;
 import com.propensi.sikpi.repository.KriteriaScoresNormaDb;
 import com.propensi.sikpi.repository.PesanDb;
 import com.propensi.sikpi.repository.UserDb;
@@ -95,6 +103,15 @@ public class BorangPenilaianController {
     @Autowired
     private KriteriaScoresNormaDb kriteriaScoresNormaDb;
 
+    @Autowired
+    private KriteriaScoresIKUDb kriteriaScoresIKUDb;
+
+    @Autowired
+    private KriteriaScoresIKIDb kriteriaScoresIKIDb;
+
+    @Autowired
+    private KriteriaPenilaianIKUDb kriteriaPenilaianIKUDb;
+
     private Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()
@@ -114,10 +131,13 @@ public class BorangPenilaianController {
     public String viewAllIki(Model model) {
         UserModel user = userDb.findById(getUserId()).get();
 
-        List<IndeksKinerjaIndividu> listIki = templateService.getAllIki();
+        // List<IndeksKinerjaIndividu> listIki = templateService.getAllIki();
+        List<BorangPenilaianIKI> listIki = borangPenilaianIKIDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
+
 
         model.addAttribute("listIki", listIki);
-        model.addAttribute("idUser", getUserId());
+        model.addAttribute("idUser", user.getId());
+        model.addAttribute("userName", user.getNamaLengkap());
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
         // model.addAttribute("idUser", getUserId());
         return "viewall-iki-borang";
@@ -143,7 +163,13 @@ public class BorangPenilaianController {
     }
 
     @PostMapping("/borang/template-penilaian-iki/{id}")
-    public String submitIki(@PathVariable Long id, @ModelAttribute BorangPenilaianDTO borangPenilaianDTO) {
+    public String submitIki(@PathVariable Long id, @ModelAttribute BorangPenilaianIKIDTO borangPenilaianIKIDTO) {
+        List<BorangPenilaianIKI> checkBorang = borangPenilaianIKIDb.findByIdTemplate(id);
+        if (!checkBorang.isEmpty()) {
+            for (BorangPenilaianIKI borang : checkBorang) {
+                borang.setIsDeleted(true);
+            }
+        }
         IndeksKinerjaIndividu iki = templateService.getIkiById(id);
         Long idUser = getUserId();
         UserModel u = userDb.findById(getUserId()).get();
@@ -163,25 +189,27 @@ public class BorangPenilaianController {
         }
         borang.setIdTemplate(id);
         borangPenilaianIKIDb.save(borang);
-        for (List<Integer> ksDTO : borangPenilaianDTO.getKriteriaScores()) {
+        for (List<Integer> ksDTO : borangPenilaianIKIDTO.getKriteriaScoresIKI()) {
             if(ksDTO.size() == 1){
                 continue;
             }
             Long kriteria = Long.valueOf(ksDTO.get(0));
             Integer skor = ksDTO.get(1);
-            KriteriaScores ks = new KriteriaScores();
+            KriteriaScoresIKI ks = new KriteriaScoresIKI();
             ks.setBorangPenilaian(borang);
             ks.setKriteria(borangPenilaianService.getKriteriaPenilaianById(kriteria));
             ks.setScore(skor);
-            kriteriaScoresDb.save(ks);
+            kriteriaScoresIKIDb.save(ks);
         }
-        borang.setKriteriaScores(kriteriaScoresDb.findByBorangPenilaian(borang));
+        borang.setKriteriaScoresIKI(kriteriaScoresIKIDb.findByBorangPenilaian(borang));
 
         borangPenilaianService.handleConnection(idUser, borang.getIdBorangPenilaian(), "IKI");
         System.out.println(borang.getKriteriaScores().toString());
         System.out.println(borang.getListAkses().toString());
         System.out.println(borang.getEvaluatedUser());
-        return "redirect:/borang/template-penilaian-iki";
+
+        if (idUser == borang.getEvaluatedUser()) return "redirect:/template-penilaian-iki";
+        else return "redirect:/borang/template-penilaian-iki";
     }
 
     @GetMapping("/borang/edit/template-penilaian-iki/{idBorangPenilaian}")
@@ -249,9 +277,9 @@ public class BorangPenilaianController {
                                                                 // by ID
         UserModel user = userDb.findById(getUserId()).get();
 
-        System.out.println(iku.getListKriteria().size());
+        System.out.println(iku.getListKriteriaIKU().toString());
         model.addAttribute("ikuDTO", iku);
-        model.addAttribute("existingList", iku.getListKriteria());
+        model.addAttribute("existingList", iku.getListKriteriaIKU());
         model.addAttribute("idUser", getUserId());
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
 
@@ -260,23 +288,32 @@ public class BorangPenilaianController {
     }
 
     @PostMapping("/borang/template-penilaian-iku/{id}")
-    public String submitIku(@PathVariable Long id, @ModelAttribute BorangPenilaianDTO borangPenilaianDTO) {
+    public String submitIku(@PathVariable Long id, @ModelAttribute BorangPenilaianIKUDTO borangPenilaianIKUDTO) {
+        List<BorangPenilaianIKU> checkBorang = borangPenilaianIKUDb.findByIdTemplate(id);
+        if (!checkBorang.isEmpty()) {
+            for (BorangPenilaianIKU borang : checkBorang) {
+                borang.setIsDeleted(true);
+            }
+        }
         Long idUser = getUserId();
         BorangPenilaianIKU borang = new BorangPenilaianIKU();
 
         borang.setIdTemplate(id);
         borang.setStatus("pending");
         borangPenilaianIKUDb.save(borang);
-        for (List<Integer> ksDTO : borangPenilaianDTO.getKriteriaScores()) {
+        for (List<Integer> ksDTO : borangPenilaianIKUDTO.getKriteriaScoresIKU()) {
             Long kriteria = Long.valueOf(ksDTO.get(0));
             Integer skor = ksDTO.get(1);
-            KriteriaScores ks = new KriteriaScores();
+            KriteriaScoresIKU ks = new KriteriaScoresIKU();
             ks.setBorangPenilaian(borang);
-            ks.setKriteria(borangPenilaianService.getKriteriaPenilaianById(kriteria));
+            ks.setKriteria(kriteriaPenilaianIKUDb.findById(kriteria).get());
+            // ks.setKriteria(borangPenilaianService.getKriteriaPenilaianById(kriteria));
             ks.setScore(skor);
-            kriteriaScoresDb.save(ks);
+            System.out.println(skor);
+            System.out.println(kriteria);
+            kriteriaScoresIKUDb.save(ks);
         }
-        borang.setKriteriaScores(kriteriaScoresDb.findByBorangPenilaian(borang));
+        borang.setKriteriaScoresIKU(kriteriaScoresIKUDb.findByBorangPenilaian(borang));
 
         borangPenilaianService.handleConnection(idUser, borang.getIdBorangPenilaian(), "IKU");
         System.out.println(borang.getKriteriaScores().toString());
@@ -367,6 +404,12 @@ public class BorangPenilaianController {
 
     @PostMapping("/borang/template-penilaian-norma/{id}/{idEvaluatedUser}")
     public String submitNorma(@PathVariable Long id, @PathVariable Long idEvaluatedUser, @ModelAttribute BorangPenilaianNormaDTO borangPenilaianNormaDTO) {
+        List<BorangPenilaianNorma> checkBorang = borangPenilaianNormaDb.findByIdTemplate(id);
+        if (!checkBorang.isEmpty()) {
+            for (BorangPenilaianNorma borang : checkBorang) {
+                borang.setIsDeleted(true);
+            }
+        }
         Long idUser = getUserId();
         BorangPenilaianNorma borang = new BorangPenilaianNorma();
 
@@ -464,7 +507,39 @@ public class BorangPenilaianController {
     model.addAttribute("idUser", getUserId());
     model.addAttribute("loggedInUserRole", user.getRole().getRole());
     // model.addAttribute("idUser", getUserId());
+
+    if (!user.getRole().getRole().equals("Karyawan")) {
+        List<BorangPenilaianIKI> borangIkiEvaluate = borangPenilaianIKIDb.findByEvaluator(user.getId());
+        List<BorangPenilaianIKU> borangIkuEvaluate = borangPenilaianIKUDb.findByEvaluator(user.getId());
+        List<BorangPenilaianNorma> borangNormaEvaluate = borangPenilaianNormaDb.findByEvaluator(user.getId());
+
+        model.addAttribute("borangIkiEvaluate", borangIkiEvaluate);
+        model.addAttribute("borangIkuEvaluate", borangIkuEvaluate);
+        model.addAttribute("borangNormaEvaluate", borangNormaEvaluate);
+
+    }
     return "dashboard-list-penilaian";
+    }
+
+    @GetMapping("/dashboard-penilaian/top/{id}")
+    public String viewDashboardPenilaianPenilai(@PathVariable Long id, Model model) {
+    UserModel user = userDb.findById(id).get();
+    Long unitId = unitService.getUnitIdForUser(id);
+
+    model.addAttribute("idUser", getUserId());
+    model.addAttribute("loggedInUserRole", user.getRole().getRole());
+    model.addAttribute("idUser", getUserId());
+
+    List<BorangPenilaianIKI> borangIkiEvaluate = borangPenilaianIKIDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
+    List<BorangPenilaianIKU> borangIkuEvaluate = borangPenilaianIKUDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
+    List<BorangPenilaianNorma> borangNormaEvaluate = borangPenilaianNormaDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
+
+    model.addAttribute("borangIkiEvaluate", borangIkiEvaluate);
+    model.addAttribute("borangIkuEvaluate", borangIkuEvaluate);
+    model.addAttribute("borangNormaEvaluate", borangNormaEvaluate);
+
+
+    return "dashboard-list-penilaian-top";
     }
 
 }

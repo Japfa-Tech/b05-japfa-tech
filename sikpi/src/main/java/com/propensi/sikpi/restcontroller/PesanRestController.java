@@ -24,8 +24,11 @@ import com.propensi.sikpi.model.BorangPenilaianIKI;
 import com.propensi.sikpi.model.BorangPenilaianIKU;
 import com.propensi.sikpi.model.BorangPenilaianNorma;
 import com.propensi.sikpi.model.KriteriaPenilaian;
+import com.propensi.sikpi.model.KriteriaPenilaianIKU;
 import com.propensi.sikpi.model.KriteriaPenilaianNorma;
 import com.propensi.sikpi.model.KriteriaScores;
+import com.propensi.sikpi.model.KriteriaScoresIKI;
+import com.propensi.sikpi.model.KriteriaScoresIKU;
 import com.propensi.sikpi.model.KriteriaScoresNorma;
 import com.propensi.sikpi.model.Pesan;
 import com.propensi.sikpi.model.Role;
@@ -97,7 +100,7 @@ public class PesanRestController {
     // @RequestMapping(value = "/list", method = RequestMethod.GET)
     public BorangPenilaianResponse viewPesan(@PathVariable Long id, @RequestParam("role") String requestRole) {
         TemplatePenilaian templatePenilaian = templateService.getIkiById(id);
-        List<KriteriaScores> kriteriaScores = new ArrayList<>();
+        List<KriteriaScoresIKI> kriteriaScoresIKI = new ArrayList<>();
         Long idUserLogin = null;
         log.info("id" + id);
         log.info("gettemplate : {}", templatePenilaian);
@@ -128,8 +131,8 @@ public class PesanRestController {
             }
             else{
                 log.info("masuk");
-                for (KriteriaScores kriteriaScore : borangPenilaianIKI.getKriteriaScores()) {
-                    KriteriaScores kriteriaScoreTemp = new KriteriaScores();
+                for (KriteriaScoresIKI kriteriaScore : borangPenilaianIKI.getKriteriaScoresIKI()) {
+                    KriteriaScoresIKI kriteriaScoreTemp = new KriteriaScoresIKI();
                     // kriteriaScoreTemp.setKriteria(kriteriaScore.getKriteria());
                     KriteriaPenilaian kriteriaPenilaianTemp = new KriteriaPenilaian();
                     kriteriaPenilaianTemp.setBobot(kriteriaScore.getKriteria().getBobot());
@@ -139,7 +142,7 @@ public class PesanRestController {
 
                     kriteriaScoreTemp.setKriteria(kriteriaPenilaianTemp);
                     kriteriaScoreTemp.setScore(kriteriaScore.getScore());
-                    kriteriaScores.add(kriteriaScoreTemp);
+                    kriteriaScoresIKI.add(kriteriaScoreTemp);
                 }
             }         
             if(!CollectionUtils.isEmpty(borangPenilaianIKI.getListAkses())){
@@ -153,7 +156,7 @@ public class PesanRestController {
             return BorangPenilaianResponse.builder()
                     .borangPenilaianIKI(BorangPenilaianIKIResponseDTO.builder()
                         .status(borangPenilaianIKI.getStatus())
-                        .kriteriaScores(kriteriaScores)
+                        .kriteriaScoresIKI(kriteriaScoresIKI)
                         .evaluatedUser(borangPenilaianIKI.getEvaluatedUser())
                         .evaluator(borangPenilaianIKI.getEvaluator())
                         .acceptedByEvaluator(borangPenilaianIKI.isAcceptedByEvaluator())
@@ -194,7 +197,7 @@ public class PesanRestController {
     @GetMapping("/borang/template-penilaian-iku/{id}/pesan")
     public BorangPenilaianResponse viewPesanIku(@PathVariable Long id, @RequestParam("role") String requestRole) {
         TemplatePenilaian templatePenilaian = templateService.getIkuById(id);
-        List<KriteriaScores> kriteriaScores = new ArrayList<>();
+        List<KriteriaScoresIKU> kriteriaScoresIKU = new ArrayList<>();
         Long idUserLogin = null;
         log.info("id" + id);
         log.info("gettemplate : {}", templatePenilaian);
@@ -224,9 +227,9 @@ public class PesanRestController {
             }
             else{
                 log.info("masuk");
-                for (KriteriaScores kriteriaScore : borangPenilaianIKU.getKriteriaScores()) {
-                    KriteriaScores kriteriaScoreTemp = new KriteriaScores();
-                    KriteriaPenilaian kriteriaPenilaianTemp = new KriteriaPenilaian();
+                for (KriteriaScoresIKU kriteriaScore : borangPenilaianIKU.getKriteriaScoresIKU()) {
+                    KriteriaScoresIKU kriteriaScoreTemp = new KriteriaScoresIKU();
+                    KriteriaPenilaianIKU kriteriaPenilaianTemp = new KriteriaPenilaianIKU();
                     kriteriaPenilaianTemp.setBobot(kriteriaScore.getKriteria().getBobot());
                     kriteriaPenilaianTemp.setIdKriteriaPenilaian(kriteriaScore.getKriteria().getIdKriteriaPenilaian());
                     kriteriaPenilaianTemp.setJudulKriteria(kriteriaScore.getKriteria().getJudulKriteria());
@@ -234,7 +237,7 @@ public class PesanRestController {
 
                     kriteriaScoreTemp.setKriteria(kriteriaPenilaianTemp);
                     kriteriaScoreTemp.setScore(kriteriaScore.getScore());
-                    kriteriaScores.add(kriteriaScoreTemp);
+                    kriteriaScoresIKU.add(kriteriaScoreTemp);
                 }
             }         
             if(!CollectionUtils.isEmpty(borangPenilaianIKU.getListAkses())){
@@ -248,7 +251,7 @@ public class PesanRestController {
             return BorangPenilaianResponse.builder()
                     .borangPenilaianIKU(BorangPenilaianIKUResponseDTO.builder()
                         .status(borangPenilaianIKU.getStatus())
-                        .kriteriaScores(kriteriaScores)
+                        .kriteriaScoresIKU(kriteriaScoresIKU)
                         .evaluatedUnit(borangPenilaianIKU.getEvaluatedUnit())
                         .evaluator(borangPenilaianIKU.getEvaluator())
                         .acceptedByEvaluator(borangPenilaianIKU.isAcceptedByEvaluator())

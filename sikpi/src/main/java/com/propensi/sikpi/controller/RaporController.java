@@ -39,6 +39,8 @@ import com.propensi.sikpi.model.Dokumen;
 import com.propensi.sikpi.model.Karyawan;
 import com.propensi.sikpi.model.KepalaUnit;
 import com.propensi.sikpi.model.KriteriaScores;
+import com.propensi.sikpi.model.KriteriaScoresIKI;
+import com.propensi.sikpi.model.KriteriaScoresIKU;
 import com.propensi.sikpi.model.Manajer;
 import com.propensi.sikpi.model.Rapor;
 import com.propensi.sikpi.model.RiwayatJabatan;
@@ -118,48 +120,16 @@ public class RaporController {
         model.addAttribute("totalIki", borangPenilaianService.getTotalBorang(iki.getIdBorangPenilaian()));
         model.addAttribute("totalIku", borangPenilaianService.getTotalBorang(iku.getIdBorangPenilaian()));
         model.addAttribute("totalNorma", borangPenilaianService.getTotalBorang(norma.getIdBorangPenilaian()));
-        model.addAttribute("list_kriteria_iki", iki.getKriteriaScores());
-        model.addAttribute("list_kriteria_iku", iku.getKriteriaScores());
-        model.addAttribute("list_kriteria_norma", norma.getKriteriaScores());
+        model.addAttribute("list_kriteria_iki", iki.getKriteriaScoresIKI());
+        model.addAttribute("list_kriteria_iku", iku.getKriteriaScoresIKU());
+        model.addAttribute("list_kriteria_norma", norma.getKriteriaScoresNorma());
         model.addAttribute("unit", evaluatedUnit);
         model.addAttribute("user", evaluatedUser);
         model.addAttribute("idUser", getUserId());
         model.addAttribute("evaluator", evaluator);
         model.addAttribute("rapor", rapor);
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
         return "rapor-view";
-    }
-
-    @GetMapping("/dashboard-manajemen/{id}")
-    public String dashboardManajemenDetail(@PathVariable("id") Long id, Model model) throws NotFoundException {
-        var iku = borangPenilaianService.getBorangPenilaianIKUByEvaluatedUnit(id);
-        model.addAttribute("list_kriteria_iku", iku.getKriteriaScores());
-        return "";
-    }
-
-    @GetMapping("/dashboard-manajemen")
-    public String dashboardManajemen(Model model) throws NotFoundException {
-        List<Unit> listUnit = unitService.getAllUnits();
-        Map<Unit, Integer> unitScoreMap = new HashMap<>();
-        for (Unit unit : listUnit) {
-            var iku = borangPenilaianService.getBorangPenilaianIKUByEvaluatedUnit(unit.getId());
-            if (iku != null && !iku.getKriteriaScores().isEmpty()) {
-                var listKriteriaIku = iku.getKriteriaScores();
-                int poin = 0;
-    
-                for (KriteriaScores kriteria : listKriteriaIku) {
-                    poin += kriteria.getKriteria().getBobot() * kriteria.getScore();
-                }
-    
-                unitScoreMap.put(unit, poin);
-            } else {
-                // If no data is available for this unit, handle accordingly (e.g., set a default score or message)
-                unitScoreMap.put(unit, 0); // Assuming a default score of 0
-            }
-        }
-        model.addAttribute("unitScoreMap", unitScoreMap);
-        model.addAttribute("noDataMessage", unitScoreMap.isEmpty() ? "No data available" : "");
-
-        return "dashboard-manajemen";
     }
 
     @GetMapping("/profile/{idUser}/rapor/signEvaluated")
@@ -184,13 +154,6 @@ public class RaporController {
         return "redirect:/profile/" + idUser + "/rapor";
     }
 
-    @GetMapping("/dashboard-penilai")
-    public String dashboardEvaluator(Model model) {
-        List<Rapor> unsignedByEvaluator = raporService.getUnsignedByKepalaBidang();
-        model.addAttribute("unsignedByEvaluator", unsignedByEvaluator);
-        return "dashboard-penilai";
-    }
-
     @GetMapping("/profile/{idUser}/rapor/signSDM")
     public String signSDM(@PathVariable("idUser") Long idUser,
             Model model) {
@@ -202,13 +165,6 @@ public class RaporController {
         rapor.setSignPenyetujuTime(LocalDateTime.now());
         raporService.saveRapor(rapor);
         return "redirect:/profile/" + idUser + "/rapor";
-    }
-
-    @GetMapping("/dashboard-penyetuju")
-    public String dashboardSDM(Model model) {
-        List<Rapor> unsignedBySDM = raporService.getUnsignedBySDM();
-        model.addAttribute("unsignedBySDM", unsignedBySDM);
-        return "dashboard-penyetuju";
     }
 
     @GetMapping("/profile/{idUser}/export")
@@ -244,6 +200,53 @@ public class RaporController {
                 .contentType(MediaType.parseMediaType("application/pdf"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "Report.pdf" + "\"")
                 .body(new ByteArrayResource(pdfReport));
+    }
+
+    @GetMapping("/dashboard-manajemen/{id}")
+    public String dashboardManajemenDetail(@PathVariable("id") Long id, Model model) throws NotFoundException {
+        var iku = borangPenilaianService.getBorangPenilaianIKUByEvaluatedUnit(id);
+        model.addAttribute("list_kriteria_iku", iku.getKriteriaScoresIKU());
+        return "";
+    }
+
+    @GetMapping("/dashboard-manajemen")
+    public String dashboardManajemen(Model model) throws NotFoundException {
+        List<Unit> listUnit = unitService.getAllUnits();
+        Map<Unit, Integer> unitScoreMap = new HashMap<>();
+        for (Unit unit : listUnit) {
+            var iku = borangPenilaianService.getBorangPenilaianIKUByEvaluatedUnit(unit.getId());
+            if (iku != null && !iku.getKriteriaScoresIKU().isEmpty()) {
+                var listKriteriaIku = iku.getKriteriaScoresIKU();
+                int poin = 0;
+    
+                for (KriteriaScoresIKU kriteria : listKriteriaIku) {
+                    poin += kriteria.getKriteria().getBobot() * kriteria.getScore();
+                }
+    
+                unitScoreMap.put(unit, poin);
+            } else {
+                // If no data is available for this unit, handle accordingly (e.g., set a default score or message)
+                unitScoreMap.put(unit, 0); // Assuming a default score of 0
+            }
+        }
+        model.addAttribute("unitScoreMap", unitScoreMap);
+        model.addAttribute("noDataMessage", unitScoreMap.isEmpty() ? "No data available" : "");
+
+        return "dashboard-manajemen";
+    }
+
+    @GetMapping("/dashboard-penilai")
+    public String dashboardEvaluator(Model model) {
+        List<Rapor> unsignedByEvaluator = raporService.getUnsignedByKepalaBidang();
+        model.addAttribute("unsignedByEvaluator", unsignedByEvaluator);
+        return "dashboard-penilai";
+    }
+
+    @GetMapping("/dashboard-penyetuju")
+    public String dashboardSDM(Model model) {
+        List<Rapor> unsignedBySDM = raporService.getUnsignedBySDM();
+        model.addAttribute("unsignedBySDM", unsignedBySDM);
+        return "dashboard-penyetuju";
     }
 
 }

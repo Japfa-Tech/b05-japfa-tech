@@ -59,5 +59,8 @@ public class TemplatePenilaian {
 
     @Column(name ="evaluated_user")
     private Long evaluatedUser;
+
+    @Column(name ="evaluated_user_name")
+    private String evaluatedUserName;
 }
 

@@ -24,6 +24,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,7 +44,8 @@ public class KepalaUnit extends UserModel {
     @Column(name="id_manajer")
     private Long idManajer;
 
-    @Column(name="id_unit")
-    private Long idUnit;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_unit")
+    private Unit unit;
 
 }

@@ -56,4 +56,3 @@ public class Dokumen {
     @Transient // For Document
     private String dokumenBase64;
 }
-

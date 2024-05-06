@@ -1,351 +1,694 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
-
-<head>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://thymeleaf.org"
+>
+  <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css"
+    />
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"
+    ></script>
 
     <title>Restock Gudang</title>
     <style>
-        .center-horizontal {
-    margin-top: 2%;
-    margin-bottom: 5%;
-    text-align: center;
-}
-body, button, input, select, textarea {
-font-family: CircularSp,CircularSp-Arab,CircularSp-Hebr,CircularSp-Cyrl,CircularSp-Grek,CircularSp-Deva,var(--fallback-fonts,sans-serif),sans-serif;}
-html {
---fallback-fonts: Helvetica Neue,helvetica,arial,Hiragino Kaku Gothic Pro,Meiryo,MS Gothic;}
+      .center-horizontal {
+        margin-top: 2%;
+        margin-bottom: 5%;
+        text-align: center;
+      }
+      body,
+      button,
+      input,
+      select,
+      textarea {
+        font-family: CircularSp, CircularSp-Arab, CircularSp-Hebr,
+          CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva,
+          var(--fallback-fonts, sans-serif), sans-serif;
+      }
+      html {
+        --fallback-fonts: Helvetica Neue, helvetica, arial,
+          Hiragino Kaku Gothic Pro, Meiryo, MS Gothic;
+      }
 
-/* Darken thead background */
-.table thead th {
-    background-color: #203268; /* Ganti dengan warna gelap yang Anda inginkan */
-    color: white;
-    text-align: center; 
-}
-.table tbody {
-    background-color: rgba(240, 248, 255, 0);
-    color: #203268;
-    text-align: center; 
+      .table thead th {
+        background-color: #203268;
+        color: white;
+        border-left: none;
+        text-align: center;
+        margin-top: 3%;
+      }
+      div.dataTables_wrapper {
+        background-color: #ffffff;
+        margin: 50px auto;
+      }
+
+      div.dataTables_length {
+        float: left;
+        color: #badb01;
+      }
+
+      div.dataTables_filter {
+        float: right;
+        margin-bottom: 5%;
+      }
+
+      div.dataTables_info {
+        float: left;
+      }
+
+      div.dataTables_paginate {
+        float: right;
+      }
+
+      div.dataTables_length,
+      div.dataTables_filter,
+      div.dataTables_paginate {
+        padding: 6px;
+      }
+
+      /* Self clearing - http://www.webtoolkit.info/css-clearfix.html */
+      .dataTables_wrapper:after {
+        content: ".";
+        display: block;
+        clear: both;
+        visibility: hidden;
+        line-height: 0;
+        height: 0;
+      }
+      .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background: #71cdf2e2;
+        border-color: #6c757d;
+        box-shadow: none;
+        border-radius: 50%;
+        margin-top: 10%;
+        color: #feffff !important;
+      }
+
+      html[xmlns] .dataTables_wrapper {
+        display: block;
+      }
+
+      * html .dataTables_wrapper {
+        height: 1%;
+      }
+
+      /* .dataTables_filter {
+    margin-bottom: 50px;
+    font-weight: 600;
 }
 
-/* CSS untuk mengatur ukuran card */
-.card {
-max-width: 100%; /* Atur lebar maksimum card sesuai kebutuhan Anda */
-margin: 0 auto;
-background-color: #26483332;
+.dataTables_length {
+    border-radius: 3px;
+    background-color: transparent;
+    padding: 4px;
+} */
 
- /* Mengatur margin auto untuk pusatkan card */
-}
+      .table thead th:first-child {
+        background-color: #203268;
+        color: white;
+        border-left: none;
+        text-align: center;
+        border-top-left-radius: 7px;
+        -webkit-border-top-left-radius: 4px;
+        -moz-border-radius-topleft: 4px;
+      }
+      .table thead th:last-child {
+        background-color: #203268;
+        color: white;
 
-/* CSS untuk mengatur ukuran konten dalam card */
+        text-align: center;
 
-.table {
-width: 100%;
-margin-top: 5%;
-align-content: center;
-border-collapse: collapse;
-}
-.table.table-hover.table-borderless tbody tr:hover {
-    background-color: #ddd;
-    border: none;
-}
+        border-top-right-radius: 7px;
+        -webkit-border-top-right-radius: 4px;
+        -moz-border-radius-topright: 4px;
+      }
 
-h1 {
-font-weight: bolder;
-font-size: 40px;
-color: 203268;
-margin-bottom: 3%;
-position: center;
+      .table tbody {
+        background-color: rgba(240, 248, 255, 0);
+        color: #203268;
+        text-align: center;
+        font-size: 15px;
+      }
 
-}
-.container {
-margin-top: 5%;
-background-color: #FFFFFF;
-padding-top: 0%;
-padding: 2%;
-border-radius: 100px;
-display:flexbox;
-align-items: center;
-width: 60%;
-}
-.btn {
-background-color: #56C5F1;
-color: aliceblue;
-top: 20px;
-  right: 10px;
-  float: right;
-}
+      /* CSS untuk mengatur ukuran card */
+      .card {
+        max-width: 100%; /* Atur lebar maksimum card sesuai kebutuhan Anda */
+        margin: 0 auto;
+        background-color: #26483332;
 
-/* label{
+        /* Mengatur margin auto untuk pusatkan card */
+      }
+
+      /* CSS untuk mengatur ukuran konten dalam card */
+
+      .table {
+        width: 100%;
+        margin-top: 5%;
+        align-content: center;
+        border-collapse: collapse;
+        table-layout: fixed;
+        word-wrap: break-word;
+      }
+      .table.table-hover.table-borderless tbody tr:hover {
+        background-color: #ddd;
+        border: none;
+      }
+
+      h1 {
+        font-weight: bolder;
+        font-size: 40px;
+        color: 203268;
+        margin-bottom: 3%;
+        position: center;
+      }
+      .container {
+        margin-top: 5%;
+        background-color: #ffffff;
+        padding-top: 0%;
+        padding: 2%;
+        border-radius: 100px;
+        display: flexbox;
+        align-items: center;
+        width: 60%;
+      }
+      .btn {
+        background-color: #56c5f1;
+        color: aliceblue;
+        top: 20px;
+        right: 10px;
+        float: right;
+      }
+
+      /* label{
     color: aliceblue;
     font-size: large;
 } */
-/* .form-group {
+      /* .form-group {
     margin-bottom: 3%;
 }
 .moveRight{
     float: right;
 } */
 
-.moveRight{
-    float: right;
-    margin-bottom: 3%;
-}
-.btn-simpan {
-    background-color: #56C5F1;
-    width: 100px; 
-    padding: 6px; 
-    border-radius: 5px;
-    border: 1px solid aliceblue; 
-    transition-duration: 0.4s;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: bolder;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-}
+      .btn-danger {
+        background-color: #e94761;
+      }
+      .moveRight {
+        float: right;
+        margin-bottom: 3%;
+      }
+      .btn-simpan {
+        background-color: #56c5f1;
+        width: 100px;
+        padding: 6px;
+        border-radius: 5px;
+        border: 1px solid aliceblue;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: bolder;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
 
-.btn-simpan:hover {
-    background-color: #555555;
-    color: white;
-}
+      .btn-simpan:hover {
+        background-color: #555555;
+        color: white;
+      }
 
-.btn-delete {
-    background-color: #E94761;
-    width: 80px; 
-    padding: 4px; 
-    border-radius: 5px;
-    border: 1px solid aliceblue; 
-    transition-duration: 0.4s;
-    cursor: pointer;
-}
+      .btn-delete {
+        background-color: #e94761;
+        width: 80px;
+        padding: 4px;
+        border-radius: 5px;
+        border: 1px solid aliceblue;
+        transition-duration: 0.4s;
+        cursor: pointer;
+      }
 
-.btn-delete:hover {
-    background-color: #555555;
-    color: white;
-}
+      .btn-delete:hover {
+        background-color: #555555;
+        color: white;
+      }
 
-.btn-back {
-    background-color: #555555;
-    width: 80px;
-    padding: 4px;
-    border-radius: 5px;
-    border: 1px solid aliceblue;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    float: left;
-    bottom: 10px;
-    left: 10px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-}
+      .btn-back {
+        background-color: #555555;
+        width: 80px;
+        padding: 4px;
+        border-radius: 5px;
+        border: 1px solid aliceblue;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        float: left;
+        bottom: 10px;
+        left: 10px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
 
-.btn-back:hover {
-    background-color: #000000;
-    color: white;
-}
-.card{
-    background-color: #feffff;
-    border-color: #203268;
-    padding: 30px;
-    border: 1px solid #ddd; /* Optional border */
-    border-radius: 15px; /* Optional border-radius */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-left: 30%;
-    width:100%;
-}
+      .btn-back:hover {
+        background-color: #000000;
+        color: white;
+      }
+      .card {
+        background-color: #feffff;
+        border-color: #203268;
+        padding: 30px;
+        border: 1px solid #ddd; /* Optional border */
+        border-radius: 15px; /* Optional border-radius */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-left: 30%;
+        width: 100%;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <th:block th:switch="${loggedInUserRole}">
-        <th:block th:case="'SDM'">
-            <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav>
-        </th:block>
-        <th:block th:case="'Karyawan'">
-            <nav th:replace="~{fragments/navbar-karyawan :: navbar('profile')}"></nav>
-        </th:block>
-        <th:block th:case="'KepalaUnit'">
-            <nav th:replace="~{fragments/navbar-kepala-unit :: navbar('profile')}"></nav>
-        </th:block>
-        <th:block th:case="'Manajer'">
-            <nav th:replace="~{fragments/navbar-manager :: navbar('profile')}"></nav>
-        </th:block>
-        <!-- Add additional cases for other roles if needed -->
+      <th:block th:case="'SDM'">
+        <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav>
+      </th:block>
+      <th:block th:case="'Karyawan'">
+        <nav
+          th:replace="~{fragments/navbar-karyawan :: navbar('profile')}"
+        ></nav>
+      </th:block>
+      <th:block th:case="'KepalaUnit'">
+        <nav
+          th:replace="~{fragments/navbar-kepala-unit :: navbar('profile')}"
+        ></nav>
+      </th:block>
+      <th:block th:case="'Manajer'">
+        <nav
+          th:replace="~{fragments/navbar-manager :: navbar('profile')}"
+        ></nav>
+      </th:block>
+      <!-- Add additional cases for other roles if needed -->
     </th:block>
 
-   <div class="container">
-    <div class="card m-4 p-4">
+    <div class="container">
+      <div class="card m-4 p-4">
         <div class="card-header p-4">
-            <h1 class="text-center">Profile Page</h1>
+          <h1 class="text-center">Profile Page</h1>
         </div>
         <div>
-            <div style="margin: 30px; margin-left: auto;">
-                <div class="card-body p-4">
-                    <div class="row mb-4">
-                        <div class="col-md-3 text-right">
-                            <p class="card-text">Full name : <span th:text="${user.namaLengkap}"></span></p>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-md-3 text-right">
-                            <p class="card-text">Nrp : <span th:text="${user.nrp}"></span></p>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-md-3 text-right">
-                            <p class="card-text">Id User: <span th:text="${user.id}"></p>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-<<<<<<< HEAD
-                        <div class="col-md-3 text-right">
-                            <a th:href="@{/profile/{idUser}/rapor(idUser=${user.id})}" class="btn btn-secondary btn-simpan">Rapor</a>
-=======
-                        
-                        <div class="col-md-3 text-right">
-                            <div th:if="${raporReady}"><a th:href="@{/profile/{idUser}/rapor(idUser=${user.id})}" class="btn btn-secondary btn-simpan">Rapor</a></div>
->>>>>>> d32e3d4bb5013862c106f79638cf554c602640d3
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h2 style="font-size: 25px; font-weight: bolder; color: #203268;">Attachments</h2>
-                        </div>
-                        <div class="col-md-6 text-right">
-                            <a th:href="@{/profile/{idUser}/tambahDokumen(idUser=${user.id})}" class="btn btn-secondary btn-simpan">Edit</a>
-                        </div>
-                    </div>
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Uploaded Date</th>
-                                <th scope="col">Reviewed Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col" th:if="${#authorization.expression('hasRole(''SDM'')')}">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="dokumen, iterationStatus : ${listDokumen}">
-                                <th scope="row" th:text="${iterationStatus.index + 1}"></th>
-                                <td ><a th:text="${dokumen.namaDokumen}" th:href="@{/profile/{idUser}/download/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}"></a> </td>
-                                <td th:text="${dokumen.uploadedDate}"></td>
-                                <td th:text="${dokumen.reviewedDate}"></td>                   
-                                <td th:if="${dokumen.status == 0}">Submitted</td>
-                                <td th:if="${dokumen.status == 1}">Approved</td>
-                                <td th:if="${dokumen.status == 2}">Rejected</td>
-                                <td th:if="${dokumen.status == 0} and ${#authorization.expression('hasRole(''SDM'')')}">
-                                    <a href="#" th:onclick="'confirmApproval(\'' + @{/profile/{idUser}/approve/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})} + '\')'" class="btn btn-primary">Approve</a>
-                                    <a href="#" th:onclick="'confirmRejection(\'' + @{/profile/{idUser}/reject/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})} + '\')'" class="btn btn-danger">Reject</a>
-
-                                    <!-- <a th:href="@{/profile/{idUser}/approve/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}" class="btn btn-primary">Approve</a> -->
-                                    <!-- <a th:href="@{/profile/{idUser}/reject/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}" class="btn btn-secondary btn-delete">Reject</a> -->
-                                </td>
-                                <td th:if="${dokumen.status != 0} and ${#authorization.expression('hasRole(''SDM'')')}"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br><br>
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h2 style="font-size: 25px; font-weight: bolder; color: #203268;">riwayat Jabatan</h2>
-                        </div>
-                        <div class="col-md-6 text-right">
-                            <a th:href="@{/profile/{idUser}/tambahJabatan(idUser=${user.id})}" class="btn btn-secondary btn-simpan">Edit</a>
-                        </div>
-                    </div>
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nama Jabatan</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="jabatan, iterationStatus : ${RiwayatJabatan}">
-                                <th scope="row" th:text="${iterationStatus.index + 1}"></th>
-                                <td th:text="${jabatan.jabatan}"></td>
-                                <td th:text="${jabatan.uploadedDate}"></td>
-                                <td>
-                                    <!-- <a th:href="@{/profile/{idUser}/deleteJabatan/{idRiwayatJabatan}(idUser=${user.id}, idRiwayatJabatan=${jabatan.idRiwayatJabatan})}" class="btn btn-secondary btn-delete">Delete</a> -->
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br><br>
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h2 style="font-size: 25px; font-weight: bolder; color: #203268;">riwayat Penugasan</h2>
-                        </div>
-                        <div class="col-md-6 text-right">
-                            <a th:href="@{/profile/{idUser}/tambahPenugasan(idUser=${user.id})}" class="btn btn-secondary btn-simpan">Edit</a>
-                        </div>
-                    </div>
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nama Penugasan</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="penugasan, iterationStatus : ${RiwayatPenugasan}">
-                                <th scope="row" th:text="${iterationStatus.index + 1}"></th>
-                                <td th:text="${penugasan.penugasan}"></td>
-                                <td th:text="${penugasan.uploadedDate}"></td>
-                                <td>
-                                    <!-- <a th:href="@{/profile/{idUser}/deletePenugasan/{idRiwayatPenugasan}(idUser=${user.id}, idRiwayatPenugasan=${penugasan.idRiwayatPenugasan})}" class="btn btn-secondary btn-delete">Delete</a> -->
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <br><br>
+          <div style="margin: 30px; margin-left: auto">
+            <div class="card-body p-4">
+              <div class="row mb-4">
+                <div class="col-md-3 text-right">
+                  <label for="fullName" class="card-text">Full name :</label>
                 </div>
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    id="fullName"
+                    class="form-control"
+                    th:value="${user.namaLengkap}"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="row mb-4">
+                <div class="col-md-3 text-right">
+                  <label for="nrp" class="card-text">Nrp :</label>
+                </div>
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    id="nrp"
+                    class="form-control"
+                    th:value="${user.nrp}"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="row mb-4">
+                <div class="col-md-3 text-right">
+                  <label for="birthDate" class="card-text">Birthdate :</label>
+                </div>
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    id="birthDate"
+                    class="form-control"
+                    th:value="${user.birthDate}"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="row mb-4">
+                <div class="col-md-3 text-right">
+                  <label for="namaUnit" class="card-text">Unit:</label>
+                </div>
+                <div class="col-md-9">
+                  <input
+                    type="text"
+                    id="namaUnit"
+                    class="form-control"
+                    th:value="${user.unit.namaUnit}"
+                    disabled
+                  />
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-md-3 text-right">
+                  <div th:if="${raporReady}">
+                    <a
+                      th:href="@{/profile/{idUser}/rapor(idUser=${user.id})}"
+                      class="btn btn-secondary btn-simpan"
+                      >Rapor</a
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+                <li class="nav-item">
+                  <a
+                    class="nav-link active"
+                    id="attachments-tab"
+                    data-bs-toggle="tab"
+                    href="#attachments"
+                    role="tab"
+                    aria-controls="attachments"
+                    aria-selected="true"
+                    >Attachments</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="position-tab"
+                    data-bs-toggle="tab"
+                    href="#position"
+                    role="tab"
+                    aria-controls="position"
+                    aria-selected="false"
+                    >Position History</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="assignment-tab"
+                    data-bs-toggle="tab"
+                    href="#assignment"
+                    role="tab"
+                    aria-controls="assignment"
+                    aria-selected="false"
+                    >Assignment History</a
+                  >
+                </li>
+              </ul>
+
+              <!-- Tab content -->
+              <div class="tab-content" id="profileTabContent">
+                <div
+                  class="tab-pane fade show active"
+                  id="attachments"
+                  role="tabpanel"
+                  aria-labelledby="attachments-tab"
+                >
+                  <div class="row mb-4">
+                    <div class="col-md-6">
+                      <br /><br />
+                      <h2
+                        style="
+                          font-size: 25px;
+                          font-weight: bolder;
+                          color: #203268;
+                        "
+                      >
+                        Attachments
+                      </h2>
+                    </div>
+                    <div class="col-md-6 text-right">
+                      <br /><br />
+                      <a
+                        th:href="@{/profile/{idUser}/tambahDokumen(idUser=${user.id})}"
+                        class="btn btn-secondary btn-simpan"
+                        >Edit</a
+                      >
+                    </div>
+                  </div>
+                  <table id="tabel-dok" class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Uploaded</th>
+                        <th scope="col">Reviewed</th>
+                        <th scope="col">Status</th>
+                        <th
+                          scope="col"
+                          th:if="${#authorization.expression('hasRole(''SDM'')')}"
+                        >
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="dokumen, iterationStatus : ${listDokumen}">
+                        <th
+                          scope="row"
+                          th:text="${iterationStatus.index + 1}"
+                        ></th>
+                        <td style="width: 210%">
+                          <a
+                            th:text="${dokumen.namaDokumen}"
+                            th:href="@{/profile/{idUser}/download/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}"
+                          ></a>
+                        </td>
+                        <td th:text="${dokumen.uploadedDate}"></td>
+                        <td th:text="${dokumen.reviewedDate}"></td>
+                        <td th:if="${dokumen.status == 0}">Submitted</td>
+                        <td th:if="${dokumen.status == 1}">Approved</td>
+                        <td th:if="${dokumen.status == 2}">Rejected</td>
+                        <td
+                          th:if="${dokumen.status == 0} and ${#authorization.expression('hasRole(''SDM'')')}"
+                        >
+                          <a
+                            href="#"
+                            th:onclick="'confirmApproval(\'' + @{/profile/{idUser}/approve/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})} + '\')'"
+                          >
+                            <i
+                              class="bi bi-check"
+                              style="font-size: 40px; color: green"
+                            ></i>
+                          </a>
+                          <a
+                            href="#"
+                            th:onclick="'confirmRejection(\'' + @{/profile/{idUser}/reject/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})} + '\')'"
+                            ><i
+                              class="bi bi-x"
+                              style="font-size: 40px; color: red"
+                            ></i
+                          ></a>
+
+                          <!-- <a th:href="@{/profile/{idUser}/approve/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}" class="btn btn-primary">Approve</a> -->
+                          <!-- <a th:href="@{/profile/{idUser}/reject/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}" class="btn btn-secondary btn-delete">Reject</a> -->
+                        </td>
+                        <td
+                          th:if="${dokumen.status != 0} and ${#authorization.expression('hasRole(''SDM'')')}"
+                        ></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div
+                  class="tab-pane fade show active"
+                  id="position"
+                  role="tabpanel"
+                  aria-labelledby="position-tab"
+                >
+                  <div class="row mb-4">
+                    <div class="col-md-6">
+                      <br /><br />
+                      <h2
+                        style="
+                          font-size: 25px;
+                          font-weight: bolder;
+                          color: #203268;
+                        "
+                      >
+                        riwayat Jabatan
+                      </h2>
+                    </div>
+                    <div class="col-md-6 text-right">
+                      <br /><br />
+                      <a
+                        th:href="@{/profile/{idUser}/tambahJabatan(idUser=${user.id})}"
+                        class="btn btn-secondary btn-simpan"
+                        >Edit</a
+                      >
+                    </div>
+                  </div>
+                  <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nama Jabatan</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        th:each="jabatan, iterationStatus : ${RiwayatJabatan}"
+                      >
+                        <th
+                          scope="row"
+                          th:text="${iterationStatus.index + 1}"
+                        ></th>
+                        <td th:text="${jabatan.jabatan}"></td>
+                        <td th:text="${jabatan.uploadedDate}"></td>
+                        <td>
+                          <!-- <a th:href="@{/profile/{idUser}/deleteJabatan/{idRiwayatJabatan}(idUser=${user.id}, idRiwayatJabatan=${jabatan.idRiwayatJabatan})}" class="btn btn-secondary btn-delete">Delete</a> -->
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div
+                  class="tab-pane fade show active"
+                  id="assignment"
+                  role="tabpanel"
+                  aria-labelledby="assignment-tab"
+                >
+                  <div class="row mb-4">
+                    <div class="col-md-6">
+                      <br /><br />
+                      <h2
+                        style="
+                          font-size: 25px;
+                          font-weight: bolder;
+                          color: #203268;
+                        "
+                      >
+                        riwayat Penugasan
+                      </h2>
+                    </div>
+                    <div class="col-md-6 text-right">
+                      <br /><br />
+                      <a
+                        th:href="@{/profile/{idUser}/tambahPenugasan(idUser=${user.id})}"
+                        class="btn btn-secondary btn-simpan"
+                        >Edit</a
+                      >
+                    </div>
+                  </div>
+                  <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nama Penugasan</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        th:each="penugasan, iterationStatus : ${RiwayatPenugasan}"
+                      >
+                        <th
+                          scope="row"
+                          th:text="${iterationStatus.index + 1}"
+                        ></th>
+                        <td th:text="${penugasan.penugasan}"></td>
+                        <td th:text="${penugasan.uploadedDate}"></td>
+                        <td>
+                          <!-- <a th:href="@{/profile/{idUser}/deletePenugasan/{idRiwayatPenugasan}(idUser=${user.id}, idRiwayatPenugasan=${penugasan.idRiwayatPenugasan})}" class="btn btn-secondary btn-delete">Delete</a> -->
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <br /><br />
             </div>
+          </div>
         </div>
-        <a class="nav-link btn btn-danger text-white mx-4"
-            th:classappend="${page == 'signin' ? 'active' : ''}"
-            href="/logout">Sign Out</a>
+        <a
+          class="nav-link btn btn-danger text-white mx-4"
+          th:classappend="${page == 'signin' ? 'active' : ''}"
+          href="/logout"
+          >Sign Out</a
+        >
+      </div>
     </div>
-</div>
-<script>
-    function confirmApproval(approveUrl) {
+    <script>
+      function confirmApproval(approveUrl) {
         var confirmation = confirm("Are you sure you want to approve?");
         if (confirmation) {
-            // If user clicks OK in the confirmation dialog, execute the approval action
-            window.location.href = approveUrl;
+          // If user clicks OK in the confirmation dialog, execute the approval action
+          window.location.href = approveUrl;
         } else {
-            // If user clicks Cancel in the confirmation dialog, do nothing
+          // If user clicks jhnb cel in the confirmation dialog, do nothing
         }
-    }
+      }
 
-    function confirmRejection(rejectUrl) {
+      function confirmRejection(rejectUrl) {
         var confirmation = confirm("Are you sure you want to reject?");
         if (confirmation) {
-            // If user clicks OK in the confirmation dialog, execute the rejection action
-            window.location.href = rejectUrl;
+          // If user clicks OK in the confirmation dialog, execute the rejection action
+          window.location.href = rejectUrl;
         } else {
-            // If user clicks Cancel in the confirmation dialog, do nothing
+          // If user clicks Cancel in the confirmation dialog, do nothing
         }
-    }
-</script>
-</body>
-
-
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#tabel-dok").DataTable({
+          lengthMenu: [3, 5, 10, 25, 50, 75, 100],
+          columnDefs: [
+            { width: "3%", targets: 0 },
+            { width: "30%", targets: 1 },
+            { width: "14%", targets: 2 },
+            { width: "14%", targets: 3 },
+            { width: "9%", targets: 4 },
+            { width: "20%", targets: 5 },
+          ],
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("#profileTabs a").on("click", function (e) {
+          e.preventDefault();
+          $(this).tab("show");
+        });
+      });
+    </script>
+  </body>
 </html>

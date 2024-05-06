@@ -11,8 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "kriteria_scores")
-public class KriteriaScores {
+@Table(name = "kriteria_scores_iki")
+public class KriteriaScoresIKI {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,4 +31,3 @@ public class KriteriaScores {
 
     private Integer score;
 }
-

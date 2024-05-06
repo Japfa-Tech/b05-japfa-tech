@@ -29,11 +29,14 @@ public class Unit {
     @Column(name="nama_unit")
     private String namaUnit;
 
-    @Column(name="id_kepala_unit")
-    private Long idKepalaUnit;
-
     @OneToMany(mappedBy = "unit", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<Karyawan> users;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "unit")
+    private KepalaUnit kepalaUnit;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "unit")
+    private Manajer manajer;
 }

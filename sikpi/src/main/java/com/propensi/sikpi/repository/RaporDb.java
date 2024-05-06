@@ -13,8 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RaporDb extends JpaRepository<Rapor, Long> {
     Optional<Rapor> findByEvaluatedUser(UserModel evaluatedUser);
-
     List<Rapor> findBySignPenyetujuFalse();
-
     List<Rapor> findBySignPenilaiFalse();
 }

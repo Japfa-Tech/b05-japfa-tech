@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import com.propensi.sikpi.model.IndeksKinerjaIndividu;
 import com.propensi.sikpi.model.IndeksKinerjaUnit;
 import com.propensi.sikpi.model.KriteriaPenilaian;
+import com.propensi.sikpi.model.KriteriaPenilaianIKU;
 import com.propensi.sikpi.model.Norma;
 import com.propensi.sikpi.model.TemplatePenilaian;
 import com.propensi.sikpi.model.UserModel;
@@ -23,6 +24,7 @@ import com.propensi.sikpi.repository.TemplatePenilaianDb;
 import com.propensi.sikpi.repository.UserDb;
 import com.propensi.sikpi.repository.IndeksKinerjaIndividuDb;
 import com.propensi.sikpi.repository.KriteriaPenilaianDb;
+import com.propensi.sikpi.repository.KriteriaPenilaianIKUDb;
 import com.propensi.sikpi.service.TemplateService;
 
 import jakarta.annotation.PostConstruct;
@@ -52,6 +54,9 @@ public class TemplatePenilaianController {
 
     @Autowired
     IndeksKinerjaIndividuDb indeksKinerjaIndividuDb;
+
+    @Autowired
+    private KriteriaPenilaianIKUDb kriteriaPenilaianIKUDb;
 
     private Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -141,6 +146,7 @@ public class TemplatePenilaianController {
             kriteriaPenilaianDb.save(kriteriaPenilaian);
         }
         indeksKinerjaIndividu.setEvaluatedUser(evaluatedUser.getId());
+        indeksKinerjaIndividu.setEvaluatedUserName(evaluatedUser.getNamaLengkap());
         indeksKinerjaIndividu.setNamaTemplate("Template IKI " + evaluatedUser.getUsername());
         templateService.createTemplatePenilaian(indeksKinerjaIndividu);
 
@@ -247,11 +253,11 @@ public class TemplatePenilaianController {
 
     @PostMapping(value = "/template-penilaian-iku/create", params = {"addRow"})
     public String addRowIku(@ModelAttribute IndeksKinerjaUnit ikuDTO, Model model) {
-        if (ikuDTO.getListKriteria() == null || ikuDTO.getListKriteria().size() == 0) {
-            ikuDTO.setListKriteria(new ArrayList<>());
+        if (ikuDTO.getListKriteriaIKU() == null || ikuDTO.getListKriteriaIKU().size() == 0) {
+            ikuDTO.setListKriteriaIKU(new ArrayList<>());
         }
 
-        ikuDTO.getListKriteria().add(new KriteriaPenilaian());
+        ikuDTO.getListKriteriaIKU().add(new KriteriaPenilaianIKU());
 
         model.addAttribute("ikuDTO", ikuDTO);
         return "form-iku";
@@ -259,18 +265,18 @@ public class TemplatePenilaianController {
 
     @PostMapping("/template-penilaian-iku/create")
     public String postFormIku(@ModelAttribute IndeksKinerjaUnit ikuDTO, Model model) {
-        List<KriteriaPenilaian> listDTO = ikuDTO.getListKriteria();
+        List<KriteriaPenilaianIKU> listDTO = ikuDTO.getListKriteriaIKU();
         var indeksKinerjaUnit = new IndeksKinerjaUnit();
         templateService.createTemplatePenilaian(indeksKinerjaUnit);
 
-        for (KriteriaPenilaian kpDTO : listDTO) {
-            KriteriaPenilaian kriteriaPenilaian = new KriteriaPenilaian();
+        for (KriteriaPenilaianIKU kpDTO : listDTO) {
+            KriteriaPenilaianIKU kriteriaPenilaian = new KriteriaPenilaianIKU();
             kriteriaPenilaian.setJudulKriteria(kpDTO.getJudulKriteria());
             kriteriaPenilaian.setBobot(kpDTO.getBobot());
             kriteriaPenilaian.setSkor(0);
 
             kriteriaPenilaian.setTemplatePenilaian(indeksKinerjaUnit);
-            kriteriaPenilaianDb.save(kriteriaPenilaian);
+            kriteriaPenilaianIKUDb.save(kriteriaPenilaian);
         }
         indeksKinerjaUnit.setNamaTemplate("Template IKU 1");
         templateService.createTemplatePenilaian(indeksKinerjaUnit);
@@ -288,14 +294,14 @@ public class TemplatePenilaianController {
     @GetMapping("/template-penilaian-iku/edit/{id}")
     public String editIku(@PathVariable Long id, Model model) {
         IndeksKinerjaUnit iku = templateService.getIkuById(id); // Add a method in your service to get the template by ID
-        for (KriteriaPenilaian kp : iku.getListKriteria()) {
+        for (KriteriaPenilaianIKU kp : iku.getListKriteriaIKU()) {
             System.out.println(kp.getJudulKriteria());
         }
-        System.out.println(iku.getListKriteria().size());
+        System.out.println(iku.getListKriteriaIKU().size());
         UserModel user = userDb.findById(getUserId()).get();
 
         model.addAttribute("ikuDTO", iku);
-        model.addAttribute("existingList", iku.getListKriteria());
+        model.addAttribute("existingList", iku.getListKriteriaIKU());
         model.addAttribute("idUser", getUserId());
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
 
@@ -311,12 +317,12 @@ public class TemplatePenilaianController {
     indeksKinerjaUnit.setNamaTemplate("Template IKI 1");
 
     // Clear existing KriteriaPenilaian entities and add the new ones
-    List<KriteriaPenilaian> existingKriteria = indeksKinerjaUnit.getListKriteria();
+    List<KriteriaPenilaianIKU> existingKriteria = indeksKinerjaUnit.getListKriteriaIKU();
     existingKriteria.clear();  // Remove existing KriteriaPenilaian entities
 
-    List<KriteriaPenilaian> newKriteriaList = ikuDTO.getListKriteria();
-    for (KriteriaPenilaian kpDTO : newKriteriaList) {
-        KriteriaPenilaian kriteriaPenilaian = new KriteriaPenilaian();
+    List<KriteriaPenilaianIKU> newKriteriaList = ikuDTO.getListKriteriaIKU();
+    for (KriteriaPenilaianIKU kpDTO : newKriteriaList) {
+        KriteriaPenilaianIKU kriteriaPenilaian = new KriteriaPenilaianIKU();
         kriteriaPenilaian.setJudulKriteria(kpDTO.getJudulKriteria());
         kriteriaPenilaian.setBobot(kpDTO.getBobot());
         kriteriaPenilaian.setSkor(0);
@@ -334,11 +340,11 @@ public class TemplatePenilaianController {
 
     @PostMapping(value = "/template-penilaian-iku/edit/{id}", params = {"addRow"})
     public String addRowUpdateIku(@PathVariable Long id, @ModelAttribute IndeksKinerjaUnit ikuDTO, Model model) {
-        if (ikuDTO.getListKriteria() == null || ikuDTO.getListKriteria().size() == 0) {
-            ikuDTO.setListKriteria(new ArrayList<>());
+        if (ikuDTO.getListKriteriaIKU() == null || ikuDTO.getListKriteriaIKU().size() == 0) {
+            ikuDTO.setListKriteriaIKU(new ArrayList<>());
         }
 
-        ikuDTO.getListKriteria().add(new KriteriaPenilaian());
+        ikuDTO.getListKriteriaIKU().add(new KriteriaPenilaianIKU());
 
         model.addAttribute("ikuDTO", ikuDTO);
         return "form-ubah-iku";

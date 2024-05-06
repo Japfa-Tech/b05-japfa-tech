@@ -1,5 +1,8 @@
 package com.propensi.sikpi.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,5 +31,8 @@ public class BorangPenilaianIKI extends BorangPenilaian{
 
     @Column(name = "accepted_by_evaluator")
     private boolean acceptedByEvaluator;
+
+    @OneToMany(mappedBy = "borangPenilaian")
+    private List<KriteriaScoresIKI> kriteriaScoresIKI = new ArrayList<>();
 
 }

@@ -13,6 +13,7 @@
   <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
   <title>View All Template</title>
+  <link rel="icon" href="/images/logo-sikpi.png" type="image/png">
 </head>
 
 <style>
@@ -58,13 +59,26 @@
     background-color: #0056b3;
   }
 
-  .card {
+  .card-1 {
     background: #f4f4f4;
+    width: 110%;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     margin-bottom: 20px;
     overflow: hidden;
+    /* width:max-content; */ /* Hapus atau ubah nilai max-width */
+  }
+
+  .card {
+    background: #fff;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+    overflow: hidden;
+    /* width:max-content; */ /* Hapus atau ubah nilai max-width */
   }
 
   .card-body {
@@ -87,7 +101,7 @@
   }
 
   .card-footer {
-    background-color: #f4f4f4;
+    background-color: #fff;
     padding: 10px 20px;
     border-top: 1px solid #ddd;
     text-align: center;
@@ -153,30 +167,32 @@
     </div>
     <div class="row mt-3">
       <div class="col-md-12">
-        <div class="table-container">
-          <div class="card">
+        <div th:if="${#lists.isEmpty(listIki)}" class="alert alert-info text-center">
+          <i class="bi bi-info-circle-fill mr-2"></i> <!-- Icon informasi -->
+          <span class="font-weight-bold">Please create a template with only 1 maximum.</span>
+      </div>
+      <div class="table-container">
+        <div class="card">
             <div class="card-content">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="row">
+                <div class="row">
                     <div class="col-md-6" th:each="iki, iterationStatus: ${listIki}">
-                      <div class="card">
-                        <div class="d-flex align-items-center">
-                          <img class="mx-auto d-block logo-img" th:src="@{/images/template.png}" width="100px" style="margin-bottom: 20px; margin-top: 20px;" alt="logo SIKPI-TEMPLATE" />
-                          <div class="card-text">
-                            <h2 class="card-title" th:text="${iki.namaTemplate}"></h2>
-                            <div class="d-flex justify-content-center gap-3" style="margin-top: 20px; margin-right: 40px;">
-                              <a type="button" class="btn btn-outline-success" th:href="@{/template-penilaian-iki/edit/{id}(id=${iki.idTemplatePenilaian})}" style="background-color: #56C5F1; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Edit</a>
-                              <a type="button" class="btn btn-outline-success" th:href="@{/template-penilaian-iki/delete/{id}(id=${iki.idTemplatePenilaian})}" style="background-color: #E94761; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Delete</a>
-                              <a type="button" class="btn btn-outline-success" th:href="@{/borang/template-penilaian-iki/{id}(id=${iki.idTemplatePenilaian})}" style="background-color: #FFD700; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Borang</a>
-                          </div>                          
-                          </div>
+                      <div class="col-m">
+                        <div class="card-1">
+                            <div class="d-flex align-items-center">
+                                <img class="mx-auto d-block logo-img" th:src="@{/images/template.png}" width="100px" style="margin-bottom: 20px; margin-top: 20px;" alt="logo SIKPI-TEMPLATE" />
+                                <div class="card-text">
+                                    <h2 class="card-title" th:text="${iki.namaTemplate}"></h2>
+                                    <div class="d-flex justify-content-center gap-3" style="margin-top: 20px; margin-right: 40px;">
+                                        <a type="button" class="btn btn-outline-success" th:href="@{/template-penilaian-iki/edit/{id}(id=${iki.idTemplatePenilaian})}" style="background-color: #56C5F1; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Edit</a>
+                                        <a type="button" class="btn btn-outline-success" th:href="@{/template-penilaian-iki/delete/{id}(id=${iki.idTemplatePenilaian})}" style="background-color: #E94761; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Delete</a>
+                                        <a type="button" class="btn btn-outline-success" th:href="@{/borang/template-penilaian-iki/{id}(id=${iki.idTemplatePenilaian})}" style="background-color: #FFD700; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Borang</a>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
             <div class="card-footer">
               <div class="center-text">
@@ -184,7 +200,7 @@
                   <!-- Tidak menampilkan tombol -->
               </th:block>
               <th:block th:if="${listIki == null or listIki.size() == 0}">
-                  <a th:href="@{/template-penilaian-iki/create}" class="btn btn-primary" style="background-color: #203268;">+ Buat Template</a>
+                  <a th:href="@{/template-penilaian-iki/create}" class="btn btn-primary" style="background-color: #203268;">+ Create Template</a>
               </th:block>
               </div>
             </div>
@@ -193,13 +209,12 @@
       </div>
     </div>
   </div>
-
   <script>
     $(document).ready(function() {
       $('#ikiTable').DataTable({
         "dom": "",
       });
-    });
+  });
   </script>
 </body>
 </html>

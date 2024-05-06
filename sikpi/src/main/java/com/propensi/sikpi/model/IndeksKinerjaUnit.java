@@ -1,5 +1,6 @@
 package com.propensi.sikpi.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -37,4 +38,8 @@ public class IndeksKinerjaUnit extends TemplatePenilaian{
     @OneToMany(mappedBy = "templatePenilaian", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonIgnore
     private List<Pesan> listPesan;
+
+    @OneToMany(mappedBy = "templatePenilaian", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JsonIgnore
+    private List<KriteriaPenilaianIKU> listKriteriaIKU = new ArrayList<KriteriaPenilaianIKU>();
 }

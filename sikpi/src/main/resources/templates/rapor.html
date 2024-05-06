@@ -27,14 +27,11 @@ html {
     color: white;
     text-align: center; 
 }
-<<<<<<< HEAD
-=======
 
 td, th {
     max-width: 150px;
 }
 
->>>>>>> d32e3d4bb5013862c106f79638cf554c602640d3
 .table tbody {
     background-color: rgba(240, 248, 255, 0);
     color: #203268;
@@ -53,18 +50,11 @@ background-color: #26483332;
 /* CSS untuk mengatur ukuran konten dalam card */
 
 .table {
-<<<<<<< HEAD
-width: 100%;
-margin-top: 5%;
-align-content: center;
-border-collapse: collapse;
-=======
     width: 100%;
     margin-top: 5%;
     align-content: center;
     border-collapse: collapse;
     font-size: 12px;
->>>>>>> d32e3d4bb5013862c106f79638cf554c602640d3
 }
 .table.table-hover.table-borderless tbody tr:hover {
     background-color: #ddd;
@@ -73,10 +63,6 @@ border-collapse: collapse;
 
 h1 {
 font-weight: bolder;
-<<<<<<< HEAD
-font-size: 40px;
-=======
->>>>>>> d32e3d4bb5013862c106f79638cf554c602640d3
 color: 203268;
 margin-bottom: 3%;
 position: center;
@@ -92,93 +78,12 @@ display:flexbox;
 align-items: center;
 width: 60%;
 }
-<<<<<<< HEAD
-.btn {
-background-color: #56C5F1;
-color: aliceblue;
-top: 20px;
-  right: 10px;
-  float: right;
-}
-
-/* label{
-    color: aliceblue;
-    font-size: large;
-} */
-/* .form-group {
-    margin-bottom: 3%;
-}
-.moveRight{
-    float: right;
-} */
-=======
->>>>>>> d32e3d4bb5013862c106f79638cf554c602640d3
 
 .moveRight{
     float: right;
     margin-bottom: 3%;
 }
-<<<<<<< HEAD
-.btn-simpan {
-    background-color: #56C5F1;
-    width: 100px; 
-    padding: 6px; 
-    border-radius: 5px;
-    border: 1px solid aliceblue; 
-    transition-duration: 0.4s;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: bolder;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-}
 
-.btn-simpan:hover {
-    background-color: #555555;
-    color: white;
-}
-
-.btn-delete {
-    background-color: #E94761;
-    width: 80px; 
-    padding: 4px; 
-    border-radius: 5px;
-    border: 1px solid aliceblue; 
-    transition-duration: 0.4s;
-    cursor: pointer;
-}
-
-.btn-delete:hover {
-    background-color: #555555;
-    color: white;
-}
-
-.btn-back {
-    background-color: #555555;
-    width: 80px;
-    padding: 4px;
-    border-radius: 5px;
-    border: 1px solid aliceblue;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    float: left;
-    bottom: 10px;
-    left: 10px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-}
-
-.btn-back:hover {
-    background-color: #000000;
-    color: white;
-}
-=======
-
->>>>>>> d32e3d4bb5013862c106f79638cf554c602640d3
 .card{
     background-color: #feffff;
     border-color: #203268;
@@ -189,13 +94,10 @@ top: 20px;
     margin-left: 30%;
     width:100%;
 }
-<<<<<<< HEAD
-=======
 
 p {
     font-size: 12px;
 }
->>>>>>> d32e3d4bb5013862c106f79638cf554c602640d3
     </style>
 </head>
 
@@ -206,107 +108,6 @@ p {
             <h1 class="text-center">Rapor</h1>
         </div>
         <div>
-<<<<<<< HEAD
-            <div style="margin: 30px; margin-left: auto;">
-                <div class="row mb-4">
-                    <div class="col-md-3 text-right">
-                        <p class="card-text">Full name : <span th:text="${user.namaLengkap}"></span></p>
-                    </div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-md-3 text-right">
-                        <p class="card-text">Nrp : <span th:text="${user.nrp}"></span></p>
-                    </div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-md-3 text-right">
-                        <p class="card-text">Id User: <span th:text="${user.id}"></span></p>
-                    </div>
-                </div>
-                <p>IKI</p>
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Indikator</th>
-                            <th scope="col">Nilai</th>
-                            <th scope="col">Bobot</th>
-                            <th scope="col">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="kriteria, iterationStatus : ${list_kriteria_iki}"> 
-                           <th scope="row" th:text="${iterationStatus.index + 1}"></th>
-                           <td th:text="${kriteria.kriteria.judulKriteria}"> </td>
-                           <td th:text="${kriteria.score}"></td>
-                           <td th:text="${kriteria.kriteria.bobot}"></td>
-                           <td th:text="${kriteria.kriteria.bobot * kriteria.score}"></td>
-                       </tr>
-                   </tbody>
-                </table>
-                <p>IKU</p>
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Indikator</th>
-                            <th scope="col">Nilai</th>
-                            <th scope="col">Bobot</th>
-                            <th scope="col">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <!-- <tr th:each="dokumen, iterationStatus : ${listDokumen}"> -->
-                            <!-- <th scope="row" th:text="${iterationStatus.index + 1}"></th>
-                            <td ><a th:text="${dokumen.namaDokumen}" th:href="@{/profile/{idUser}/download/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}"></a> </td>
-                            <td th:text="${dokumen.uploadedDate}"></td>
-                            <td th:text="${dokumen.reviewedDate}"></td>
-                            <td th:if="${dokumen.status == 0}">Submitted</td>
-                            <td th:if="${dokumen.status == 1}">Approved</td>
-                            <td th:if="${dokumen.status == 2}">Rejected</td>
-                            <td th:if="${dokumen.status == 0}">
-                                <a th:href="@{/profile/{idUser}/approve/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}" class="btn btn-primary">Approve</a>
-                                <a th:href="@{/profile/{idUser}/reject/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}" class="btn btn-secondary btn-delete">Reject</a>
-                            </td>
-                            <td th:unless="${dokumen.status == 0}">
-                                Not Available
-                            </td> -->
-                        </tr>
-                    </tbody>
-                </table>
-                <p>Norma</p>
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Indikator</th>
-                            <th scope="col">Nilai</th>
-                            <th scope="col">Bobot</th>
-                            <th scope="col">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <!-- <tr th:each="dokumen, iterationStatus : ${listDokumen}"> -->
-                            <!-- <th scope="row" th:text="${iterationStatus.index + 1}"></th>
-                            <td ><a th:text="${dokumen.namaDokumen}" th:href="@{/profile/{idUser}/download/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}"></a> </td>
-                            <td th:text="${dokumen.uploadedDate}"></td>
-                            <td th:text="${dokumen.reviewedDate}"></td>
-                            <td th:if="${dokumen.status == 0}">Submitted</td>
-                            <td th:if="${dokumen.status == 1}">Approved</td>
-                            <td th:if="${dokumen.status == 2}">Rejected</td>
-                            <td th:if="${dokumen.status == 0}">
-                                <a th:href="@{/profile/{idUser}/approve/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}" class="btn btn-primary">Approve</a>
-                                <a th:href="@{/profile/{idUser}/reject/{idDokumen}(idUser=${user.id}, idDokumen=${dokumen.idDokumen})}" class="btn btn-secondary btn-delete">Reject</a>
-                            </td>
-                            <td th:unless="${dokumen.status == 0}">
-                                Not Available
-                            </td> -->
-                        </tr>
-                    </tbody>
-                </table>
-=======
             <div>
                 <div class="row mb-4 mx-auto">
                     <p class="card-text"><b>Full name : </b><span th:text="${user.namaLengkap}"></span></p>
@@ -429,7 +230,6 @@ p {
                     </tr>
                 </tbody>
             </table>
->>>>>>> d32e3d4bb5013862c106f79638cf554c602640d3
             </div>
             </div>
 

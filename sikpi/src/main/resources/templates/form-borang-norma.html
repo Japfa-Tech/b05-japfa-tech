@@ -11,10 +11,10 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-    <!-- <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script> -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <title>Template Penilaian Norma</title>
->>>>>>> d32e3d4bb5013862c106f79638cf554c602640d3
+    <link rel="icon" href="/images/logo-sikpi.png" type="image/png">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -22,155 +22,189 @@
             padding: 0;
             background-color: #fff;
         }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .center-text {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
-        .container {
-            margin: 50px auto;
-            padding: 20px;
-            max-width: 800px;
-        }
-
+    
+        /* Tombol */
         .btn {
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
-            font-family: 'Poppins', sans-serif; /* Menambahkan font family */
+            font-family: 'Poppins', sans-serif;
         }
-
+    
         .btn-primary {
-            color: #f4f4f4;
+            color: #f3f3f3;
             background-color: #203268;
         }
-
+    
         .btn-primary:hover {
             background-color: #0056b3;
         }
-
+    
         #tambah-kriteria-btn {
-            background-color: #56c5f1; /* Warna latar belakang tombol "Tambah Kriteria" */
+            background-color: #56c5f1;
         }
-
+    
         .btn-danger {
-            background-color: #e94761; /* Warna tombol Delete */
+            background-color: #e94761;
             color: #fff;
         }
-
+    
+        /* Kontainer */
+        .center-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+    
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 1000px;
+        }
+    
+        /* Kartu */
         .card {
             background: #f4f4f4;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
             margin-bottom: 20px;
             overflow: hidden;
+            width: 100%;
         }
-
+    
         .card-body {
-            padding: 20px;
+        width: 100%; /* Sesuaikan lebar sesuai kebutuhan */
+        max-width: 600px; /* Batasi lebar konten */
         }
-
+    
+        .card-buttons {
+            text-align: center;
+            margin-top: 10px;
+        }
+    
+        /* Tabel */
         .table-container {
-            margin-top: 20px;
+            margin: 0 auto;
+            width: 100%;
+            overflow-x: auto;
         }
-
-        /* Atur warna Datatables menjadi #f4f4f4 */
+    
         table.dataTable {
+            margin-left: 12px;
             background-color: #f4f4f4;
         }
-
+    
         table.dataTable thead th {
-            background-color: black;
+            background-color: #112155;
         }
-
+    
         table.dataTable tbody td {
             background-color: #f4f4f4;
         }
-
+    
         table.dataTable tbody tr:hover {
-            background-color: #ddd; /* Warna hover saat mengarahkan kursor */
+            background-color: #ddd;
+        
         }
 
-        /* CSS untuk menengahkan teks */
         .text-center {
             text-align: center;
         }
-
-        /* CSS untuk mengatur lebar kolom dan jarak antar field */
+    
         .form-control {
-            width: 100%; /* Menyesuaikan lebar field dengan lebar kolom */
+            width: 100%;
+            align-items: center;
         }
-
+    
         .gap-2 > * {
-            margin-right: 10px; /* Menambahkan jarak antar field */
+            margin-right: 10px;
         }
-
-        /* CSS untuk card tambahan */
+    
         .outer-card {
-            background-color: #fff; /* Warna background putih */
-            border: 1px solid #f4f4f4; /* Garis berwarna #f4f4f4 */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Efek shadow */
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        /* CSS untuk menengahkan tombol pada card */
-        .card-buttons {
-            text-align: center;
-            margin-top: 10px; /* Ubah margin atas sesuai kebutuhan */
-        }
-        
-        /* CSS untuk tombol Back */
-        .btn-back {
-            background-color: #fff;
-            color: #203268;
-            border: 1px solid #203268;
+        background-color: #fff;
+        border: 1px solid #f4f4f4;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        width: 100%; /* Atur lebar kartu luar sesuai kebutuhan */
+        margin: 0 auto; /* Tengahkan kartu luar secara horizontal */
+        display: flex; /* Menggunakan flexbox */
+        flex-direction: column; /* Tata letak vertikal */
+        justify-content: center; /* Tengahkan konten secara vertikal di dalam kartu */
+
+        align-items: center; /* Tengahkan konten secara horizontal di dalam kartu */
         }
 
+        #normaTable {
+        width: 100%; /* Sesuaikan dengan lebar yang Anda inginkan */
+
+        }
+
+        #normaTable th:nth-child(1){
+        width:5%;
+        }
+
+        #normaTable th:nth-child(2){
+        width:10%;
+        }
+
+        #normaTable td:nth-child(3) {
+            width: 50%; 
+        }
+
+        #normaTable td:nth-child(4) {
+            width: 5%; 
+        }
+
+        #normaTable td:nth-child(5) {
+            width: 15%; 
+
+        }
+        /* Tombol Kembali */
+        .btn-back {
+        width: 100px;
+        background-color: #fff;
+        color: #203268;
+        border: 1px solid #203268;
+        }
+    
         .btn-back:hover {
             background-color: #bbbec9;
             color: #203268;
             border: 1px solid #203268;
         }
-
+        
         .radio-buttons {
             /* display: flex; */
             justify-content: space-between;
         }
 
         .radio-buttons input[type="radio"] {
-            margin-right: 5px; /* Adjust as needed */
+            margin-right: 5px;
         }
 
+        .history-title {
+            font-size: smaller; /* Atur ukuran teks sesuai kebutuhan */
+        }
         /* Styling untuk pesan */
         .message-card {
             background-color: #e9e9e9;
             border-radius: 10px;
             padding: 10px;
             margin-bottom: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
             height: auto; /* Mengurangi tinggi card pesan */
             overflow: hidden; /* Menghindari konten melebihi batas card */
             transition: transform 0.3s ease; /* Efek transisi untuk hover */
         }
 
-        .message-card:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Efek shadow saat hover */
-        }
-
         .message-date {
-            font-size: 0.8em;
+            font-size: medium;
             color: #888;
             margin-bottom: 5px;
         }
@@ -178,6 +212,28 @@
         .message-content {
             font-size: 1em;
             color: #333;
+        }
+
+        #pesan-container {
+            max-height: 188px; /* Atur ketinggian maksimum */
+            overflow-y: auto; /* Aktifkan overflow vertikal */
+        }
+
+        #status-borang {
+        text-align: center; /* Membuat teks berada di tengah */
+        font-size: 18px; /* Ukuran teks */
+        font-weight: bold; /* Menjadikan teks tebal */
+        margin-top: 20px; /* Jarak atas dari kontainer */
+        margin-bottom: 20px; /* Jarak bawah dari konten tabel */
+        padding: 10px; /* Ruang di sekitar teks */
+        border-radius: 10px; /* Membuat sudut border menjadi melengkung */
+        width: 40%;
+        /* Menambahkan gradien warna latar belakang */
+        background: linear-gradient(to right, #f3f3f3, #f3f3f3);
+        /* Efek bayangan untuk menambah kedalaman */
+        box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
+        /* Tambahkan border color biru */
+        border: 3px solid #112155;
         }
     </style>
 </head>
@@ -202,44 +258,43 @@
         <div class="col text-center"> <!-- menambahkan kelas "text-center" di sini -->
             <h2 class="m-2">Borang Penilaian Norma</h2>
         </div>
-        <div> <th:block th:text='${loggedInUserRole}'> </th></div>
         <div class="outer-card m-4" > <!-- Card tambahan di luar card yang sudah ada -->
+            <div class="col">
             <div id="status-borang"></div>
-            <div class="card m-4">
-                <div class="card-header p-2 text-center">
-                    <table class="table table-sm table-bordered">
-                        <thead>
+            <div class="row table-gap mb-4">
+                <div style="border-radius: 10px; overflow: hidden; width: 100%;">
+                    <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
+                        <thead style="background-color: #203268; color: white;">
                             <tr>
-                                <th scope="col" class="text-center" style="width: 10%;">Bobot</th>
-                                <th scope="col" class="text-center">Indikator</th>
+                                <th style="padding: 10px 20px; text-align: left; border-top-left-radius: 10px;">#</th>
+                                <th style="padding: 10px 20px; text-align: left; border-top-right-radius: 10px;">Indicators</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center">5</td>
-                                <td>Hasil kerja yang ingin dicapai terealisasi 96% -100%</td>
+                            <tr style="background-color: #f4f4f4;">
+                                <td style="padding: 10px 20px; text-align: center;">5</td>
+                                <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 96% -100%</td>
                             </tr>
-                            <tr>
-                                <td class="text-center">4</td>
-                                <td>Hasil kerja yang ingin dicapai terealisasi 86% - 95%</td>
+                            <tr style="background-color: #fff;">
+                                <td style="padding: 10px 20px; text-align: center;">4</td>
+                                <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 86% - 95%</td>
                             </tr>
-                            <tr>
-                                <td class="text-center">3</td>
-                                <td>Hasil kerja yang ingin dicapai terealisasi 76%  - 85%</td>
+                            <tr style="background-color: #f4f4f4;">
+                                <td style="padding: 10px 20px; text-align: center;">3</td>
+                                <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 76%  - 85%</td>
                             </tr>
-                            <tr>
-                                <td class="text-center">2</td>
-                                <td>Hasil kerja yang ingin dicapai terealisasi 51% -75%</td>
+                            <tr style="background-color: #fff;">
+                                <td style="padding: 10px 20px; text-align: center;">2</td>
+                                <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 51% -75%</td>
                             </tr>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td>Hasil kerja yang ingin dicapai terealisasi 50%</td>
+                            <tr style="background-color: #f4f4f4;">
+                                <td style="padding: 10px 20px; text-align: center; border-bottom-left-radius: 10px;">1</td>
+                                <td style="padding: 10px 20px; text-align: left; border-bottom-right-radius: 10px;">Hasil kerja yang ingin dicapai terealisasi 50%</td>
                             </tr>
                         </tbody>
                     </table>    
                 </div>
-                <div class="card-body">                
-                    <div class="col">
+            </div>
                         <form th:action="@{'/borang/template-penilaian-norma/' + ${id}  + '/' + ${idEvaluatedUser}}" th:object="${normaDTO}" method="POST">
                             <input class="form-control" type="hidden" th:field="*{idTemplatePenilaian}" />
                             <div class="row mb-4 align-items-center">
@@ -248,24 +303,38 @@
                                         <thead class="bg-dark text-white">
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col" class="text-center">Indikator</th>
-                                                <th scope="col" class="text-center">Sikap</th>
-                                                <th scope="col" class="text-center">Bobot</th>
-                                                <th scope="col" class="text-center">Nilai</th> 
+                                                <th scope="col" class="text-center">Indicators</th>
+                                                <th scope="col" class="text-center">Attitude</th>
+                                                <th scope="col" class="text-center">Weight</th>
+                                                <th scope="col" class="text-center">Score</th> 
                                             </tr>
+                                            <tr style="background-color: #f4f4f4;"> <!-- Menyesuaikan warna latar belakang -->
+                                                <td colspan="4"></td>
+                                                <td class="text-right" style="vertical-align: top;">
+                                                    <div style="display: flex; justify-content: flex-end; align-items: center; width: 103%; letter-spacing: 9px;">
+                                                        <div style="text-align: right; width: 68%; letter-spacing: 0.1px; border-radius: 3px; color: black;"></div>
+                                                        <span style="font-size: 16px; font-weight: bold; margin-right: 5px; color: black;">1</span>
+                                                        <span style="font-size: 16px; font-weight: bold; margin-right: 5px; color: black;">2</span>
+                                                        <span style="font-size: 16px; font-weight: bold; margin-right: 5px; color: black;">3</span>
+                                                        <span style="font-size: 16px; font-weight: bold; margin-right: 5px; color: black;">4</span>
+                                                        <span style="font-size: 16px; font-weight: bold; color: black;">5</span>
+                                                    </div>                                       
+                                                </td>
+                                            </tr>
+                                            
                                         </thead>
                                         <tbody>
                                             <tr th:each="kp, iterationStatus : *{listKriteriaNorma}">
-                                                <td th:text="${iterationStatus.count}" class="text-center"></td>
-                                                <td class="text-center">
-                                                    <p th:text="*{listKriteriaNorma[__${iterationStatus.index}__].indikatorNorma.judulIndikator}">
+                                                <td th:text="${iterationStatus.count}"></td>
+                                                <td>
+                                                    <p th:text="*{listKriteriaNorma[__${iterationStatus.index}__].indikatorNorma.judulIndikator}" class="text-left"></p>
                                                 </td>
-                                                <td class="text-center">
-                                                    <p th:text="*{listKriteriaNorma[__${iterationStatus.index}__].judulKriteria}">
+                                                <td>
+                                                    <p th:text="*{listKriteriaNorma[__${iterationStatus.index}__].judulKriteria}" class="text-left"></p>
                                                 </td>
-                                                <td class="text-center">
+                                                <td>
                                                     <div>
-                                                        <p th:text="*{listKriteriaNorma[__${iterationStatus.index}__].bobot}">
+                                                        <p th:text="*{listKriteriaNorma[__${iterationStatus.index}__].bobot}" class="text-center"></p>
                                                     </div>
                                                 </td>
                                                 <td class="text-center radio-buttons" id="kriteria-radio" name="kriteria-radio">
@@ -284,7 +353,7 @@
                                     <!-- pesan akan ditampilkan di sini -->
                                 </div>
                                 <div class="form-group">
-                                    <label for="pesan" class="form-label">Pesan:</label>
+                                    <label for="pesan" class="form-label">Message:</label>
                                     <textarea id="pesan" class="form-control" rows="4" name="pesan"></textarea>
                                     <div style="text-align: center; margin-top: 10px;">
                                         <a href="" id="send-btn" class="btn" onclick="sendPesan()" style="background-color: green; width: 80px; padding: 5px; color: white; border-radius: 5px;">Send</a>
@@ -310,6 +379,7 @@
         let idUserLogin;
         let evaluatedUser;
         let evaluator;
+        let counter = 0;
 
         // Mendapatkan bagian dari URL yang sesuai dengan ID
         console.log("path=", path);
@@ -382,6 +452,7 @@
                 success: function (data) {
                     console.log("data=", data);
                     let pesanHtml = '';
+                    let hasHistory = data.listPesan.length > 0; // Langkah 1: Buat variabel untuk menandai apakah ada pesan yang sudah ditambahkan sebelumnya
                     data.listPesan.forEach(k => {
                         let pesanSplit = k.isiPesan.split('\n');
                         pesanHtml += `<div class="message-card"><span class="message-date">${pesanSplit[0]}</span><p class="message-content">${pesanSplit[1]}</p></div>`;
@@ -389,23 +460,30 @@
                     document.getElementById('pesan-container').innerHTML = pesanHtml;
                     data.borangPenilaianNorma.kriteriaScoresNorma.forEach(k => {
                         console.log("p")
-                        let idKriteria = k.kriteriaNorma.idKriteriaPenilaian-1;
+                        let idKriteria = counter;
+                        counter++;
                         $(`#kriteriaScoresNorma${idKriteria}_${k.score}`).prop('checked', true);  
                     });
 
-                    if (data.idUserLogin == data.borangPenilaianNorma.evaluator && data.borangPenilaianNorma.status == null){
-                        document.getElementById('status-borang').innerHTML = "Segera isi penilaian Norma";
-                        document.getElementById('accept-btn').style.display = 'none';
+                    // Langkah 2: Cek apakah ada pesan yang sudah ditambahkan sebelumnya
+                    if (hasHistory) {
+                    
+                    // Langkah 3: Tambahkan tulisan "History Pesan" di atas card pesan
+                    document.getElementById('pesan-container').insertAdjacentHTML('beforebegin', '<h6>Message history:</h6>');
+                }                    
 
+                    if (data.idUserLogin == data.borangPenilaianNorma.evaluator && data.borangPenilaianNorma.status == null){
+                        document.getElementById('status-borang').innerHTML = "Fill the Norma";
                         
                     }
 
                     if (data.borangPenilaianNorma.status == 'pending'){
-                        document.getElementById('status-borang').innerHTML = "Penilaian dalam proses";
+                        document.getElementById('status-borang').innerHTML = "Norma processed";
                         
                     }
+                    console.log("login ", data.borangPenilaianNorma.evaluator)
                     
-                    if (data.idUserLogin == data.borangPenilaianNorma.evaluatedUser){
+                    if (data.idUserLogin == data.borangPenilaianNorma.evaluatedUser && role == 'Karyawan'){
                         document.getElementById('accept-btn').style.display = 'none';
                         document.getElementById('submit-btn').style.display = 'none';
 
@@ -418,7 +496,7 @@
 
                     if (data.borangPenilaianNorma.status == 'finished') {
                         document.getElementById('submit-btn').style.display = 'none';
-                        document.getElementById('status-borang').innerHTML = "Penilaian Norma selesai";
+                        document.getElementById('status-borang').innerHTML = "Norma completed ✓";
                         document.getElementById('accept-btn').style.display = 'none';
 
                         for (var i=0; i<listKriteriaNorma; i++){
@@ -469,8 +547,6 @@
     </script>
 
 <footer></footer>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 </body>
 
 </html>

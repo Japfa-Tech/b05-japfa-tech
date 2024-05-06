@@ -40,11 +40,6 @@ public class UnitServiceImpl implements UnitService {
     private KepalaUnitDb kepalaUnitDb;
 
     @Override
-    public List<Unit> getAllUnits() {
-        return unitDb.findAll();
-    }
-
-    @Override
     public Unit getUnitByUserId(Long userId) throws NotFoundException {
         Optional<Karyawan> karyawanOptional = karyawanDb.findById(userId);
 
@@ -70,7 +65,7 @@ public class UnitServiceImpl implements UnitService {
             KepalaUnit kepalaUnit = kepalaUnitOptional.get();
 
             // Retrieve the unit associated with the KepalaUnit
-            return unitDb.findById(kepalaUnit.getIdUnit())
+            return unitDb.findById(kepalaUnit.getUnit().getId())
                     .orElseThrow(() -> new NotFoundException("Unit not found for KepalaUnit ID: " + kepalaUnitId));
         } else {
             // Handle case where KepalaUnit does not exist
@@ -87,7 +82,7 @@ public class UnitServiceImpl implements UnitService {
 
         Optional<KepalaUnit> kepalaUnitOptional = kepalaUnitDb.findById(userId);
         if (kepalaUnitOptional.isPresent()) {
-            return kepalaUnitOptional.get().getIdUnit();
+            return kepalaUnitOptional.get().getUnit().getId();
         }
 
         // Optional<Manajer> manajerOptional = manajerDb.findById(userId);
@@ -99,4 +94,11 @@ public class UnitServiceImpl implements UnitService {
         // roles
         return null;
     }
+
+    
+    @Override
+    public List<Unit> getAllUnits() {
+        return unitDb.findAll();
+    }
+
 }

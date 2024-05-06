@@ -1,6 +1,5 @@
 package com.propensi.sikpi;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -8,16 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 
 import com.propensi.sikpi.DTO.request.CreateUserRequestDTO;
 // import com.github.javafaker.Faker;
 import com.propensi.sikpi.model.Aktivitas;
-import com.propensi.sikpi.model.Role;
-import com.propensi.sikpi.model.UserModel;
-import com.propensi.sikpi.model.Karyawan;
-import com.propensi.sikpi.model.KepalaUnit;
-import com.propensi.sikpi.model.Manajer;
 import com.propensi.sikpi.model.IndikatorNorma;
 import com.propensi.sikpi.model.UserModel;
 import com.propensi.sikpi.model.Karyawan;
@@ -94,7 +87,7 @@ public class SikpiApplication {
 			unitDb.save(unit1);
 
 			Unit unit2 = new Unit();
-			unit1.setNamaUnit("SDM");
+			unit2.setNamaUnit("SDM");
 			unitDb.save(unit2);
 
 			CreateUserRequestDTO userDTO = new CreateUserRequestDTO();
@@ -126,6 +119,7 @@ public class SikpiApplication {
 			man.setKepalaUnit((long) 1);
 			man.setListDokumen(new ArrayList<>());
 			man.setNamaLengkap("Japfa Tech is my full name");
+			man.setUnit(unit1);
 			userService.addUser(man);
 			manajerDb.save(man);
 
@@ -137,7 +131,7 @@ public class SikpiApplication {
 			kep.setRole(r4);
 			kep.setTitle("title");
 			kep.setIdManajer((long) 2);
-			kep.setIdUnit((long) 1);
+			kep.setUnit(unit1);
 			kep.setListDokumen(new ArrayList<>());
 			kep.setListKaryawan(new ArrayList<>());
 			kep.setNamaLengkap("Japfa Tech is my full name");
@@ -146,9 +140,10 @@ public class SikpiApplication {
 			userService.addUser(kep);
 			kuDb.save(kep);
 
-			unit1.setIdKepalaUnit(kep.getId());
+			// unit1.setIdKepalaUnit(kep.getId());
+			unit1.setKepalaUnit(kep);
 			unitDb.save(unit1);
-			kep.setIdUnit(unit1.getId());
+			kep.setUnit(unit1);
 			kuDb.save(kep);
 
 			Karyawan kar = new Karyawan();
@@ -178,7 +173,7 @@ public class SikpiApplication {
 			sdm.setListDokumen(new ArrayList<>());
 			sdm.setNamaLengkap("Japfa Tech is my full name");
 			sdm.setNrp("768");
-			sdm.setUnit(unit2);
+			sdm.setUnit(unit1);
 			userService.addUser(sdm);
 			sdmDb.save(sdm);
 

@@ -15,5 +15,8 @@ import java.util.Optional;
 public interface BorangPenilaianNormaDb extends JpaRepository<BorangPenilaianNorma, Long> {
     Optional<BorangPenilaianNorma> findByEvaluatedUser(Long evaluatedUser);
     List<BorangPenilaianNorma> findByIdTemplate(Long idTemplate);
+    List<BorangPenilaianNorma> findByEvaluator(Long evaluator);
+    List<BorangPenilaianNorma> findByEvaluatorAndIsDeletedNot(Long idEvaluated, Boolean status);
+    List<BorangPenilaianNorma> findByEvaluatedUserAndIsDeletedNot(Long idEvaluated, Boolean status);
     // List<BorangPenilaianNorma> findByEvaluatedUserId(Long evaluatedUser);
 }

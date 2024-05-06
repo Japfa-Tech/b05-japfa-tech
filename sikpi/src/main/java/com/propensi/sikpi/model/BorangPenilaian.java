@@ -34,6 +34,9 @@ public class BorangPenilaian {
 
     @OneToMany(mappedBy = "borangPenilaian")
     private List<KriteriaScores> kriteriaScores = new ArrayList<>();
+
+    @Column(name = "is_deleted") 
+    private Boolean isDeleted = false;
     
     private List<Long> listAkses = new ArrayList<>();
 }

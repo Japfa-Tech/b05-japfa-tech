@@ -15,6 +15,10 @@ public interface BorangPenilaianIKIDb extends JpaRepository<BorangPenilaianIKI, 
     Optional<BorangPenilaianIKI> findByEvaluatedUser(Long evaluatedUser);
     BorangPenilaianIKI findByIdBorangPenilaian(Long idBorangPenilaian);
     List<BorangPenilaianIKI> findByIdTemplate(Long idTemplate);
+    Optional<BorangPenilaianIKI> findByEvaluatedUserAndStatusNot(Long idEvaluated, String status);
+    List<BorangPenilaianIKI> findByEvaluator(Long evaluator);
+    List<BorangPenilaianIKI> findByEvaluatorAndIsDeletedNot(Long idEvaluator, Boolean status);
+    List<BorangPenilaianIKI> findByEvaluatedUserAndIsDeletedNot(Long idEvaluated, Boolean status);
 
     // List<BorangPenilaianIKI> findByEvaluatedUser(Long evaluatedUser);
 }
