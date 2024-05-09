@@ -13,8 +13,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    <title>Template Penilaian IKU</title>
     <link rel="icon" href="/images/logo-sikpi.png" type="image/png">
+    <title>Template Penilaian IKU</title>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -22,155 +22,170 @@
             padding: 0;
             background-color: #fff;
         }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .center-text {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
-        .container {
-            margin: 50px auto;
-            padding: 20px;
-            max-width: 800px;
-        }
-
+    
+        /* Tombol */
         .btn {
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
-            font-family: 'Poppins', sans-serif; /* Menambahkan font family */
+            font-family: 'Poppins', sans-serif;
         }
-
+    
         .btn-primary {
-            color: #f4f4f4;
+            color: #f3f3f3;
             background-color: #203268;
         }
-
+    
         .btn-primary:hover {
             background-color: #0056b3;
         }
-
+    
         #tambah-kriteria-btn {
-            background-color: #56c5f1; /* Warna latar belakang tombol "Tambah Kriteria" */
+            background-color: #56c5f1;
         }
-
+    
         .btn-danger {
-            background-color: #e94761; /* Warna tombol Delete */
+            background-color: #e94761;
             color: #fff;
         }
-
+    
+        /* Kontainer */
+        .center-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+    
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 1000px;
+        }
+    
+        /* Kartu */
         .card {
             background: #f4f4f4;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
             margin-bottom: 20px;
             overflow: hidden;
+            width: 100%;
         }
-
+    
         .card-body {
             padding: 20px;
+            display: flex;
         }
-
+    
+        .card-buttons {
+            text-align: center;
+            margin-top: 10px;
+        }
+    
+        /* Tabel */
         .table-container {
-            margin-top: 20px;
+            margin: 0 auto;
+            width: 100%;
+            overflow-x: auto;
         }
-
-        /* Atur warna Datatables menjadi #f4f4f4 */
+    
         table.dataTable {
+            margin-left: 12px;
             background-color: #f4f4f4;
         }
-
-        table.dataTable thead th {
-            background-color: black;
+    
+        #ikuTable td:nth-child(2) input {
+            width: 100%;
         }
-
+        
+        /* CSS untuk membuat input field dari kolom 'Bobot' menjadi rata tengah */
+        #ikuTable td:nth-child(3) input {
+            width: 100px;
+            margin: 0 auto; /* Menjadikan input field rata tengah */
+            display: block; /* Mengubah input field menjadi blok agar dapat menggunakan margin: 0 auto; */
+        }
+    
+        table.dataTable thead th {
+            background-color: #112155;
+        }
+    
         table.dataTable tbody td {
             background-color: #f4f4f4;
         }
-
+    
         table.dataTable tbody tr:hover {
-            background-color: #ddd; /* Warna hover saat mengarahkan kursor */
+            background-color: #ddd;
+        
         }
 
-        /* CSS untuk menengahkan teks */
         .text-center {
             text-align: center;
         }
-
-        /* CSS untuk mengatur lebar kolom dan jarak antar field */
+    
         .form-control {
-            width: 100%; /* Menyesuaikan lebar field dengan lebar kolom */
+            width: 100%;
+            align-items: center;
         }
-
+    
         .gap-2 > * {
-            margin-right: 10px; /* Menambahkan jarak antar field */
+            margin-right: 10px;
         }
-
-        /* CSS untuk card tambahan */
+    
+        /* Kartu Tambahan */
         .outer-card {
-            background-color: #fff; /* Warna background putih */
-            border: 1px solid #f4f4f4; /* Garis berwarna #f4f4f4 */
+            background-color: #fff;
+            border: 1px solid #f4f4f4;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Efek shadow */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-bottom: 20px;
+            width: 100%;
+            display: flex;
         }
-        
-        /* CSS untuk menengahkan tombol pada card */
-        .card-buttons {
-            text-align: center;
-            margin-top: 10px; /* Ubah margin atas sesuai kebutuhan */
-        }
-        
-        /* CSS untuk tombol Back */
+    
+        /* Tombol Kembali */
         .btn-back {
             background-color: #fff;
             color: #203268;
             border: 1px solid #203268;
         }
-
+    
         .btn-back:hover {
             background-color: #bbbec9;
             color: #203268;
             border: 1px solid #203268;
         }
-
+        
         .radio-buttons {
             /* display: flex; */
             justify-content: space-between;
         }
 
         .radio-buttons input[type="radio"] {
-            margin-right: 5px; /* Adjust as needed */
+            margin-right: 5px;
         }
 
+        .history-title {
+            font-size: smaller; /* Atur ukuran teks sesuai kebutuhan */
+        }
         /* Styling untuk pesan */
         .message-card {
             background-color: #e9e9e9;
             border-radius: 10px;
             padding: 10px;
             margin-bottom: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
             height: auto; /* Mengurangi tinggi card pesan */
             overflow: hidden; /* Menghindari konten melebihi batas card */
             transition: transform 0.3s ease; /* Efek transisi untuk hover */
         }
 
-        .message-card:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Efek shadow saat hover */
-        }
-
         .message-date {
-            font-size: 0.8em;
+            font-size: medium;
             color: #888;
             margin-bottom: 5px;
         }
@@ -178,6 +193,28 @@
         .message-content {
             font-size: 1em;
             color: #333;
+        }
+
+        #pesan-container {
+            max-height: 188px; /* Atur ketinggian maksimum */
+            overflow-y: auto; /* Aktifkan overflow vertikal */
+        }
+
+        #status-borang {
+        text-align: center; /* Membuat teks berada di tengah */
+        font-size: 18px; /* Ukuran teks */
+        font-weight: bold; /* Menjadikan teks tebal */
+        margin-top: 20px; /* Jarak atas dari kontainer */
+        margin-bottom: 20px; /* Jarak bawah dari konten tabel */
+        padding: 10px; /* Ruang di sekitar teks */
+        border-radius: 10px; /* Membuat sudut border menjadi melengkung */
+        width: 40%;
+        /* Menambahkan gradien warna latar belakang */
+        background: linear-gradient(to right, #f3f3f3, #f3f3f3);
+        /* Efek bayangan untuk menambah kedalaman */
+        box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
+        /* Tambahkan border color biru */
+        border: 3px solid #112155;
         }
     </style>
 </head>
@@ -201,64 +238,45 @@
     <div class="container">
         <div class="col text-center"> <!-- menambahkan kelas "text-center" di sini -->
             <h2 class="m-2">Borang Penilaian IKU</h2>
-        </div>
-        <div style="
-        text-align: center; /* Mengatur teks (dan elemen inline-block) ke tengah */
-        padding-top: 20px; /* Menambahkan jarak antara atas halaman dan card */
-    ">
-        <div style="
-            display: inline-block; /* Membuat card hanya selebar konten di dalamnya */
-            border: 2px solid #112155; /* Border dengan warna biru tua */
-            border-radius: 12px; /* Sudut melengkung yang lebih besar */
-            padding: 10px; /* Memberi jarak antara konten dan border */
-            margin: 10px; /* Jarak antara card dan elemen lainnya */
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.12); /* Efek bayangan lebih kuat */
-            background-color: #fff; /* Warna latar belakang putih */
-            font-family: 'Helvetica Neue', sans-serif; /* Font modern */
-            font-size: 16px; /* Ukuran font yang lebih besar */
-            color: #112155; /* Warna teks biru tua */
-        ">
-            <th:block th:text='${loggedInUserRole}'> </th:block>
-        </div>
-    </div>    
-        <div class="outer-card m-4"> <!-- Card tambahan di luar card yang sudah ada -->
-            <div id="status-borang"></div>
-            <div class="card m-4">
-                <div class="card-header p-2 text-center">
-                    <table class="table table-sm table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="text-center" style="width: 10%;">Bobot</th>
-                                <th scope="col" class="text-center">Indikator</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-center">5</td>
-                                <td>Hasil kerja yang ingin dicapai terealisasi 96% -100%</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">4</td>
-                                <td>Hasil kerja yang ingin dicapai terealisasi 86% - 95%</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">3</td>
-                                <td>Hasil kerja yang ingin dicapai terealisasi 76%  - 85%</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">2</td>
-                                <td>Hasil kerja yang ingin dicapai terealisasi 51% -75%</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td>Hasil kerja yang ingin dicapai terealisasi 50%</td>
-                            </tr>
-                        </tbody>
-                    </table>    
-                </div>
-                <div class="card-body">                
-                    <div class="col">
-                        <form th:action="@{/borang/template-penilaian-iku/{id}(id=${ikuDTO.idTemplatePenilaian})}" th:object="${ikuDTO}" method="POST">
+    </div>       
+    <div class="outer-card m-4"> <!-- Card tambahan di luar card yang sudah ada -->
+        <div class="col">
+            <div id="status-borang">Segera submit template</div>
+
+            <div class="row table-gap mb-4">
+    <div style="border-radius: 10px; overflow: hidden; width: 100%;">
+        <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
+            <thead style="background-color: #203268; color: white;">
+                <tr>
+                    <th style="padding: 10px 20px; text-align: left; border-top-left-radius: 10px;">#</th>
+                    <th style="padding: 10px 20px; text-align: left; border-top-right-radius: 10px;">Indicators</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background-color: #f4f4f4;">
+                    <td style="padding: 10px 20px; text-align: center;">5</td>
+                    <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 96% -100%</td>
+                </tr>
+                <tr style="background-color: #fff;">
+                    <td style="padding: 10px 20px; text-align: center;">4</td>
+                    <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 86% - 95%</td>
+                </tr>
+                <tr style="background-color: #f4f4f4;">
+                    <td style="padding: 10px 20px; text-align: center;">3</td>
+                    <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 76%  - 85%</td>
+                </tr>
+                <tr style="background-color: #fff;">
+                    <td style="padding: 10px 20px; text-align: center;">2</td>
+                    <td style="padding: 10px 20px; text-align: left;">Hasil kerja yang ingin dicapai terealisasi 51% -75%</td>
+                </tr>
+                <tr style="background-color: #f4f4f4;">
+                    <td style="padding: 10px 20px; text-align: center; border-bottom-left-radius: 10px;">1</td>
+                    <td style="padding: 10px 20px; text-align: left; border-bottom-right-radius: 10px;">Hasil kerja yang ingin dicapai terealisasi 50%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>                        <form th:action="@{/borang/template-penilaian-iku/{id}(id=${ikuDTO.idTemplatePenilaian})}" th:object="${ikuDTO}" method="POST">
                             <input class="form-control" type="hidden" th:field="*{idTemplatePenilaian}" />
                             <div class="row mb-4 align-items-center">
                                 <div class="row table-gap mb-4">
@@ -266,9 +284,21 @@
                                         <thead class="bg-dark text-white">
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col" class="text-center">Kriteria</th>
-                                                <th scope="col" class="text-center">Bobot</th>
-                                                <th scope="col" class="text-center">Nilai</th> 
+                                                <th scope="col" class="text-center">Criteria</th>
+                                                <th scope="col" class="text-center">Weight</th>
+                                                <th scope="col" class="text-center">Score</th>
+                                            </tr>
+                                            <tr style="background-color: #f4f4f4;"> <!-- Menyesuaikan warna latar belakang -->
+                                                <td colspan="3"></td>
+                                                <td class="text-right" style="vertical-align: top;">
+                                                    <div style="text-align: right; width: 71%; letter-spacing: 0.1px; border-radius: 3px; color: black;">
+                                                        <span style="font-size: 16px; font-weight: bold;">1</span>
+                                                        <span style="font-size: 16px; margin-left: 10px; font-weight: bold;">2</span>
+                                                        <span style="font-size: 16px; margin-left: 10px; font-weight: bold;">3</span>
+                                                        <span style="font-size: 16px; margin-left: 10px; font-weight: bold;">4</span>
+                                                        <span style="font-size: 16px; margin-left: 10px; font-weight: bold;">5</span>
+                                                    </div>                                       
+                                                </td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -293,12 +323,13 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <h5 th:name="${namaUnit}" id="unitUser" hidden></h5>
                                 </div>
                                 <div id="pesan-container">
                                     <!-- pesan akan ditampilkan di sini -->
                                 </div>
-                                <div class="form-group" style="display: none;">
-                                    <label for="pesan" class="form-label">Pesan:</label>
+                                <div class="form-group">
+                                    <h6 class="form-label">Message:</h6>
                                     <textarea id="pesan" class="form-control" rows="4" name="pesan"></textarea>
                                     <div style="text-align: center; margin-top: 10px;">
                                         <a href="" id="send-btn" class="btn" onclick="sendPesan()" style="background-color: green; width: 80px; padding: 5px; color: white; border-radius: 5px;">Send</a>
@@ -311,13 +342,13 @@
                 <div class="card-buttons" style="margin-top: 10px;">
                     <a href="/template-penilaian-iku" class="btn btn-back">Back</a>
                     <a href="#" class="btn btn-primary" onclick="document.querySelector('form').submit(); return false;" id="submit-btn">Submit</a>
+
                     <a href="#" class="btn btn-success" onclick="acceptForm()" id="accept-btn">Accept</a>
                 </div>
             </div>
         </div>
     </div>
     </form>
-    <!-- th:if="${loggedInUserRole == 'Karyawan' && acceptStatus}" -->
     <script>
         // Deklarasi variabel id dengan nilai yang sesuai
         var path = window.location.pathname;
@@ -346,15 +377,28 @@
             loadPesan();
         });
 
+        // Fungsi untuk menampilkan pop-up button warning jika pesan kosong
+        function showEmptyMessageWarning() {
+            // Tampilkan pop-up button warning
+            alert("Fill in the message content first");
+        }        
+
 
         function sendPesan() {
+            // Ambil nilai pesan dari textarea
             let pesan = document.getElementById('pesan').value;
-            let url = '/api/borang/template-penilaian-iku/' + id + '/pesan'; // Gunakan nilai id yang sudah dideklarasikan
-            
-            // Mendapatkan waktu saat ini
+
+            // Periksa apakah pesan kosong
+            if (pesan.trim() === "") {
+                // Tampilkan pop-up button warning jika pesan kosong
+                showEmptyMessageWarning();
+                return; // Hentikan proses pengiriman pesan
+            }
+
+            // Lakukan pengiriman pesan jika pesan tidak kosong
+            let loggedInUserRole = "[[${loggedInUserRole}]]"; // Mendapatkan peran pengguna yang saat ini login
+            let url = '/api/borang/template-penilaian-iku/' + id + '/pesan';
             let now = new Date();
-            
-            // Memformat waktu sesuai dengan format yang diinginkan
             let formattedDate = new Intl.DateTimeFormat('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -363,19 +407,18 @@
                 minute: '2-digit',
                 hour12: true
             }).format(now);
+            let pesanToSend = `${loggedInUserRole} - ${formattedDate}\n${pesan}`; // Menambahkan peran pengguna, waktu, dan pesan
 
-            let pesanToSend = `${formattedDate}\n${pesan}`; // Menambahkan waktu dan pesan ke dalam format yang diinginkan
-
-            console.log("sendpesan : ", pesanToSend);
-            
-            // Mengirim data pesan menggunakan AJAX
+            // Lakukan pengiriman data pesan menggunakan AJAX
             $.ajax({
                 url: url,
                 type: 'POST', // Metode POST
                 data: { pesan: pesanToSend },
                 success: function () {
-                    // loadPesan(); // Memuat kembali pesan setelah berhasil mengirim
-                    document.getElementById('pesan').value = ''; // Membersihkan textarea
+                    // Muat ulang pesan setelah berhasil mengirim
+                    loadPesan();
+                    // Bersihkan textarea
+                    document.getElementById('pesan').value = '';
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
@@ -387,6 +430,7 @@
             let url = '/api/borang/template-penilaian-iku/' + id + '/pesan';
             var role = '[[${loggedInUserRole}]]';
             var listKriteria = '[[${#lists.size(existingList)}]]';
+            var unitUser = '[[${unitUser}]]';
             console.log("role=", role);
             $.ajax({
                 url: url,
@@ -395,6 +439,7 @@
                 success: function (data) {
                     console.log("data=", data);
                     let pesanHtml = '';
+                    let hasHistory = data.listPesan.length > 0; // Langkah 1: Buat variabel untuk menandai apakah ada pesan yang sudah ditambahkan sebelumnya
                     data.listPesan.forEach(k => {
                         let pesanSplit = k.isiPesan.split('\n');
                         pesanHtml += `<div class="message-card"><span class="message-date">${pesanSplit[0]}</span><p class="message-content">${pesanSplit[1]}</p></div>`;
@@ -409,50 +454,25 @@
                         $(`#kriteriaScoresIKU${idKriteria}_${k.score}`).prop('checked', true);  
                     });
 
-                    // if (data.idUserLogin == data.borangPenilaianIKU.evaluatedUser){
-                    //     document.getElementById('accept-template-btn').style.display = 'none';
-                    //     document.getElementById('accept-btn').style.display = 'none';
-                    // }
+                    if (hasHistory) {
+                        // Langkah 3: Tambahkan tulisan "History Pesan" di atas card pesan
+                        document.getElementById('pesan-container').insertAdjacentHTML('beforebegin', '<h6>Message history:</h6>');
+                    }
+                    console.log(unitUser)
 
-                    // if (data.borangPenilaianIKI.kriteriaScores.length == 0 || data.borangPenilaianIKI.acceptedByEvaluator == true || data.idUserLogin != data.borangPenilaianIKI.evaluator ) {
-                    //     document.getElementById('accept-btn').style.display = 'none';
-                    // }
+                    
+                    if (role != 'Karyawan') {
+                        if (data.borangPenilaianIKU.status == null) {
+                            document.getElementById('status-borang').innerHTML = "Segera isi IKU";
+                            document.getElementById('accept-btn').style.display = 'none';
+                        }
 
-                    // if (data.borangPenilaianIKI.status == 'accepted by evaluator' && data.idUserLogin == data.borangPenilaianIKI.evaluatedUser) {
-                    //     document.getElementById('accept-btn').style.display = 'inline';
-                    // }
+                        if (data.borangPenilaianIKU.status == 'pending') {
+                            document.getElementById('status-borang').innerHTML = "Segera setujui IKU";
+    
+                        }
 
-                    // if (data.borangPenilaianIKI.status == 'template accepted') {
-                    //     if(data.idUserLogin == data.borangPenilaianIKI.evaluator) {
-                    //         document.getElementById('accept-template-btn').style.display = 'none';
-                    //         document.getElementById('status-borang').innerHTML = "Segera isi IKI";
-                    //         document.getElementById('accept-btn').style.display = 'none';
-                            
-                    //     }else if(data.idUserLogin == data.borangPenilaianIKI.evaluatedUser){
-                    //         document.getElementById('submit-btn').style.display = 'none';
-                    //         document.getElementById('status-borang').innerHTML = "Penilaian IKI diproses";
-                    //     }
-                    // }
-
-                    // if (data.borangPenilaianIKI.status == 'pending'){
-                    //     if (data.idUserLogin == data.borangPenilaianIKI.evaluatedUser) {
-                    //         document.getElementById('status-borang').innerHTML = "Menunggu konfirmasi penilai";
-                    //     }else if (data.idUserLogin == data.borangPenilaianIKI.evaluator){
-                    //         document.getElementById('status-borang').innerHTML = "Segera konfirmasi template";
-                    //         document.getElementById('accept-btn').style.display = 'none';
-                    //         document.getElementById('submit-btn').style.display = 'none';
-                    //     }
-                    // }else if (data.borangPenilaianIKI.status == 'accepted by evaluator'){
-                    //     if (data.idUserLogin == data.borangPenilaianIKI.evaluator){
-                    //         document.getElementById('submit-btn').style.display = 'none';
-                    //         document.getElementById('status-borang').innerHTML = "Menunggu konfirmasi penilai";
-                    //     }else if (data.idUserLogin == data.borangPenilaianIKI.evaluatedUser){
-                    //         document.getElementById('submit-btn').style.display = 'none';
-                    //         document.getElementById('status-borang').innerHTML = "Segera konfirmasi nilai";
-                    //     }
-
-                    // }
-                    if (data.borangPenilaianIKU.status == 'finished') {
+                        if (data.borangPenilaianIKU.status == 'finished') {
                         document.getElementById('submit-btn').style.display = 'none';
                         document.getElementById('status-borang').innerHTML = "Penilaian IKU selesai";
                         document.getElementById('accept-btn').style.display = 'none';
@@ -463,16 +483,43 @@
                             }
                         }
                         
-                    } 
-                    // else if (data.borangPenilaianIKI.status == 'on progress'){
+                    }                         
+                    }
+
+
+
+                    if ((unitUser == data.borangPenilaianIKU.evaluatedUnit && role == 'Karyawan')) {
+                        document.getElementById('submit-btn').style.display = 'none';
+                        document.getElementById('accept-btn').style.display = 'none';
+                        if (data.borangPenilaianIKU.status == null || data.borangPenilaianIKU.status == 'pending') {
+                            console.log("masuk sini")
+                            document.getElementById('status-borang').innerHTML = "IKU dalam proses";
+                        } else if (data.borangPenilaianIKU.status == 'finished') {
+                            console.log("masuk sini2")
+                            document.getElementById('status-borang').innerHTML = "Penilaian IKU selesai";
+                        }
+
+                        for (var i=0; i<listKriteria; i++){
+                            for (var a=0; a<6; a++){
+                                $(`#kriteriaScoresIKU${i}_${a}`).prop('disabled', true);  
+                            }
+                        }
+                        
+                    }
+
+
+
+                       
+                       
+                    // else if (data.borangPenilaianIKU.status == 'on progress'){
                     //     document.getElementById('accept-template-btn').style.display = 'none';
-                    //     if (data.idUserLogin == data.borangPenilaianIKI.evaluatedUser) {
+                    //     if (data.idUserLogin == data.borangPenilaianIKU.evaluatedUser) {
                     //         document.getElementById('submit-btn').style.display = 'none';
                     //         document.getElementById('accept-btn').style.display = 'none';
                     //     }
                     // }
                     
-                    // if ((data.idUserLogin == data.borangPenilaianIKI.evaluatedUser) || (data.borangPenilaianIKI.status == 'pending') || (data.borangPenilaianIKI.status == 'finished')){
+                    // if ((data.idUserLogin == data.borangPenilaianIKU.evaluatedUser) || (data.borangPenilaianIKU.status == 'pending') || (data.borangPenilaianIKU.status == 'finished')){
 
                     //     for (var i=0; i<listKriteria; i++){
                     //         for (var a=0; a<6; a++){
@@ -504,7 +551,7 @@
             $.ajax({
                 url: url, // Ganti URL sesuai dengan endpoint yang benar di server Anda
                 type: 'PUT',
-                data: {idUserLogin: idUserLogin, evaluatedUnit: evaluatedUnit, evaluator: evaluator}, // Ganti data sesuai dengan data yang ingin dikirim
+                data: {idUserLogin: idUserLogin, evaluatedUnit: evaluatedUnit, evaluator: evaluator}, // Ganti data sesuai dengan data yang ingin dikurim
                 success: function(response) {
                     loadPesan();
                     alert(response);

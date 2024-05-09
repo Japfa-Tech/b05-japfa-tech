@@ -10,6 +10,7 @@ import com.propensi.sikpi.model.BorangPenilaianIKU;
 import com.propensi.sikpi.model.BorangPenilaianNorma;
 import com.propensi.sikpi.model.Rapor;
 import com.propensi.sikpi.model.UserModel;
+import java.util.List;
 
 public interface PdfGenerateService {
     String buildHtmlFromTemplate(UserModel evaluatedUser, UserModel evaluator, Rapor rapor, BorangPenilaianIKI iki,

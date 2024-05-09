@@ -117,9 +117,9 @@ public class RaporController {
         var iki = borangPenilaianService.getBorangPenilaianIKIByEvaluatedUser(evaluatedUser.getId());
         var iku = borangPenilaianService.getBorangPenilaianIKUByEvaluatedUnit(evaluatedUnit.getId());
         var norma = borangPenilaianService.getBorangPenilaianNormaByEvaluatedUser(evaluatedUser.getId());
-        model.addAttribute("totalIki", borangPenilaianService.getTotalBorang(iki.getIdBorangPenilaian()));
-        model.addAttribute("totalIku", borangPenilaianService.getTotalBorang(iku.getIdBorangPenilaian()));
-        model.addAttribute("totalNorma", borangPenilaianService.getTotalBorang(norma.getIdBorangPenilaian()));
+        model.addAttribute("totalIki", borangPenilaianService.getTotalBorangIKI(iki.getIdBorangPenilaian()));
+        model.addAttribute("totalIku", borangPenilaianService.getTotalBorangIKU(iku.getIdBorangPenilaian()));
+        model.addAttribute("totalNorma", borangPenilaianService.getTotalBorangNorma(norma.getIdBorangPenilaian()));
         model.addAttribute("list_kriteria_iki", iki.getKriteriaScoresIKI());
         model.addAttribute("list_kriteria_iku", iku.getKriteriaScoresIKU());
         model.addAttribute("list_kriteria_norma", norma.getKriteriaScoresNorma());
@@ -183,13 +183,24 @@ public class RaporController {
             evaluatedUnit = unitService.getUnitByKepalaUnitId(man.getId());
             evaluator = (Manajer) userService.getUserById(man.getIdManajer());
         }
-        var rapor = raporService.getRaporByEvaluatedUser(evaluatedUser);
+       var rapor = raporService.getRaporByEvaluatedUser(evaluatedUser);
         var iki = borangPenilaianService.getBorangPenilaianIKIByEvaluatedUser(evaluatedUser.getId());
         var iku = borangPenilaianService.getBorangPenilaianIKUByEvaluatedUnit(evaluatedUnit.getId());
         var norma = borangPenilaianService.getBorangPenilaianNormaByEvaluatedUser(evaluatedUser.getId());
-        var totalIki = borangPenilaianService.getTotalBorang(iki.getIdBorangPenilaian());
-        var totalIku = borangPenilaianService.getTotalBorang(iku.getIdBorangPenilaian());
-        var totalNorma = borangPenilaianService.getTotalBorang(norma.getIdBorangPenilaian());
+        var totalIki=borangPenilaianService.getTotalBorangIKI(iki.getIdBorangPenilaian());
+        var totalIku=borangPenilaianService.getTotalBorangIKU(iku.getIdBorangPenilaian());
+        var totalNorma = borangPenilaianService.getTotalBorangNorma(norma.getIdBorangPenilaian());
+        var list_kriteria_norma = norma.getKriteriaScoresNorma();
+        model.addAttribute("list_kriteria_iki", iki.getKriteriaScoresIKI());
+        model.addAttribute("list_kriteria_iku", iku.getKriteriaScoresIKU());
+        model.addAttribute("list_kriteria_norma", list_kriteria_norma);
+        model.addAttribute("unit", evaluatedUnit);
+        model.addAttribute("user", evaluatedUser);
+        model.addAttribute("idUser", getUserId());
+        model.addAttribute("evaluator", evaluator);
+        model.addAttribute("rapor", rapor);
+        System.out.println(list_kriteria_norma + "INI Normanya PLIS");
+        System.out.println(norma.getIdBorangPenilaian() + "INI IDNYA PLIS");
         // var user = userService.getUserById(idUser);
         String htmlInvoice = pdfGenerateService.buildHtmlFromTemplate(evaluatedUser, evaluator, rapor, iki, iku, norma,
                 totalIki, totalIku, totalNorma);
@@ -205,12 +216,17 @@ public class RaporController {
     @GetMapping("/dashboard-manajemen/{id}")
     public String dashboardManajemenDetail(@PathVariable("id") Long id, Model model) throws NotFoundException {
         var iku = borangPenilaianService.getBorangPenilaianIKUByEvaluatedUnit(id);
+        UserModel user = userDb.findById(getUserId()).get();
         model.addAttribute("list_kriteria_iku", iku.getKriteriaScoresIKU());
-        return "";
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+        model.addAttribute("idUser", getUserId());
+
+        return "dashboard-manajemen-detail";
     }
 
     @GetMapping("/dashboard-manajemen")
     public String dashboardManajemen(Model model) throws NotFoundException {
+        UserModel user = userDb.findById(getUserId()).get();
         List<Unit> listUnit = unitService.getAllUnits();
         Map<Unit, Integer> unitScoreMap = new HashMap<>();
         for (Unit unit : listUnit) {
@@ -231,6 +247,8 @@ public class RaporController {
         }
         model.addAttribute("unitScoreMap", unitScoreMap);
         model.addAttribute("noDataMessage", unitScoreMap.isEmpty() ? "No data available" : "");
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+        model.addAttribute("idUser", getUserId());
 
         return "dashboard-manajemen";
     }
@@ -238,14 +256,24 @@ public class RaporController {
     @GetMapping("/dashboard-penilai")
     public String dashboardEvaluator(Model model) {
         List<Rapor> unsignedByEvaluator = raporService.getUnsignedByKepalaBidang();
+        UserModel user = userDb.findById(getUserId()).get();
+
         model.addAttribute("unsignedByEvaluator", unsignedByEvaluator);
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+        model.addAttribute("idUser", getUserId());
+
         return "dashboard-penilai";
     }
 
     @GetMapping("/dashboard-penyetuju")
     public String dashboardSDM(Model model) {
         List<Rapor> unsignedBySDM = raporService.getUnsignedBySDM();
+        UserModel user = userDb.findById(getUserId()).get();
+
         model.addAttribute("unsignedBySDM", unsignedBySDM);
+        model.addAttribute("loggedInUserRole", user.getRole().getRole());
+        model.addAttribute("idUser", getUserId());
+
         return "dashboard-penyetuju";
     }
 

@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
+import java.util.List;
 
 @Service
 public class PdfGenerateServiceImpl implements PdfGenerateService {
@@ -40,9 +41,9 @@ public class PdfGenerateServiceImpl implements PdfGenerateService {
         context.setVariable("user", evaluatedUser);
         context.setVariable("evaluator", evaluator);
         context.setVariable("rapor", rapor);
-        context.setVariable("list_kriteria_iki", iki.getKriteriaScores());
-        context.setVariable("list_kriteria_iku", iku.getKriteriaScores());
-        context.setVariable("list_kriteria_norma", norma.getKriteriaScores());
+        context.setVariable("list_kriteria_iki", iki.getKriteriaScoresIKI());
+        context.setVariable("list_kriteria_iku", iku.getKriteriaScoresIKU());
+        context.setVariable("list_kriteria_norma", norma.getKriteriaScoresNorma());
         context.setVariable("totalIki", totalIki);
         context.setVariable("totalIku", totalIku);
         context.setVariable("totalNorma", totalNorma);

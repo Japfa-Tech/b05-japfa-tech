@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 
 import com.propensi.sikpi.model.IndeksKinerjaIndividu;
 import com.propensi.sikpi.model.IndeksKinerjaUnit;
+import com.propensi.sikpi.model.KepalaUnit;
 import com.propensi.sikpi.model.KriteriaPenilaian;
 import com.propensi.sikpi.model.KriteriaPenilaianIKU;
 import com.propensi.sikpi.model.Norma;
@@ -265,6 +266,7 @@ public class TemplatePenilaianController {
 
     @PostMapping("/template-penilaian-iku/create")
     public String postFormIku(@ModelAttribute IndeksKinerjaUnit ikuDTO, Model model) {
+        KepalaUnit kepalaUnit = (KepalaUnit) userDb.findById(getUserId()).get();
         List<KriteriaPenilaianIKU> listDTO = ikuDTO.getListKriteriaIKU();
         var indeksKinerjaUnit = new IndeksKinerjaUnit();
         templateService.createTemplatePenilaian(indeksKinerjaUnit);
@@ -279,6 +281,7 @@ public class TemplatePenilaianController {
             kriteriaPenilaianIKUDb.save(kriteriaPenilaian);
         }
         indeksKinerjaUnit.setNamaTemplate("Template IKU 1");
+        indeksKinerjaUnit.setIdUnit(kepalaUnit.getUnit().getId());
         templateService.createTemplatePenilaian(indeksKinerjaUnit);
 
         return "success-create-iku";
@@ -314,7 +317,7 @@ public class TemplatePenilaianController {
     IndeksKinerjaUnit indeksKinerjaUnit = templateService.getIkuById(id);
 
     // Update the properties of the existing IndeksKinerjaUnit
-    indeksKinerjaUnit.setNamaTemplate("Template IKI 1");
+    indeksKinerjaUnit.setNamaTemplate("Template IKU 1");
 
     // Clear existing KriteriaPenilaian entities and add the new ones
     List<KriteriaPenilaianIKU> existingKriteria = indeksKinerjaUnit.getListKriteriaIKU();

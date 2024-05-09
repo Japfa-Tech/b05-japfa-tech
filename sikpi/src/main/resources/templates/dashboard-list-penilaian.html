@@ -177,7 +177,7 @@
                     <div class="card">
                         <div class="card-content">
                             <h2 class="card-title">Status: Belum diisi</h2>
-                            <a type="button" class="btn btn-outline-success" th:href="@{/borang/template-penilaian-iki}" style="background-color: #56C5F1; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Isi Template</a>
+                            <a type="button" class="btn btn-outline-success" th:href="@{/template-penilaian-iki/create}" style="background-color: #56C5F1; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Isi Template</a>
                         </div>
                     </div>
                 </div>
@@ -203,7 +203,7 @@
                         <div class="card">
                             <div class="card-content">
                                 <h2 class="card-title">Status: Belum diisi</h2>
-                                <a type="button" class="btn btn-outline-success" th:href="@{/borang/template-penilaian-iku}" style="background-color: #56C5F1; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Isi Template</a>
+                                <!-- <a type="button" class="btn btn-outline-success" th:href="@{/borang/template-penilaian-iku}" style="background-color: #56C5F1; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Isi Template</a> -->
                             </div>
                         </div>
                     </div>
@@ -229,7 +229,6 @@
                         <div class="card">
                             <div class="card-content">
                                 <h2 class="card-title">Status: Belum diisi</h2>
-                                <a type="button" class="btn btn-outline-success" th:href="@{/borang/template-penilaian-norma}" style="background-color: #56C5F1; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Isi Template</a>
                             </div>
                         </div>
                     </div>
@@ -240,7 +239,7 @@
                         <div class="card" th:each="borang : ${borangNorma}">
                             <div class="card-content">
                                 <h2 class="card-title" th:text="'Status: ' + ${borang.status}"></h2>
-                                <a type="button" class="btn btn-outline-success" th:href="@{'/borang/template-penilaian-norma/' + ${borang.idTemplate} + '/' + '${idUser}'}" style="background-color: #56C5F1; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Lihat</a>
+                                <a type="button" class="btn btn-outline-success" th:href="@{'/borang/template-penilaian-norma/' + ${borang.idTemplate} + '/' + ${idUser}}" style="background-color: #56C5F1; color: #fff; font-family: 'Poppins', sans-serif; padding: 8px 15px; font-size: 14px;">Lihat</a>
                             </div>
                         </div>
                     </div>

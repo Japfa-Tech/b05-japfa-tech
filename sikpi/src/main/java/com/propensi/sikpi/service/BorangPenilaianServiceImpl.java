@@ -18,6 +18,9 @@ import com.propensi.sikpi.model.Karyawan;
 import com.propensi.sikpi.model.KepalaUnit;
 import com.propensi.sikpi.model.KriteriaPenilaian;
 import com.propensi.sikpi.model.KriteriaScores;
+import com.propensi.sikpi.model.KriteriaScoresIKI;
+import com.propensi.sikpi.model.KriteriaScoresIKU;
+import com.propensi.sikpi.model.KriteriaScoresNorma;
 import com.propensi.sikpi.model.Manajer;
 import com.propensi.sikpi.model.Norma;
 import com.propensi.sikpi.model.SDM;
@@ -312,13 +315,33 @@ public class BorangPenilaianServiceImpl implements BorangPenilaianService {
     }
 
     @Override
-    public Long getTotalBorang(Long idBorang) {
-        BorangPenilaian iki = getBorangById(idBorang);
+    public Long getTotalBorangIKI(Long idBorang) {
+        BorangPenilaianIKI iki = (BorangPenilaianIKI) getBorangById(idBorang);
         Long total = (long) 0;
-        for (KriteriaScores kriteria : iki.getKriteriaScores()) {
+        for (KriteriaScoresIKI kriteria : iki.getKriteriaScoresIKI()) {
             total += kriteria.getScore() * kriteria.getKriteria().getBobot();
         }
         return total;
     }
 
+    @Override
+    public Long getTotalBorangIKU(Long idBorang) {
+        BorangPenilaianIKU iku = (BorangPenilaianIKU) getBorangById(idBorang);
+        Long total = (long) 0;
+        for (KriteriaScoresIKU kriteria : iku.getKriteriaScoresIKU()) {
+            total += kriteria.getScore() * kriteria.getKriteria().getBobot();
+        }
+        return total;
+    }
+
+     @Override
+    public Long getTotalBorangNorma(Long idBorangNorma) {
+        BorangPenilaianNorma norma = borangPenilaianNormaDb.findById(idBorangNorma).get();
+        System.out.println("iniid norma" + norma.getIdBorangPenilaian());
+        Long total = (long) 0;
+        for (KriteriaScoresNorma kriteria : norma.getKriteriaScoresNorma()) {
+            total += kriteria.getScore() * kriteria.getKriteriaNorma().getBobot();
+        }
+        return total;
+    }
 }

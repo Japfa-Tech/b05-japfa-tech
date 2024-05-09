@@ -203,7 +203,21 @@ top: 20px;
 
 <body>
     <!-- Your existing navbar inclusion -->
-    <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav>
+    <th:block th:switch="${loggedInUserRole}">
+        <th:block th:case="'SDM'">
+            <nav th:replace="~{fragments/navbar-login :: navbar('dashboard')}"></nav>
+        </th:block>
+        <th:block th:case="'Karyawan'">
+            <nav th:replace="~{fragments/navbar-karyawan :: navbar('dashboard')}"></nav>
+        </th:block>
+        <th:block th:case="'KepalaUnit'">
+            <nav th:replace="~{fragments/navbar-kepala-unit :: navbar('dashboard')}"></nav>
+        </th:block>
+        <th:block th:case="'Manajer'">
+          <nav th:replace="~{fragments/navbar-manager :: navbar('dashboard')}"></nav>
+        </th:block>
+        <!-- Add additional cases for other roles if needed -->
+      </th:block> 
 
     <div class="container">
         <h1 class="text-center">Dashboard Manajemen Detail</h1>

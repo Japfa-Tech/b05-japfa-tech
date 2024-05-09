@@ -1,280 +1,319 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
-
-<head>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://thymeleaf.org"
+>
+  <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <script src="js/bootstrap.bundle.min.js"></script>
 
     <title>Restock Gudang</title>
     <style>
-        .center-horizontal {
-    margin-top: 2%;
-    margin-bottom: 5%;
-    text-align: center;
-}
-body, button, input, select, textarea {
-font-family: CircularSp,CircularSp-Arab,CircularSp-Hebr,CircularSp-Cyrl,CircularSp-Grek,CircularSp-Deva,var(--fallback-fonts,sans-serif),sans-serif;}
-html {
---fallback-fonts: Helvetica Neue,helvetica,arial,Hiragino Kaku Gothic Pro,Meiryo,MS Gothic;}
+      .center-horizontal {
+        margin-top: 2%;
+        margin-bottom: 5%;
+        text-align: center;
+      }
+      body,
+      button,
+      input,
+      select,
+      textarea {
+        font-family: CircularSp, CircularSp-Arab, CircularSp-Hebr,
+          CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva,
+          var(--fallback-fonts, sans-serif), sans-serif;
+      }
+      html {
+        --fallback-fonts: Helvetica Neue, helvetica, arial,
+          Hiragino Kaku Gothic Pro, Meiryo, MS Gothic;
+      }
 
-/* Darken thead background */
-.table thead th {
-    background-color: #203268; /* Ganti dengan warna gelap yang Anda inginkan */
-    color: white;
-    text-align: center; 
-}
+      /* Darken thead background */
+      .table thead th {
+        background-color: #203268; /* Ganti dengan warna gelap yang Anda inginkan */
+        color: white;
+        text-align: center;
+      }
 
-td, th {
-    max-width: 150px;
-}
+      td,
+      th {
+        max-width: 150px;
+      }
 
-.table tbody {
-    background-color: rgba(240, 248, 255, 0);
-    color: #203268;
-    text-align: center; 
-}
+      .table tbody {
+        background-color: rgba(240, 248, 255, 0);
+        color: #203268;
+        text-align: center;
+      }
 
-/* CSS untuk mengatur ukuran card */
-.card {
-max-width: 100%; /* Atur lebar maksimum card sesuai kebutuhan Anda */
-margin: 0 auto;
-background-color: #26483332;
+      /* CSS untuk mengatur ukuran card */
+      .card {
+        max-width: 100%; /* Atur lebar maksimum card sesuai kebutuhan Anda */
+        margin: 0 auto;
+        background-color: #26483332;
 
- /* Mengatur margin auto untuk pusatkan card */
-}
+        /* Mengatur margin auto untuk pusatkan card */
+      }
 
-/* CSS untuk mengatur ukuran konten dalam card */
+      /* CSS untuk mengatur ukuran konten dalam card */
 
-.table {
-    width: 100%;
-    margin-top: 5%;
-    align-content: center;
-    border-collapse: collapse;
-    font-size: 12px;
-}
-.table.table-hover.table-borderless tbody tr:hover {
-    background-color: #ddd;
-    border: none;
-}
+      .table {
+        width: 100%;
+        margin-top: 5%;
+        align-content: center;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+      .table.table-hover.table-borderless tbody tr:hover {
+        background-color: #ddd;
+        border: none;
+      }
 
-h1 {
-font-weight: bolder;
-color: 203268;
-margin-bottom: 3%;
-position: center;
+      h1 {
+        font-weight: bolder;
+        color: 203268;
+        margin-bottom: 3%;
+        position: center;
+      }
+      .container {
+        margin-top: 5%;
+        background-color: #ffffff;
+        padding-top: 0%;
+        padding: 2%;
+        border-radius: 100px;
+        display: flexbox;
+        align-items: center;
+        width: 60%;
+      }
 
-}
-.container {
-margin-top: 5%;
-background-color: #FFFFFF;
-padding-top: 0%;
-padding: 2%;
-border-radius: 100px;
-display:flexbox;
-align-items: center;
-width: 60%;
-}
+      .moveRight {
+        float: right;
+        margin-bottom: 3%;
+      }
 
-.moveRight{
-    float: right;
-    margin-bottom: 3%;
-}
+      .card {
+        background-color: #feffff;
+        border-color: #203268;
+        padding: 30px;
+        border: 1px solid #ddd; /* Optional border */
+        border-radius: 15px; /* Optional border-radius */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-left: 30%;
+        width: 100%;
+      }
 
-.card{
-    background-color: #feffff;
-    border-color: #203268;
-    padding: 30px;
-    border: 1px solid #ddd; /* Optional border */
-    border-radius: 15px; /* Optional border-radius */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-left: 30%;
-    width:100%;
-}
-
-p {
-    font-size: 12px;
-}
+      p {
+        font-size: 12px;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav> -->
 
-        <div class="card-header p-4">
-            <h1 class="text-center">Rapor</h1>
+    <div class="card-header p-4">
+      <h1 class="text-center">Employee Assessment Report</h1>
+    </div>
+    <div>
+      <div>
+        <div class="row mb-4 mx-auto">
+          <p class="card-text">
+            <b>Full name : </b><span th:text="${user.namaLengkap}"></span>
+          </p>
         </div>
-        <div>
-            <div>
-                <div class="row mb-4 mx-auto">
-                    <p class="card-text"><b>Full name : </b><span th:text="${user.namaLengkap}"></span></p>
-            </div>
-            <div class="row mb-4 mx-auto">
-                    <p class="card-text"><b>Nrp : </b><span th:text="${user.nrp}"></span></p>
-            </div>
-            <div class="row mb-4 mx-auto">
-                    <p class="card-text"><b>Id User: </b><span th:text="${user.id}"></span></p>
-            </div>
-            <h6>IKI</h6>
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Indikator</th>
-                        <th scope="col">Nilai</th>
-                        <th scope="col">Bobot</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                     <tr th:each="kriteria, iterationStatus : ${list_kriteria_iki}"> 
-                        <th scope="row" th:text="${iterationStatus.index + 1}"></th>
-                        <td th:text="${kriteria.kriteria.judulKriteria}"> </td>
-                        <td th:text="${kriteria.score}"></td>
-                        <td th:text="${kriteria.kriteria.bobot}"></td>
-                        <td th:text="${kriteria.kriteria.bobot * kriteria.score}" ></td>
-                    </tr>
-                    <tr> 
-                        <td > </td>
-                        <td > </td>
-                        <td > </td>
-                        <th >Sub Total</th>
-                        <td th:text="${totalIki}"></td>
-                    </tr>
-                    <tr> 
-                        <td > </td>
-                        <td > </td>
-                        <td > </td>
-                        <th >Score</th>
-                        <td th:text="${totalIki}/50 * 40"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <h6>IKU</h6>
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Indikator</th>
-                        <th scope="col">Nilai</th>
-                        <th scope="col">Bobot</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="kriteria, iterationStatus : ${list_kriteria_iku}"> 
-                        <th scope="row" th:text="${iterationStatus.index + 1}"></th>
-                        <td th:text="${kriteria.kriteria.judulKriteria}"> </td>
-                        <td th:text="${kriteria.score}"></td>
-                        <td th:text="${kriteria.kriteria.bobot}"></td>
-                        <td th:text="${kriteria.kriteria.bobot * kriteria.score}"></td>
-                    </tr>
-                    <tr> 
-                        <td > </td>
-                        <td > </td>
-                        <td > </td>
-                        <th >Sub Total</th>
-                        <td th:text="${totalIku}"></td>
-                    </tr>
-                    <tr> 
-                        <td > </td>
-                        <td > </td>
-                        <td > </td>
-                        <th >Score</th>
-                        <td th:text="${totalIku}/50 * 30"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <h6>Norma</h6>
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Indikator</th>
-                        <th scope="col">Nilai</th>
-                        <th scope="col">Bobot</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="kriteria, iterationStatus : ${list_kriteria_norma}"> 
-                        <th scope="row" th:text="${iterationStatus.index + 1}"></th>
-                        <td th:text="${kriteria.kriteria.judulKriteria}"> </td>
-                        <td th:text="${kriteria.score}"></td>
-                        <td th:text="${kriteria.kriteria.bobot}"></td>
-                        <td th:text="${kriteria.kriteria.bobot * kriteria.score}"></td>
-                    </tr>
-                    <tr> 
-                        <td > </td>
-                        <td > </td>
-                        <td > </td>
-                        <th >Sub Total</th>
-                        <td th:text="${totalNorma}"></td>
-                    </tr>
-                    <tr> 
-                        <td > </td>
-                        <td > </td>
-                        <td > </td>
-                        <th >Score</th>
-                        <td th:text="${totalNorma}/50 * 30"></td>
-                    </tr>
-                    <tr> 
-                        <td > </td>
-                        <td > </td>
-                        <td > </td>
-                        <th >Total Score</th>
-                        <td th:text="${totalNorma}/50 * 30 +${totalIku}/50 * 30 + ${totalIki}/50 * 40"></td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-            </div>
+        <div class="row mb-4 mx-auto">
+          <p class="card-text">
+            <b>Nrp : </b><span th:text="${user.nrp}"></span>
+          </p>
+        </div>
+        <div class="row mb-4 mx-auto">
+          <p class="card-text">
+            <b>Id User: </b><span th:text="${user.id}"></span>
+          </p>
+        </div>
+        <div class="row mb-4 mx-auto">
+          <p class="card-text" style="font-size: 20px; text-align: center">
+            <b>Individual Performance Index (IKI)</b>
+          </p>
+        </div>
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Indicator</th>
+              <th scope="col">Score</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="kriteria, iterationStatus : ${list_kriteria_iki}">
+              <th scope="row" th:text="${iterationStatus.index + 1}"></th>
+              <td th:text="${kriteria.kriteria.judulKriteria}"></td>
+              <td th:text="${kriteria.score}"></td>
+              <td th:text="${kriteria.kriteria.bobot}"></td>
+              <td th:text="${kriteria.kriteria.bobot * kriteria.score}"></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <th>Sub Total</th>
+              <td th:text="${totalIki}"></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <th>Score</th>
+              <td th:text="${totalIki}/50 * 40"></td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+        <div class="row mb-4 mx-auto">
+          <p class="card-text" style="font-size: 20px; text-align: center">
+            <b>Unit Performance Index (IKU)</b>
+          </p>
+        </div>
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Indicator</th>
+              <th scope="col">Score</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="kriteria, iterationStatus : ${list_kriteria_iku}">
+              <th scope="row" th:text="${iterationStatus.index + 1}"></th>
+              <td th:text="${kriteria.kriteria.judulKriteria}"></td>
+              <td th:text="${kriteria.score}"></td>
+              <td th:text="${kriteria.kriteria.bobot}"></td>
+              <td th:text="${kriteria.kriteria.bobot * kriteria.score}"></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <th>Sub Total</th>
+              <td th:text="${totalIku}"></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <th>Score</th>
+              <td th:text="${totalIku}/50 * 30"></td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+        <div class="row mb-4 mx-auto">
+          <p class="card-text" style="font-size: 20px; text-align: center">
+            <b>Norm Assessment Index</b>
+          </p>
+        </div>
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Indicator</th>
+              <th scope="col">Score</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="kriteria, iterationStatus : ${list_kriteria_norma}">
+              <th scope="row" th:text="${iterationStatus.index + 1}"></th>
+              <td th:text="${kriteria.kriteriaNorma.judulKriteria}"></td>
+              <td th:text="${kriteria.score}"></td>
+              <td th:text="${kriteria.kriteriaNorma.bobot}"></td>
+              <td
+                th:text="${kriteria.kriteriaNorma.bobot * kriteria.score}"
+              ></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <th>Sub Total</th>
+              <td th:text="${totalNorma}"></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <th>Score</th>
+              <td th:text="${totalNorma}/50 * 30"></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <th>Total Score</th>
+              <td
+                th:text="${totalNorma}/50 * 30 +${totalIku}/50 * 30 + ${totalIki}/50 * 40"
+              ></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-            <table class="table">
-                <thead class="thead">
-                    <tr>
-                        <th scope="col">Dinilai</th>
-                        <th scope="col">Penilai</th>
-                        <th scope="col">Diketahui</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td th:if="${rapor.signEvaluated}">Signed 1</td>
-                        <td th:if="${!rapor.signEvaluated}">Not Signed 1</td>
-                
-                        
-                        <td th:if="${rapor.signPenilai}">Signed 2</td>
-                        <td th:if="${!rapor.signPenilai}">Not Signed 2</td>
-                        
-                        <td th:if="${rapor.signPenyetuju}">Signed SDM</td>
-                       <td th:if="${!rapor.signPenyetuju}" >Not Signed 3</td>
+    <div class="card-sign">
+      <table class="table table-borderless">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Assessed</th>
+            <th scope="col">Evaluator</th>
+            <th scope="col">Known by</th>
+          </tr>
+        </thead>
+        <tbody style="background-color: #f6f7f7">
+          <tr>
+            <td th:if="${rapor.signEvaluated}">Signed 1</td>
+            <td th:if="${!rapor.signEvaluated}">Not Signed 1</td>
 
+            <td th:if="${rapor.signPenilai}">Signed 2</td>
+            <td th:if="${!rapor.signPenilai}">Not Signed 2</td>
 
-                    </tr>
-                    <tr>
-                        <td th:text="${user.namaLengkap}"></td>
-                        <td th:text="${evaluator.namaLengkap}"></td>
-                        <td th:if="${rapor.signPenyetuju}" th:text="${rapor.sdm.namaLengkap}"></td>
-                        <td th:if="${!rapor.signPenyetuju}" >Not Available</td>
-                    </tr>
-                    <tr>
-                        <td th:if="${user.role.id == 1}">Karyawan</td>
-                        <td th:if="${user.role.id == 5}">Kepala Unit</td>
-                        <td th:if="${evaluator.role.id == 1}">Karyawan</td>
-                        <td th:if="${evaluator.role.id == 4}">Manajer</td>
-                        <td th:if="${evaluator.role.id == 5}">Kepala Unit</td>
-                        <td>SDM</td>
-                    </tr>
-                </tbody>
-            </table>
-
-
-</body>
-
-
+            <td th:if="${rapor.signPenyetuju}">Signed SDM</td>
+            <td th:if="${!rapor.signPenyetuju}">Not Signed 3</td>
+          </tr>
+          <tr>
+            <td th:text="${user.namaLengkap}"></td>
+            <td th:text="${evaluator.namaLengkap}"></td>
+            <td
+              th:if="${rapor.signPenyetuju}"
+              th:text="${rapor.sdm.namaLengkap}"
+            ></td>
+            <td th:if="${!rapor.signPenyetuju}">Not Available</td>
+          </tr>
+          <tr>
+            <td th:if="${user.role.id == 1}">Karyawan</td>
+            <td th:if="${user.role.id == 5}">Kepala Unit</td>
+            <td th:if="${evaluator.role.id == 1}">Karyawan</td>
+            <td th:if="${evaluator.role.id == 4}">Manajer</td>
+            <td th:if="${evaluator.role.id == 5}">Kepala Unit</td>
+            <td>SDM</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
 </html>

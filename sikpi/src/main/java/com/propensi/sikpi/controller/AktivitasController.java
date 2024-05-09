@@ -21,29 +21,29 @@ public class AktivitasController {
     @Autowired
     private UserDb userDb;
 
-    @GetMapping("/")
-    public String home(Model model, HttpServletRequest request){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    // @GetMapping("/")
+    // public String home(Model model, HttpServletRequest request){
+    //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
-            // User is authenticated
-            Object principal = authentication.getPrincipal();
+    //     if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+    //         // User is authenticated
+    //         Object principal = authentication.getPrincipal();
 
-            UserDetails userDetails = (UserDetails) principal;
-            String username = userDetails.getUsername();
-            UserModel user = userDb.findByUsername(username);
-            Long id = user.getId();
+    //         UserDetails userDetails = (UserDetails) principal;
+    //         String username = userDetails.getUsername();
+    //         UserModel user = userDb.findByUsername(username);
+    //         Long id = user.getId();
 
-            model.addAttribute("isLoggedIn", true);
-            model.addAttribute("loggedInUserRole", user.getRole().getRole());
-            model.addAttribute("idUser", id);
+    //         model.addAttribute("isLoggedIn", true);
+    //         model.addAttribute("loggedInUserRole", user.getRole().getRole());
+    //         model.addAttribute("idUser", id);
 
 
-        } else {
-            // User is not authenticated
-            model.addAttribute("isLoggedIn", false);
-        }
+    //     } else {
+    //         // User is not authenticated
+    //         model.addAttribute("isLoggedIn", false);
+    //     }
     
-        return "home";
-    }
+    //     return "home";
+    // }
 }

@@ -280,7 +280,10 @@ public class BorangPenilaianController {
         System.out.println(iku.getListKriteriaIKU().toString());
         model.addAttribute("ikuDTO", iku);
         model.addAttribute("existingList", iku.getListKriteriaIKU());
-        model.addAttribute("idUser", getUserId());
+        model.addAttribute("idUser", user.getId());
+        System.out.println("pep");
+        System.out.println(iku.getIdUnit());
+        model.addAttribute("unitUser", iku.getIdUnit());
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
 
         // model.addAttribute("idUser", getUserId());
@@ -507,17 +510,6 @@ public class BorangPenilaianController {
     model.addAttribute("idUser", getUserId());
     model.addAttribute("loggedInUserRole", user.getRole().getRole());
     // model.addAttribute("idUser", getUserId());
-
-    if (!user.getRole().getRole().equals("Karyawan")) {
-        List<BorangPenilaianIKI> borangIkiEvaluate = borangPenilaianIKIDb.findByEvaluator(user.getId());
-        List<BorangPenilaianIKU> borangIkuEvaluate = borangPenilaianIKUDb.findByEvaluator(user.getId());
-        List<BorangPenilaianNorma> borangNormaEvaluate = borangPenilaianNormaDb.findByEvaluator(user.getId());
-
-        model.addAttribute("borangIkiEvaluate", borangIkiEvaluate);
-        model.addAttribute("borangIkuEvaluate", borangIkuEvaluate);
-        model.addAttribute("borangNormaEvaluate", borangNormaEvaluate);
-
-    }
     return "dashboard-list-penilaian";
     }
 
@@ -540,6 +532,35 @@ public class BorangPenilaianController {
 
 
     return "dashboard-list-penilaian-top";
+    }
+
+    @GetMapping("/")
+    public String viewDashboardPenilaianPenilai(Model model) {
+    Long id = getUserId();
+    UserModel user = userDb.findById(id).get();
+    Long unitId = unitService.getUnitIdForUser(id);
+
+    model.addAttribute("idUser", getUserId());
+    model.addAttribute("loggedInUserRole", user.getRole().getRole());
+
+    List<BorangPenilaianIKI> borangIkiEvaluate = borangPenilaianIKIDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
+    List<BorangPenilaianIKU> borangIkuEvaluate = borangPenilaianIKUDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
+    List<BorangPenilaianNorma> borangNormaEvaluate = borangPenilaianNormaDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
+
+    model.addAttribute("borangIkiEvaluate", borangIkiEvaluate);
+    model.addAttribute("borangIkuEvaluate", borangIkuEvaluate);
+    model.addAttribute("borangNormaEvaluate", borangNormaEvaluate);
+
+    List<BorangPenilaianIKI> borangIki = borangPenilaianService.filterIKIByUser(id);
+    List<BorangPenilaianIKU> borangIku = borangPenilaianService.filterIKUByUnit(unitId);
+    List<BorangPenilaianNorma> borangNorma = borangPenilaianService.filterNormaByUnit(id);
+
+    model.addAttribute("borangIki", borangIki);
+    model.addAttribute("borangIku", borangIku);
+    model.addAttribute("borangNorma", borangNorma);
+
+    if (user.getRole().getRole().equals("Karyawan")) return "redirect:/dashboard-penilaian/"+id;
+    else return "dashboard-list-penilaian-top";
     }
 
 }
