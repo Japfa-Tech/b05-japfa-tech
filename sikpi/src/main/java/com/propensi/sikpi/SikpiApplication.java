@@ -90,15 +90,13 @@ public class SikpiApplication {
 			unit2.setNamaUnit("SDM");
 			unitDb.save(unit2);
 
-			CreateUserRequestDTO userDTO = new CreateUserRequestDTO();
-			userDTO.setName("nama");
-			userDTO.setPassword("123456");
-			userDTO.setRole("peran");
-			userDTO.setUsername("user12");
+			Unit unit3 = new Unit();
+			unit3.setNamaUnit("IT");
+			unitDb.save(unit3);
 
 			UserModel user = new UserModel();
-			user.setUsername("user12");
-			user.setNamaLengkap("aa");
+			user.setUsername("admin");
+			user.setNamaLengkap("admin lengkap");
 			user.setPassword("123456");
 			user.setBirthDate(LocalDate.now());
 			user.setDivisi("divisi");
