@@ -154,11 +154,11 @@ public class BorangPenilaianServiceImpl implements BorangPenilaianService {
             KepalaUnit kepalaUnit = (KepalaUnit) user;
 
             Long manajerId = kepalaUnit.getIdManajer();
-            Unit unit = kepalaUnit.getUnit();
+            Unit unit = kepalaUnit.getUnitKu();
             List<Karyawan> users = unit.getUsers();
             List<SDM> listSDM = sdmDb.findAll();
 
-            borang.setEvaluatedUnit(kepalaUnit.getUnit().getId());
+            borang.setEvaluatedUnit(kepalaUnit.getUnitKu().getId());
             borang.setEvaluator(kepalaUnit.getId());
 
             listAkses.add(kepalaUnit.getId());

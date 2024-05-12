@@ -117,7 +117,7 @@ public class SikpiApplication {
 			man.setKepalaUnit((long) 1);
 			man.setListDokumen(new ArrayList<>());
 			man.setNamaLengkap("Japfa Tech is my full name");
-			man.setUnit(unit1);
+			man.setUnitMan(unit1);
 			userService.addUser(man);
 			manajerDb.save(man);
 
@@ -129,7 +129,7 @@ public class SikpiApplication {
 			kep.setRole(r4);
 			kep.setTitle("title");
 			kep.setIdManajer((long) 2);
-			kep.setUnit(unit1);
+			kep.setUnitKu(unit1);
 			kep.setListDokumen(new ArrayList<>());
 			kep.setListKaryawan(new ArrayList<>());
 			kep.setNamaLengkap("Japfa Tech is my full name");
@@ -141,7 +141,7 @@ public class SikpiApplication {
 			// unit1.setIdKepalaUnit(kep.getId());
 			unit1.setKepalaUnit(kep);
 			unitDb.save(unit1);
-			kep.setUnit(unit1);
+			kep.setUnitKu(unit1);
 			kuDb.save(kep);
 
 			Karyawan kar = new Karyawan();

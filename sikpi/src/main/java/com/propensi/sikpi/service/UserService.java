@@ -23,4 +23,6 @@ public interface UserService {
     // void saveUser(Cabinet cabinet);
 
     UserModel updateUser(UserModel user);
+
+    void changePassword(UserModel user, String password);
 }

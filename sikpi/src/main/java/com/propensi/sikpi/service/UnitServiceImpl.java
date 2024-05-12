@@ -65,7 +65,7 @@ public class UnitServiceImpl implements UnitService {
             KepalaUnit kepalaUnit = kepalaUnitOptional.get();
 
             // Retrieve the unit associated with the KepalaUnit
-            return unitDb.findById(kepalaUnit.getUnit().getId())
+            return unitDb.findById(kepalaUnit.getUnitKu().getId())
                     .orElseThrow(() -> new NotFoundException("Unit not found for KepalaUnit ID: " + kepalaUnitId));
         } else {
             // Handle case where KepalaUnit does not exist
@@ -82,7 +82,7 @@ public class UnitServiceImpl implements UnitService {
 
         Optional<KepalaUnit> kepalaUnitOptional = kepalaUnitDb.findById(userId);
         if (kepalaUnitOptional.isPresent()) {
-            return kepalaUnitOptional.get().getUnit().getId();
+            return kepalaUnitOptional.get().getUnitKu().getId();
         }
 
         // Optional<Manajer> manajerOptional = manajerDb.findById(userId);

@@ -31,6 +31,7 @@ import com.propensi.sikpi.DTO.UserMapper;
 import com.propensi.sikpi.DTO.request.CreateDokumenRequestDTO;
 import com.propensi.sikpi.DTO.request.CreateRiwayatJabatanRequestDTO;
 import com.propensi.sikpi.DTO.request.CreateRiwayatPenugasanRequestDTO;
+import com.propensi.sikpi.DTO.request.ForgetPasswordDTO;
 import com.propensi.sikpi.DTO.request.UserDTO;
 import com.propensi.sikpi.model.Cabinet;
 import com.propensi.sikpi.model.Dokumen;
@@ -50,6 +51,8 @@ import com.propensi.sikpi.service.UnitService;
 import com.propensi.sikpi.service.UserService;
 import jakarta.validation.Valid;
 import javassist.NotFoundException;
+
+
 
 @Controller
 public class ProfileController {
@@ -344,5 +347,45 @@ public class ProfileController {
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
         return "list-user";
     }
+
+    // @GetMapping("/forget-password")
+    // public String viewForgetPassword(Model model) {
+
+    //     ForgetPasswordDTO passwordDTO = new ForgetPasswordDTO();
+    //     System.out.println("pp");
+
+    //     model.addAttribute("passwordDTO", passwordDTO);
+    //     model.addAttribute("isLoggedIn", false);
+    //     model.addAttribute("errorUsername", false);
+    //     model.addAttribute("errorPassword", false);
+
+
+    //     return "forget-password";
+    // }
+
+    // @PutMapping("/forget-password")
+    // public String postForgetPassword(@ModelAttribute ForgetPasswordDTO passwordDTO, Model model) {
+    //     UserModel user = userDb.findByUsername(passwordDTO.getUsername());
+    //     System.out.println("masuk");
+    
+    //     if (user == null) {
+    //         model.addAttribute("errorUsername", true);
+    //         return "forget-password"; // Return the view directly
+    //     }
+    
+    //     if (!passwordDTO.getPassword().equals(passwordDTO.getConfirmPassword())) {
+    //         model.addAttribute("errorPassword", true);
+    //         return "forget-password"; // Return the view directly
+    //     }
+    
+    //     userService.changePassword(user, passwordDTO.getPassword());
+    //     System.out.println("masuk2");
+
+    
+    //     model.addAttribute("message", "Password has been successfully changed.");
+    //     return "redirect:/login"; // Redirect to login page
+    // }
+    
+    
 
 }

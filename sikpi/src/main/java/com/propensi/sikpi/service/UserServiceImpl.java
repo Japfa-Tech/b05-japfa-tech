@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.propensi.sikpi.DTO.request.CreateUserRequestDTO;
 import com.propensi.sikpi.DTO.request.LoginFormDTO;
@@ -31,6 +32,20 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     DokumenDb dokumenDb;
+
+    @Override
+    @Transactional
+    public void changePassword(UserModel user, String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String newPassword = passwordEncoder.encode(password);
+        user.setPassword(newPassword);
+        try {
+            userDb.save(user);
+        } catch (Exception e) {
+            // Log the exception or handle it as needed
+            System.err.println("Failed to update password: " + e.getMessage());
+        }
+    }
 
     @Override
     public UserModel addUser(UserModel user) {

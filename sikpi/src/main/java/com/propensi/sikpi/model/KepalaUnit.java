@@ -46,6 +46,6 @@ public class KepalaUnit extends UserModel {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_unit")
-    private Unit unit;
+    private Unit unitKu;
 
 }

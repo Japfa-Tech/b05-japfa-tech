@@ -34,9 +34,9 @@ public class Unit {
     @JsonIgnore
     private List<Karyawan> users;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "unit")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "unitKu")
     private KepalaUnit kepalaUnit;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "unit")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "unitMan")
     private Manajer manajer;
 }

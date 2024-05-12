@@ -50,7 +50,7 @@ public class WebSecurityConfig {
                 return http.build();
     }
 
-    @Bean
+   @Bean
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
      http
@@ -58,6 +58,7 @@ public class WebSecurityConfig {
          .authorizeHttpRequests(requests -> requests
              .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
              .requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()
+             .requestMatchers(new AntPathRequestMatcher("/forget-password")).permitAll()
              .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
              .anyRequest().authenticated()
          )
@@ -75,7 +76,7 @@ public class WebSecurityConfig {
              }))
      ;
      return http.build();
-    }
+    } 
     
     
 

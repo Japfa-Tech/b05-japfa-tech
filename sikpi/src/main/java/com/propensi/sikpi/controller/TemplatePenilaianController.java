@@ -281,7 +281,7 @@ public class TemplatePenilaianController {
             kriteriaPenilaianIKUDb.save(kriteriaPenilaian);
         }
         indeksKinerjaUnit.setNamaTemplate("Template IKU 1");
-        indeksKinerjaUnit.setIdUnit(kepalaUnit.getUnit().getId());
+        indeksKinerjaUnit.setIdUnit(kepalaUnit.getUnitKu().getId());
         templateService.createTemplatePenilaian(indeksKinerjaUnit);
 
         return "success-create-iku";
