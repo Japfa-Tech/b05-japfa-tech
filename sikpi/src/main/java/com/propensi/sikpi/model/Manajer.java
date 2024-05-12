@@ -37,6 +37,6 @@ public class Manajer extends UserModel {
     private Long kepalaUnit;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_unit")
+    @JoinColumn(name = "id_unit_manajer")
     private Unit unitMan;
 }
