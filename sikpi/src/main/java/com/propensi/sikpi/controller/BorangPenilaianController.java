@@ -259,9 +259,10 @@ public class BorangPenilaianController {
 
     @GetMapping("/borang/template-penilaian-iku")
     public String viewAllIku(Model model) {
+        UserModel user = userDb.findById(getUserId()).get();
 
         List<IndeksKinerjaUnit> listIku = templateService.getAllIku();
-        UserModel user = userDb.findById(getUserId()).get();
+        // List<BorangPenilaianIKU> listIku = borangPenilaianIKUDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
 
         model.addAttribute("listIku", listIku);
         model.addAttribute("idUser", getUserId());
@@ -376,6 +377,9 @@ public class BorangPenilaianController {
         List<Norma> listNorma = templateService.getAllNorma();
         UserModel user = userDb.findById(getUserId()).get();
 
+        // List<BorangPenilaianNorma> listNorma = borangPenilaianNormaDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
+
+
         model.addAttribute("listNorma", listNorma);
         model.addAttribute("idUser", getUserId());
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
@@ -435,7 +439,7 @@ public class BorangPenilaianController {
         System.out.println(borang.getKriteriaScores().toString());
         System.out.println(borang.getListAkses().toString());
         System.out.println(borang.getEvaluatedUser());
-        return "redirect:/template-penilaian-norma";
+        return "redirect:/borang/template-penilaian-norma";
     }
 
     @GetMapping("/borang/edit/template-penilaian-norma/{idBorangPenilaian}")

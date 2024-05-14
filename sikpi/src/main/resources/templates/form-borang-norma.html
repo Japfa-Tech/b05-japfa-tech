@@ -266,8 +266,8 @@
                     <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
                         <thead style="background-color: #203268; color: white;">
                             <tr>
-                                <th style="padding: 10px 20px; text-align: left; border-top-left-radius: 10px;">#</th>
-                                <th style="padding: 10px 20px; text-align: left; border-top-right-radius: 10px;">Indicators</th>
+                                <th style="padding: 10px 20px; text-align: left; border-top-left-radius: 10px;">Nilai</th>
+                                <th style="padding: 10px 20px; text-align: left; border-top-right-radius: 10px;">Indikator</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -303,10 +303,10 @@
                                         <thead class="bg-dark text-white">
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col" class="text-center">Indicators</th>
-                                                <th scope="col" class="text-center">Attitude</th>
-                                                <th scope="col" class="text-center">Weight</th>
-                                                <th scope="col" class="text-center">Score</th> 
+                                                <th scope="col" class="text-center">Indikator</th>
+                                                <th scope="col" class="text-center">Sikap</th>
+                                                <th scope="col" class="text-center">Bobot</th>
+                                                <th scope="col" class="text-center">Nilai</th> 
                                             </tr>
                                             <tr style="background-color: #f4f4f4;"> <!-- Menyesuaikan warna latar belakang -->
                                                 <td colspan="4"></td>
@@ -353,10 +353,10 @@
                                     <!-- pesan akan ditampilkan di sini -->
                                 </div>
                                 <div class="form-group">
-                                    <label for="pesan" class="form-label">Message:</label>
+                                    <label for="pesan" class="form-label">Pesan:</label>
                                     <textarea id="pesan" class="form-control" rows="4" name="pesan"></textarea>
                                     <div style="text-align: center; margin-top: 10px;">
-                                        <a href="" id="send-btn" class="btn" onclick="sendPesan()" style="background-color: green; width: 80px; padding: 5px; color: white; border-radius: 5px;">Send</a>
+                                        <a href="" id="send-btn" class="btn" onclick="sendPesan()" style="background-color: green; width: 120px; padding: 5px; color: white; border-radius: 5px;">Kirim Pesan</a>
                                     </div>
                                 </div>
                             </div>
@@ -364,8 +364,8 @@
                     </div>
                 </div>
                 <div class="card-buttons" style="margin-top: 10px;">
-                    <a href="/template-penilaian-norma" class="btn btn-back">Back</a>
-                    <a href="#" class="btn btn-primary" onclick="document.querySelector('form').submit(); return false;" id="submit-btn">Submit</a>
+                    <a href="/borang/template-penilaian-norma" class="btn btn-back">Kembali</a>
+                    <a href="#" class="btn btn-primary" onclick="document.querySelector('form').submit(); return false;" id="submit-btn">Kirim</a>
                     <a href="#" class="btn btn-success" onclick="acceptForm()" id="accept-btn">Accept</a>
                 </div>
             </div>
@@ -403,15 +403,21 @@
             loadPesan();
         });
 
-
         function sendPesan() {
+            // Ambil nilai pesan dari textarea
             let pesan = document.getElementById('pesan').value;
-            let url = '/api/borang/template-penilaian-norma/' + id + '/pesan'; // Gunakan nilai id yang sudah dideklarasikan
-            
-            // Mendapatkan waktu saat ini
+
+            // Periksa apakah pesan kosong
+            if (pesan.trim() === "") {
+                // Tampilkan pop-up button warning jika pesan kosong
+                showEmptyMessageWarning();
+                return; // Hentikan proses pengiriman pesan
+            }
+
+            // Lakukan pengiriman pesan jika pesan tidak kosong
+            let loggedInUserRole = "[[${loggedInUserRole}]]"; // Mendapatkan peran pengguna yang saat ini login
+            let url = '/api/borang/template-penilaian-norma/' + id + '/pesan';
             let now = new Date();
-            
-            // Memformat waktu sesuai dengan format yang diinginkan
             let formattedDate = new Intl.DateTimeFormat('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -420,19 +426,18 @@
                 minute: '2-digit',
                 hour12: true
             }).format(now);
+            let pesanToSend = `${loggedInUserRole} - ${formattedDate}\n${pesan}`; // Menambahkan peran pengguna, waktu, dan pesan
 
-            let pesanToSend = `${formattedDate}\n${pesan}`; // Menambahkan waktu dan pesan ke dalam format yang diinginkan
-
-            console.log("sendpesan : ", pesanToSend);
-            
-            // Mengirim data pesan menggunakan AJAX
+            // Lakukan pengiriman data pesan menggunakan AJAX
             $.ajax({
                 url: url,
                 type: 'POST', // Metode POST
                 data: { pesan: pesanToSend },
                 success: function () {
-                    // loadPesan(); // Memuat kembali pesan setelah berhasil mengirim
-                    document.getElementById('pesan').value = ''; // Membersihkan textarea
+                    // Muat ulang pesan setelah berhasil mengirim
+                    loadPesan();
+                    // Bersihkan textarea
+                    document.getElementById('pesan').value = '';
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
@@ -469,16 +474,16 @@
                     if (hasHistory) {
                     
                     // Langkah 3: Tambahkan tulisan "History Pesan" di atas card pesan
-                    document.getElementById('pesan-container').insertAdjacentHTML('beforebegin', '<h6>Message history:</h6>');
+                    document.getElementById('pesan-container').insertAdjacentHTML('beforebegin', '<h6>Riwayat Pesan:</h6>');
                 }                    
 
                     if (data.idUserLogin == data.borangPenilaianNorma.evaluator && data.borangPenilaianNorma.status == null){
-                        document.getElementById('status-borang').innerHTML = "Fill the Norma";
+                        document.getElementById('status-borang').innerHTML = "Segera Isi Penilaian Norma";
                         
                     }
 
                     if (data.borangPenilaianNorma.status == 'pending'){
-                        document.getElementById('status-borang').innerHTML = "Norma processed";
+                        document.getElementById('status-borang').innerHTML = "Penilaian Norma Diproses";
                         
                     }
                     console.log("login ", data.borangPenilaianNorma.evaluator)
@@ -496,7 +501,7 @@
 
                     if (data.borangPenilaianNorma.status == 'finished') {
                         document.getElementById('submit-btn').style.display = 'none';
-                        document.getElementById('status-borang').innerHTML = "Norma completed ✓";
+                        document.getElementById('status-borang').innerHTML = "Penilaian Norma Selesai ✓";
                         document.getElementById('accept-btn').style.display = 'none';
 
                         for (var i=0; i<listKriteriaNorma; i++){

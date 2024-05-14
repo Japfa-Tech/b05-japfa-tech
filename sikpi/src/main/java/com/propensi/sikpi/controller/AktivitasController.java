@@ -38,11 +38,22 @@ public class AktivitasController {
             model.addAttribute("loggedInUserRole", user.getRole().getRole());
             model.addAttribute("idUser", id);
 
+            System.out.println(user.getRole().getRole());
+
+            if (user.getRole().getRole().equals("Karyawan") || user.getRole().getRole().equals("SDM")) {
+                String path = "redirect:/dashboard-penilaian/" + id;
+                return path;
+            } else {
+                String path = "redirect:/dashboard-penilaian/top/" + id;
+                return path;
+            }
+
 
         } else {
             // User is not authenticated
             model.addAttribute("isLoggedIn", false);
         }
+        
     
         return "home";
     }

@@ -192,11 +192,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td>12345</td>
-                                            </tr> -->
                                             <tr th:each="kp, iterationStatus : *{listKriteria}">
                                                 <td th:text="${iterationStatus.count}" class="text-center"></td>
                                                 <td class="text-center">
@@ -227,7 +222,7 @@
         </div>
     </div>
                     <div class="card-buttons" style="margin-top: 10px;"> <!-- Menambahkan div untuk menengahkan tombol -->
-                    <a href="/borang/template-penilaian-norma" class="btn btn-back">Back</a>
+                    <a href="/borang/template-penilaian-norma" class="btn btn-back">Kembali</a>
                     <a href="#" class="btn btn-primary" onclick="document.querySelector('form').submit(); return false;">Simpan</a>
                 </div>
     </form>

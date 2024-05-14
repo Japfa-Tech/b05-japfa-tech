@@ -24,7 +24,8 @@
       src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"
     ></script>
 
-    <title>Profile</title>
+    <title>Profil</title>
+    <link rel="icon" href="/images/logo-sikpi.png" type="image/png" />
     <style>
       .center-horizontal {
         margin-top: 2%;
@@ -307,7 +308,7 @@
     <div class="container">
       <div class="card m-4 p-4">
         <div class="card-header p-4">
-          <h1 class="text-center">Profile Page</h1>
+          <h1 class="text-center">Halaman Profil</h1>
         </div>
         <div>
           <div class="d-flex justify-content-end mt-3">
@@ -324,7 +325,7 @@
             <div class="card-body p-1">
               <div class="row mb-4">
                 <div class="col-md-3 text-right">
-                  <label for="fullName" class="card-text">Full name :</label>
+                  <label for="fullName" class="card-text">Nama Lengkap :</label>
                 </div>
                 <div class="col-md-9">
                   <input
@@ -338,7 +339,7 @@
               </div>
               <div class="row mb-4">
                 <div class="col-md-3 text-right">
-                  <label for="nrp" class="card-text">Nrp :</label>
+                  <label for="nrp" class="card-text">NRP :</label>
                 </div>
                 <div class="col-md-9">
                   <input
@@ -352,7 +353,9 @@
               </div>
               <div class="row mb-4">
                 <div class="col-md-3 text-right">
-                  <label for="birthDate" class="card-text">Birthdate :</label>
+                  <label for="birthDate" class="card-text"
+                    >Tanggal Lahir :</label
+                  >
                 </div>
                 <div class="col-md-9">
                   <input
@@ -366,7 +369,7 @@
               </div>
               <div class="row mb-4">
                 <div class="col-md-3 text-right">
-                  <label for="namaUnit" class="card-text">Role:</label>
+                  <label for="namaUnit" class="card-text">Jabatan:</label>
                 </div>
                 <div class="col-md-9">
                   <input
@@ -390,7 +393,7 @@
                     role="tab"
                     aria-controls="attachments"
                     aria-selected="true"
-                    >Attachments</a
+                    >Lampiran Dokumen</a
                   >
                 </li>
                 <li class="nav-item">
@@ -402,7 +405,7 @@
                     role="tab"
                     aria-controls="position"
                     aria-selected="false"
-                    >Position History</a
+                    >Riwayat Jabatan</a
                   >
                 </li>
                 <li class="nav-item">
@@ -414,7 +417,7 @@
                     role="tab"
                     aria-controls="assignment"
                     aria-selected="false"
-                    >Assignment History</a
+                    >Riwayat Penugasan</a
                   >
                 </li>
               </ul>
@@ -437,7 +440,7 @@
                           color: #203268;
                         "
                       >
-                        Attachments
+                        Lampiran Dokumen Karyawam
                       </h2>
                     </div>
                     <div class="col-md-6 text-right">
@@ -454,8 +457,8 @@
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Nama</th>
-                        <th scope="col">Uploaded</th>
-                        <th scope="col">Reviewed</th>
+                        <th scope="col">Unggah</th>
+                        <th scope="col">Ditinjau</th>
                         <th scope="col">Status</th>
                         <th
                           scope="col"
@@ -479,9 +482,9 @@
                         </td>
                         <td th:text="${dokumen.uploadedDate}"></td>
                         <td th:text="${dokumen.reviewedDate}"></td>
-                        <td th:if="${dokumen.status == 0}">Submitted</td>
-                        <td th:if="${dokumen.status == 1}">Approved</td>
-                        <td th:if="${dokumen.status == 2}">Rejected</td>
+                        <td th:if="${dokumen.status == 0}">Diserahkan</td>
+                        <td th:if="${dokumen.status == 1}">Disetujui</td>
+                        <td th:if="${dokumen.status == 2}">Ditolak</td>
                         <td
                           th:if="${dokumen.status == 0} and ${#authorization.expression('hasRole(''SDM'')')}"
                         >
@@ -640,7 +643,9 @@
     </div>
     <script>
       function confirmApproval(approveUrl) {
-        var confirmation = confirm("Are you sure you want to approve?");
+        var confirmation = confirm(
+          "Apakah Anda yakin untuk menyetujui dokumen?"
+        );
         if (confirmation) {
           // If user clicks OK in the confirmation dialog, execute the approval action
           window.location.href = approveUrl;
@@ -650,7 +655,7 @@
       }
 
       function confirmRejection(rejectUrl) {
-        var confirmation = confirm("Are you sure you want to reject?");
+        var confirmation = confirm("Apakah Anda yakin untuk menolak dokumen?");
         if (confirmation) {
           // If user clicks OK in the confirmation dialog, execute the rejection action
           window.location.href = rejectUrl;

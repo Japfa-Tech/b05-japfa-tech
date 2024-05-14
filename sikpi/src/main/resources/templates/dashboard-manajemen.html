@@ -10,8 +10,10 @@
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <title>Dashboard Manajemen</title>
+    <link rel="icon" href="/images/logo-sikpi.png" type="image/png">
     <style>
         .center-horizontal {
     margin-top: 2%;
@@ -243,6 +245,7 @@ top: 20px;
                 </tr>
             </tbody>
         </table>
+        <canvas id="unitScoreChart"></canvas>
         </div>
         </div>
     </div>
@@ -262,6 +265,34 @@ top: 20px;
             });
             $('.dataTables_filter input[type="search"]').
             css({'width':'300px','display':'inline-block'});
+
+            // Prepare data for the chart
+            var unitNames = /*[[${unitScoreMap.keySet().stream().map(unit -> unit.getNamaUnit()).collect(java.util.stream.Collectors.toList())}]]*/ [];
+            var unitScores = /*[[${unitScoreMap.values()}]]*/ [];
+
+            // Initialize Chart.js
+            var ctx = document.getElementById('unitScoreChart').getContext('2d');
+            var unitScoreChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: unitNames,
+                    datasets: [{
+                        label: 'Total Skor',
+                        data: unitScores,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
         });
     </script>
 </body>

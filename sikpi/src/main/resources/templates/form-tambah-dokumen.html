@@ -24,6 +24,7 @@
       src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"
     ></script>
     <title>Add Attachament</title>
+    <link rel="icon" href="/images/logo-sikpi.png" type="image/png" />
     <style>
       .center-horizontal {
         margin-top: 2%;
@@ -284,7 +285,7 @@
     <div class="container">
       <div class="card">
         <div class="card-header p-4" style="margin-bottom: 7%">
-          <h1 class="text-center">Add Attachments</h1>
+          <h1 class="text-center">Tambah Lampiran Dokumen</h1>
           <!-- Tombol untuk menambahkan baris baru -->
         </div>
 
@@ -300,7 +301,7 @@
             th:field="${dokumenDTO.idUser.id}"
           />
           <div class="form-holder form-holder-2">
-            <label for="dokumen">Upload your documents</label>
+            <label for="dokumen">Unggah dokumen Anda!</label>
             <input
               type="file"
               name="dokumenApaKek"
@@ -323,10 +324,10 @@
           <thead class="thead">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Title</th>
-              <th scope="col">Date</th>
+              <th scope="col">Judul</th>
+              <th scope="col">Tanggal</th>
               <th scope="col">Status</th>
-              <th scope="col">Action</th>
+              <th scope="col">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -334,9 +335,9 @@
               <th scope="row" th:text="${iterationStatus.index + 1}"></th>
               <td th:text="${dokumen.namaDokumen}"></td>
               <td th:text="${dokumen.uploadedDate}"></td>
-              <td th:if="${dokumen.status == 0}">Submitted</td>
-              <td th:if="${dokumen.status == 1}">Approved</td>
-              <td th:if="${dokumen.status == 2}">Rejected</td>
+              <td th:if="${dokumen.status == 0}">Diserahkan</td>
+              <td th:if="${dokumen.status == 1}">Disetujui</td>
+              <td th:if="${dokumen.status == 2}">Ditolak</td>
               <td>
                 <a
                   href="#"
@@ -354,14 +355,14 @@
         <a
           th:href="@{/profile/{idUser}(idUser=${user.id})}"
           class="btn btn-secondary btn-back"
-          >Back</a
+          >Kembali</a
         >
       </div>
     </div>
 
     <script>
       function confirmDeletion(deleteUrl) {
-        var confirmation = confirm("Are you sure you want to delete?");
+        var confirmation = confirm("Apakah Anda yakin mau menghapus dokumen?");
         if (confirmation) {
           // If user clicks OK in the confirmation dialog, execute the approval action
           window.location.href = deleteUrl;

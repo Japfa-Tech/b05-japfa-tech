@@ -12,7 +12,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
   <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-  <title>View All Template</title>
+  <title>Borang Penilaian IKU</title>
   <link rel="icon" href="/images/logo-sikpi.png" type="image/png">
 </head>
 
@@ -58,8 +58,19 @@
     background-color: #0056b3;
   }
 
-  .card {
+  .card-1 {
     background: #f4f4f4;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+    overflow: hidden;
+    /* width:max-content; */ /* Hapus atau ubah nilai max-width */
+  }
+
+  .card {
+    background: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
@@ -87,7 +98,7 @@
   }
 
   .card-footer {
-    background-color: #f4f4f4;
+    background-color: #fff;
     padding: 10px 20px;
     border-top: 1px solid #ddd;
     text-align: center;
@@ -121,7 +132,7 @@
     margin-top: center;
   }
 
-  table#ikiTable thead th {
+  table#ikuTable thead th {
     color: black !important;
 }
 
@@ -160,7 +171,7 @@
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-6" th:each="iku, iterationStatus: ${listIku}">
-                      <div class="card">
+                      <div class="card-1">
                         <div class="d-flex align-items-center">
                           <img class="mx-auto d-block logo-img" th:src="@{/images/template.png}" width="100px" style="margin-bottom: 20px; margin-top: 20px;" alt="logo SIKPI-TEMPLATE" />
                           <div class="card-text">

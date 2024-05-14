@@ -189,8 +189,8 @@
                     <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
                         <thead style="background-color: #203268; color: white;">
                             <tr>
-                                <th style="padding: 10px 20px; text-align: left; border-top-left-radius: 10px;">#</th>
-                                <th style="padding: 10px 20px; text-align: left; border-top-right-radius: 10px;">Indicators</th>
+                                <th style="padding: 10px 20px; text-align: left; border-top-left-radius: 10px;">Nilai</th>
+                                <th style="padding: 10px 20px; text-align: left; border-top-right-radius: 10px;">Indikator</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -219,9 +219,9 @@
                 </div>
             </div>
                                     <form th:action="@{/template-penilaian-iku/create}" th:object="${ikuDTO}" method="POST">
-                        <div class="row mb-4 align-items-center justify-contentend"> <!-- Menggunakan kelas justify-content-end di sini -->
+                        <div class="row mb-4 align-items-center justify-content-end"> <!-- Menggunakan kelas justify-content-end di sini -->
                             <div class="col-auto"> <!-- Menggunakan kelas col-auto di sini -->
-                                <button id="tambah-kriteria-btn" class="btn btn-primary" type="submit" name="addRow" style="margin-bottom: 10px;">+ Add Criteria</button>
+                                <button id="tambah-kriteria-btn" class="btn btn-primary" type="submit" name="addRow" style="margin-bottom: 10px;">+ Tambah Kriteria</button>
                             </div>
                             </div>
                             <div class="row table-gap mb-4">
@@ -229,8 +229,8 @@
                                     <thead class="bg-dark text-white">
                                         <tr>
                                             <th scope="col" class="text-center">#</th>
-                                            <th scope="col" class="text-center">Criteria</th>
-                                            <th scope="col" class="text-center">Weight</th>
+                                            <th scope="col" class="text-center">Kriteria</th>
+                                            <th scope="col" class="text-center">Bobot</th>
                                             <th scope="col" class="text-center">Action</th> <!-- Tambah kolom "Action" -->
                                         </tr>
                                     </thead>
@@ -257,9 +257,9 @@
         </div>
                 </div>
                     <div class="card-buttons" style="margin-top: 10px;"> <!-- Menambahkan div untuk menengahkan tombol -->
-                    <a href="/template-penilaian-iku" class="btn btn-back">Back</a>
+                    <a href="/template-penilaian-iku" class="btn btn-back">Kembali</a>
                     <!-- <a href="#" class="btn btn-primary" onclick="document.querySelector('form').submit(); return false">Simpan</a> -->
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
     </form>
     <script>
@@ -294,17 +294,6 @@
                 event.preventDefault();
             }
         });
-
-        function validateForm() {
-        var inputs = document.querySelectorAll('#ikuForm input[type="text"], #ikuForm input[type="number"]');
-        for (var i = 0; i < inputs.length; i++) {
-            if (!inputs[i].value.trim()) { // Check if the field is empty or contains only whitespace
-                alert("Please fill in all fields."); // You can customize the alert message
-                return false; // Prevent form submission
-            }
-        }
-        return true; // Form is valid
-    }
     </script>
 </body>
 

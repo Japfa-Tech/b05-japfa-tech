@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <script src="js/bootstrap.bundle.min.js"></script>
 
-    <title>Report View</title>
+    <title>Rapor</title>
+    <link rel="icon" href="/images/logo-sikpi.png" type="image/png" />
     <style>
       .center-horizontal {
         margin-top: 2%;
@@ -246,7 +247,7 @@
     <div class="container">
       <div class="card m-4 p-4" style="width: 20000px; margin-top: 5%">
         <div class="card-header p-4">
-          <h1 class="text-center">Employee Assessment Report</h1>
+          <h1 class="text-center">Rekapitulasi Penilaian Karyawan</h1>
         </div>
         <div>
           <div>
@@ -255,7 +256,7 @@
                 <a
                   th:href="@{/profile/{idUser}/export(idUser=${user.id})}"
                   class="btn btn-secondary btn-simpan"
-                  >Export</a
+                  >Unduh</a
                 >
               </div>
               <div class="card-body">
@@ -264,11 +265,11 @@
                     <div class="row">
                       <div class="col-md-6 text-right">
                         <label for="fullName" class="card-text"
-                          >Full name :</label
+                          >Nama Lengkap :</label
                         >
                       </div>
                       <div class="col-md-6 text-right">
-                        <label for="nrp" class="card-text">Nrp :</label>
+                        <label for="nrp" class="card-text">NRP :</label>
                       </div>
                     </div>
                     <div class="row">
@@ -294,11 +295,11 @@
                     <div class="row">
                       <div class="col-md-6 text-right">
                         <label for="birthDate" class="card-text"
-                          >Birthdate :</label
+                          >Tanggal Lahir :</label
                         >
                       </div>
                       <div class="col-md-6 text-right">
-                        <label for="namaUnit" class="card-text">Role:</label>
+                        <label for="namaUnit" class="card-text">Jabatan:</label>
                       </div>
                     </div>
                     <div class="row">
@@ -330,7 +331,7 @@
                       class="card-text"
                       style="font-size: 20px; text-align: center"
                     >
-                      <b>Individual Performance Index (IKI)</b>
+                      <b>Indeks Kinerja Individu (IKI)</b>
                     </p>
                   </div>
 
@@ -338,9 +339,9 @@
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Indicator</th>
-                        <th scope="col">Score</th>
-                        <th scope="col">Weight</th>
+                        <th scope="col">Indikator</th>
+                        <th scope="col">Nilai</th>
+                        <th scope="col">Bobot</th>
                         <th scope="col">Total</th>
                       </tr>
                     </thead>
@@ -370,7 +371,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <th>Score</th>
+                        <th>Nilai</th>
                         <td th:text="${totalIki}/50 * 40"></td>
                       </tr>
                     </tbody>
@@ -381,16 +382,16 @@
                       class="card-text"
                       style="font-size: 20px; text-align: center"
                     >
-                      <b>Unit Performance Index (IKU)</b>
+                      <b>Indeks Kinerja Unit (IKU)</b>
                     </p>
                   </div>
                   <table class="table">
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Indicator</th>
-                        <th scope="col">Score</th>
-                        <th scope="col">Weight</th>
+                        <th scope="col">Indikator</th>
+                        <th scope="col">Nilai</th>
+                        <th scope="col">Bobot</th>
                         <th scope="col">Total</th>
                       </tr>
                     </thead>
@@ -420,7 +421,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <th>Score</th>
+                        <th>Nilai</th>
                         <td th:text="${totalIku}/50 * 30"></td>
                       </tr>
                     </tbody>
@@ -431,16 +432,16 @@
                       class="card-text"
                       style="font-size: 20px; text-align: center"
                     >
-                      <b>Norm Assessment Index</b>
+                      <b>Indeks Penilaian Norma</b>
                     </p>
                   </div>
                   <table class="table">
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Indicator</th>
-                        <th scope="col">Score</th>
-                        <th scope="col">Weight</th>
+                        <th scope="col">Indikator</th>
+                        <th scope="col">Nilai</th>
+                        <th scope="col">Bobot</th>
                         <th scope="col">Total</th>
                       </tr>
                     </thead>
@@ -472,14 +473,14 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <th>Score</th>
+                        <th>Nilai</th>
                         <td th:text="${totalNorma}/50 * 30"></td>
                       </tr>
                       <tr>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <th>Total Score</th>
+                        <th>Total Nilai</th>
                         <td
                           th:text="${totalNorma}/50 * 30 +${totalIku}/50 * 30 + ${totalIki}/50 * 40"
                         ></td>
@@ -492,9 +493,9 @@
                 <table class="table table-borderless">
                   <thead class="thead-light">
                     <tr>
-                      <th scope="col">Assessed</th>
+                      <th scope="col">Dievaluasi</th>
                       <th scope="col">Evaluator</th>
-                      <th scope="col">Known by</th>
+                      <th scope="col">Diketahui</th>
                     </tr>
                   </thead>
                   <tbody style="background-color: #f6f7f7">
@@ -504,7 +505,7 @@
                       <td></td>
                     </tr>
                     <tr>
-                      <td th:if="${rapor.signEvaluated}">Signed 1</td>
+                      <td th:if="${rapor.signEvaluated}">Ditandatangani</td>
                       <td
                         class="flex-center text-center align-items-center"
                         th:if="${!rapor.signEvaluated} and ${#authentication.getPrincipal().getUsername() == user.username}"
@@ -512,45 +513,45 @@
                         <a
                           th:href="@{/profile/{idUser}/rapor/signEvaluated(idUser=${user.id})}"
                           class="btn flex-center text-center align-items-center"
-                          >Sign</a
+                          >Teken</a
                         >
                       </td>
                       <td
                         th:if="${!rapor.signEvaluated} and ${#authentication.getPrincipal().getUsername() != user.username}"
                       >
-                        Not Signed 1
+                        Belum Ditandatangani
                       </td>
 
-                      <td th:if="${rapor.signPenilai}">Signed 2</td>
+                      <td th:if="${rapor.signPenilai}">Ditandatangani</td>
                       <td
                         th:if="${!rapor.signPenilai} and ${#authentication.getPrincipal().getUsername() == evaluator.username}"
                       >
                         <a
                           th:href="@{/profile/{idUser}/rapor/signEvaluator(idUser=${user.id})}"
                           class="btn flex-center text-center align-items-center"
-                          >Sign</a
+                          >Teken</a
                         >
                       </td>
                       <td
                         th:if="${!rapor.signPenilai} and ${#authentication.getPrincipal().getUsername() != evaluator.username}"
                       >
-                        Not Signed 2
+                        Belum Ditandatangani
                       </td>
 
-                      <td th:if="${rapor.signPenyetuju}">Signed SDM</td>
+                      <td th:if="${rapor.signPenyetuju}">Ditandatangani SDM</td>
                       <td
                         th:if="${!rapor.signPenyetuju} and ${#authorization.expression('hasRole(''SDM'')')}"
                       >
                         <a
                           th:href="@{/profile/{idUser}/rapor/signSDM(idUser=${user.id})}"
                           class="btn flex-center text-center align-items-center"
-                          >Sign</a
+                          >Teken</a
                         >
                       </td>
                       <td
                         th:if="${!rapor.signPenyetuju} and ${!#authorization.expression('hasRole(''SDM'')')}"
                       >
-                        Not Signed 3
+                        Belum Ditandatangani
                       </td>
                     </tr>
                     <tr>

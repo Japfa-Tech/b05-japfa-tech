@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    <title>Edit Template Penilaian IKU</title>
+    <title>Ubah Template Penilaian IKU</title>
     <link rel="icon" href="/images/logo-sikpi.png" type="image/png">
     <style>
         body {
@@ -189,7 +189,7 @@
                 <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
                     <thead style="background-color: #203268; color: white;">
                         <tr>
-                            <th style="padding: 10px 20px; text-align: left; border-top-left-radius: 10px;">#</th>
+                            <th style="padding: 10px 20px; text-align: left; border-top-left-radius: 10px;">Nilai</th>
                             <th style="padding: 10px 20px; text-align: left; border-top-right-radius: 10px;">Indicators</th>
                         </tr>
                     </thead>
@@ -223,7 +223,7 @@
                             <div class="row mb-4 align-items-center">
                                 <div class="col"></div>
                                     <div class="col-auto">
-                                        <button id="tambah-kriteria-btn" class="btn btn-primary" type="submit" name="addRow" style="margin-bottom: 10px;">+ Add Criteria</button>
+                                        <button id="tambah-kriteria-btn" class="btn btn-primary" type="submit" name="addRow" style="margin-bottom: 10px;">+ Tambah Kriteria</button>
                                     </div>
                                 </div>
                                 <div class="row table-gap mb-4">
@@ -231,8 +231,8 @@
                                         <thead class="bg-dark text-white">
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col" class="text-center">Criteria</th>
-                                                <th scope="col" class="text-center">Weight</th>
+                                                <th scope="col" class="text-center">Kriteria</th>
+                                                <th scope="col" class="text-center">Bobot</th>
                                                 <th scope="col" class="text-center">Action</th> 
                                             </tr>
                                         </thead>
@@ -261,8 +261,8 @@
         </div>
     </div>
                     <div class="card-buttons" style="margin-top: 10px;"> <!-- Menambahkan div untuk menengahkan tombol -->
-                    <a href="/template-penilaian-iku" class="btn btn-back">Back</a>
-                    <a href="#" class="btn btn-primary" onclick="document.querySelector('form').submit(); return false;">Save</a>
+                    <a href="/template-penilaian-iku" class="btn btn-back">Kembali</a>
+                    <a href="#" class="btn btn-primary" onclick="return validateForm(event);">Simpan</a>
                 </div>
     </form>
     <script>
@@ -275,6 +275,58 @@
         function deleteRow(btn) {
             var row = btn.parentNode.parentNode;
             row.parentNode.removeChild(row);
+        }
+        $('#ikuTable').on('input', 'input[type="number"]', function () {
+            var maxValue = 50; // Set the maximum allowed value
+            var enteredValue = parseFloat($(this).val()); // Get the entered value as a number
+            if (enteredValue < 0) {
+                // If entered value is negative, set it to 0
+                $(this).val(0);
+            } else if (enteredValue > maxValue) {
+                // If entered value is greater than the maximum allowed value, set it to the maximum
+                $(this).val(maxValue);
+            } else if (enteredValue == 0) {
+                // If entered value is 0, set it to 1
+                $(this).val(1);
+            }
+        });
+
+        $('#ikuTable').on('keydown', 'input[type="number"]', function (event) {
+            // Prevent entry of minus sign (-) key
+            if (event.key === '-' || event.key === 'Minus' || event.keyCode === 189 || event.which === 189) {
+                event.preventDefault();
+            }
+        });
+
+        function validateForm(event) {
+            var kriteriaInputs = document.querySelectorAll('input[type="text"].form-control');
+            var bobotInputs = document.querySelectorAll('input[type="number"].form-control');
+            var isValid = true;
+
+            // Validate Kriteria input fields
+            kriteriaInputs.forEach(function(input) {
+                if (input.value.trim() === '') {
+                    isValid = false;
+                }
+            });
+
+            // Validate Bobot input fields
+            bobotInputs.forEach(function(input) {
+                var bobotValue = parseFloat(input.value);
+                if (isNaN(bobotValue) || bobotValue <= 0) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                alert('Kriteria atau bobot tidak boleh kosong!');
+                event.preventDefault();
+                return false;
+            }
+
+            // If validation passes, submit the form
+            document.querySelector('form').submit();
+            return true;
         }
     </script>
     <footer></footer>

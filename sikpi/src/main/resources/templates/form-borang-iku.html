@@ -241,15 +241,15 @@
     </div>       
     <div class="outer-card m-4"> <!-- Card tambahan di luar card yang sudah ada -->
         <div class="col">
-            <div id="status-borang">Segera submit template</div>
+            <div id="status-borang">Segera Kirim template</div>
 
             <div class="row table-gap mb-4">
     <div style="border-radius: 10px; overflow: hidden; width: 100%;">
         <table style="width: 100%; border-collapse: collapse; border-spacing: 0;">
             <thead style="background-color: #203268; color: white;">
                 <tr>
-                    <th style="padding: 10px 20px; text-align: left; border-top-left-radius: 10px;">#</th>
-                    <th style="padding: 10px 20px; text-align: left; border-top-right-radius: 10px;">Indicators</th>
+                    <th style="padding: 10px 20px; text-align: left; border-top-left-radius: 10px;">Nilai</th>
+                    <th style="padding: 10px 20px; text-align: left; border-top-right-radius: 10px;">Indikator</th>
                 </tr>
             </thead>
             <tbody>
@@ -284,14 +284,14 @@
                                         <thead class="bg-dark text-white">
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col" class="text-center">Criteria</th>
-                                                <th scope="col" class="text-center">Weight</th>
-                                                <th scope="col" class="text-center">Score</th>
+                                                <th scope="col" class="text-center">Kriteria</th>
+                                                <th scope="col" class="text-center">Bobot</th>
+                                                <th scope="col" class="text-center">Nilai</th>
                                             </tr>
                                             <tr style="background-color: #f4f4f4;"> <!-- Menyesuaikan warna latar belakang -->
                                                 <td colspan="3"></td>
                                                 <td class="text-right" style="vertical-align: top;">
-                                                    <div style="text-align: right; width: 71%; letter-spacing: 0.1px; border-radius: 3px; color: black;">
+                                                    <div style="text-align: right; width: 67%; letter-spacing: 0.1px; border-radius: 3px; color: black;">
                                                         <span style="font-size: 16px; font-weight: bold;">1</span>
                                                         <span style="font-size: 16px; margin-left: 10px; font-weight: bold;">2</span>
                                                         <span style="font-size: 16px; margin-left: 10px; font-weight: bold;">3</span>
@@ -304,8 +304,8 @@
                                         <tbody>
                                             <tr th:each="kp, iterationStatus : *{listKriteriaIKU}">
                                                 <td th:text="${iterationStatus.count}" class="text-center"></td>
-                                                <td class="text-center">
-                                                    <p th:text="*{listKriteriaIKU[__${iterationStatus.index}__].judulKriteria}">
+                                                <td class="text-center" style="white-space: normal; max-width: 90px;">
+                                                    <p th:text="*{listKriteriaIKU[__${iterationStatus.index}__].judulKriteria}" style="word-wrap: break-word;">
                                                 </td>
                                                 <td class="text-center">
                                                     <div>
@@ -329,10 +329,10 @@
                                     <!-- pesan akan ditampilkan di sini -->
                                 </div>
                                 <div class="form-group">
-                                    <h6 class="form-label">Message:</h6>
+                                    <h6 class="form-label">Pesan:</h6>
                                     <textarea id="pesan" class="form-control" rows="4" name="pesan"></textarea>
                                     <div style="text-align: center; margin-top: 10px;">
-                                        <a href="" id="send-btn" class="btn" onclick="sendPesan()" style="background-color: green; width: 80px; padding: 5px; color: white; border-radius: 5px;">Send</a>
+                                        <a href="" id="send-btn" class="btn" onclick="sendPesan()" style="background-color: green; width: 120px; padding: 5px; color: white; border-radius: 5px;">Kirim Pesan</a>
                                     </div>
                                 </div>
                             </div>
@@ -340,8 +340,8 @@
                     </div>
                 </div>
                 <div class="card-buttons" style="margin-top: 10px;">
-                    <a href="/template-penilaian-iku" class="btn btn-back">Back</a>
-                    <a href="#" class="btn btn-primary" onclick="document.querySelector('form').submit(); return false;" id="submit-btn">Submit</a>
+                    <a href="/template-penilaian-iku" class="btn btn-back">Kembali</a>
+                    <a href="#" class="btn btn-primary" onclick="document.querySelector('form').submit(); return false;" id="submit-btn">Kirim</a>
 
                     <a href="#" class="btn btn-success" onclick="acceptForm()" id="accept-btn">Accept</a>
                 </div>
@@ -456,7 +456,7 @@
 
                     if (hasHistory) {
                         // Langkah 3: Tambahkan tulisan "History Pesan" di atas card pesan
-                        document.getElementById('pesan-container').insertAdjacentHTML('beforebegin', '<h6>Message history:</h6>');
+                        document.getElementById('pesan-container').insertAdjacentHTML('beforebegin', '<h6>Riwayat pesan:</h6>');
                     }
                     console.log(unitUser)
 
