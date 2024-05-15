@@ -280,7 +280,7 @@ public class TemplatePenilaianController {
             kriteriaPenilaian.setTemplatePenilaian(indeksKinerjaUnit);
             kriteriaPenilaianIKUDb.save(kriteriaPenilaian);
         }
-        indeksKinerjaUnit.setNamaTemplate("Template IKU 1");
+        indeksKinerjaUnit.setNamaTemplate("Template IKU " + kepalaUnit.getDivisi());
         indeksKinerjaUnit.setIdUnit(kepalaUnit.getUnitKu().getId());
         templateService.createTemplatePenilaian(indeksKinerjaUnit);
 
