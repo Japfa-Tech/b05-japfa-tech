@@ -196,12 +196,9 @@
             </div>
             <div class="card-footer">
               <div class="center-text">
-                <th:block th:if="${listIki != null and listIki.size() > 1}">
-                  <!-- Tidak menampilkan tombol -->
-              </th:block>
-              <th:block th:if="${listIki == null or listIki.size() == 0}">
-                  <a th:href="@{/template-penilaian-iki/create}" class="btn btn-primary" style="background-color: #203268;">+ Buat Template</a>
-              </th:block>
+                <a th:href="@{/template-penilaian-iki/create}" class="btn btn-primary" style="background-color: #203268;">+ Buat Template</a>
+
+              
               </div>
             </div>
           </div>

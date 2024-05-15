@@ -212,7 +212,7 @@ public class SikpiApplication {
 			indikatorNormaDb.save(komunikasiEfektif);
 
 			Norma norma = new Norma();
-			norma.setNamaTemplate("norma");
+			norma.setNamaTemplate("Norma");
 			
 			normaDb.save(norma);
 

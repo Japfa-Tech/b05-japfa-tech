@@ -34,6 +34,7 @@ import com.propensi.sikpi.DTO.request.CreateDokumenRequestDTO;
 import com.propensi.sikpi.DTO.request.CreateRiwayatJabatanRequestDTO;
 import com.propensi.sikpi.DTO.request.CreateRiwayatPenugasanRequestDTO;
 import com.propensi.sikpi.DTO.request.UserDTO;
+import com.propensi.sikpi.model.BorangPenilaianIKU;
 import com.propensi.sikpi.model.Cabinet;
 import com.propensi.sikpi.model.Dokumen;
 import com.propensi.sikpi.model.Karyawan;
@@ -48,6 +49,7 @@ import com.propensi.sikpi.model.RiwayatPenugasan;
 import com.propensi.sikpi.model.SDM;
 import com.propensi.sikpi.model.Unit;
 import com.propensi.sikpi.model.UserModel;
+import com.propensi.sikpi.repository.BorangPenilaianIKUDb;
 import com.propensi.sikpi.repository.UserDb;
 import com.propensi.sikpi.service.BorangPenilaianService;
 import com.propensi.sikpi.service.DokumenService;
@@ -80,6 +82,9 @@ public class RaporController {
 
     @Autowired
     private UserDb userDb;
+
+    @Autowired
+    private BorangPenilaianIKUDb borangPenilaianIKUDb;
 
     private Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -215,9 +220,15 @@ public class RaporController {
 
     @GetMapping("/dashboard-manajemen/{id}")
     public String dashboardManajemenDetail(@PathVariable("id") Long id, Model model) throws NotFoundException {
-        var iku = borangPenilaianService.getBorangPenilaianIKUByEvaluatedUnit(id);
+        List<BorangPenilaianIKU> iku = borangPenilaianIKUDb.findByEvaluatedUnitAndIsDeletedNot(id, true);
+        List<KriteriaScoresIKU> kScoresIKU = new ArrayList<>();
+        for (BorangPenilaianIKU borang : iku) {
+            for (KriteriaScoresIKU ks : borang.getKriteriaScoresIKU()) {
+                kScoresIKU.add(ks);
+            }
+        }
         UserModel user = userDb.findById(getUserId()).get();
-        model.addAttribute("list_kriteria_iku", iku.getKriteriaScoresIKU());
+        model.addAttribute("list_kriteria_iku", kScoresIKU);
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
         model.addAttribute("idUser", getUserId());
 

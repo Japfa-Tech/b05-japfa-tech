@@ -157,6 +157,7 @@ public class BorangPenilaianController {
         model.addAttribute("existingList", iki.getListKriteria());
         model.addAttribute("idUser", getUserId());
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
+        System.out.println(user.getRole().getRole());
 
         // model.addAttribute("idUser", getUserId());
         return "form-borang";

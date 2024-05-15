@@ -263,12 +263,20 @@ top: 20px;
                 lengthMenu: [5, 10, 15], // Set the length menu options
                 pageLength: 10
             });
-            $('.dataTables_filter input[type="search"]').
-            css({'width':'300px','display':'inline-block'});
+            $('.dataTables_filter input[type="search"]').css({ 'width': '300px', 'display': 'inline-block' });
 
             // Prepare data for the chart
-            var unitNames = /*[[${unitScoreMap.keySet().stream().map(unit -> unit.getNamaUnit()).collect(java.util.stream.Collectors.toList())}]]*/ [];
-            var unitScores = /*[[${unitScoreMap.values()}]]*/ [];
+            var unitNames = [];
+            var unitScores = [];
+
+            // Extract data from the table
+            $('#buku-table tbody tr').each(function() {
+                var unitName = $(this).find('td').eq(1).text();
+                var unitScore = $(this).find('td').eq(2).text();
+
+                unitNames.push(unitName);
+                unitScores.push(unitScore);
+            });
 
             // Initialize Chart.js
             var ctx = document.getElementById('unitScoreChart').getContext('2d');
