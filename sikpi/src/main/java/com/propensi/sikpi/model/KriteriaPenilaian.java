@@ -48,16 +48,7 @@ public class KriteriaPenilaian {
     @JsonIgnore
     private TemplatePenilaian templatePenilaian;
 
-    // @OneToOne(mappedBy = "kriteria", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    // private KriteriaScores kriteriaScores;
-
     @OneToMany(mappedBy = "kriteria", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<KriteriaScores> kriteriaScoresList = new ArrayList<>();
-
-    // private String indikatorNorma;
-
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_indikator")
-    // private IndikatorNorma indikatorNorma;
 }
 

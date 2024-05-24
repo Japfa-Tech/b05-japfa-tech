@@ -48,9 +48,6 @@ public class KriteriaPenilaianIKU {
     @JsonIgnore
     private TemplatePenilaian templatePenilaian;
 
-    // @OneToOne(mappedBy = "kriteria", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    // private KriteriaScores kriteriaScores;
-
     @OneToMany(mappedBy = "kriteria", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<KriteriaScoresIKU> kriteriaScoresList = new ArrayList<>();
 

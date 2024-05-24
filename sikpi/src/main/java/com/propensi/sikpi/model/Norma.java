@@ -29,10 +29,10 @@ import lombok.Setter;
 @Entity
 @DiscriminatorValue("norma")
 public class Norma extends TemplatePenilaian{
-    @Column(name="id_manajer", nullable=false)
+    @Column(name="id_manajer")
     private long idManajer;
 
-    @Column(name="id_kepala_unit", nullable=false)
+    @Column(name="id_unit")
     private long idUnit;
 
     @OneToMany(mappedBy = "templatePenilaian", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)

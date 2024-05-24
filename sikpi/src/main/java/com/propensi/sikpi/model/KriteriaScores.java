@@ -20,10 +20,6 @@ public class KriteriaScores {
     @ManyToOne
     @JoinColumn(name = "id_borang")
     private BorangPenilaian borangPenilaian;
-
-    // @OneToOne
-    // @JoinColumn(name = "id_kriteria", referencedColumnName = "id_kriteria")
-    // private KriteriaPenilaian kriteria;
     
     @ManyToOne // Add this annotation
     @JoinColumn(name = "id_kriteria")
