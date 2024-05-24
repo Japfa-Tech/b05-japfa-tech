@@ -58,13 +58,4 @@ public class Rapor {
     @Column(name = "sign_penyetuju_time", nullable = true)
     private LocalDateTime signPenyetujuTime;
 
-    // @OneToOne(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "id_user", referencedColumnName = "evaluatedUser",
-    // nullable = false)
-    // private BorangPenilaianIKI idUser;
-
-    // @OneToMany(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "id_unit", referencedColumnName = "evaluatedUnit",
-    // nullable = false)
-    // private BorangPenilaianIKU idUnit;
 }

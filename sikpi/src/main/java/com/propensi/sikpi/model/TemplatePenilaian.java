@@ -51,9 +51,6 @@ public class TemplatePenilaian {
     @Column(name="bobot_total")
     private Integer bobotTotal;
 
-    // @Column(name="status")
-    // private String status;
-
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = Boolean.FALSE;
 

@@ -33,10 +33,10 @@ import lombok.Setter;
 @DiscriminatorValue("iki")
 public class IndeksKinerjaIndividu extends TemplatePenilaian {
     @Column(name="id_manajer")
-    private long idManajer;
+    private long idManajer = 0;
 
     @Column(name="id_kepala_unit")
-    private long idKepalaUnit;
+    private long idKepalaUnit = 0;
 
     @OneToMany(mappedBy = "templatePenilaian", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonIgnore
