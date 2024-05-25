@@ -26,6 +26,7 @@
         margin-bottom: 5%;
         text-align: center;
       }
+
       body,
       button,
       input,
@@ -35,14 +36,14 @@
           CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva,
           var(--fallback-fonts, sans-serif), sans-serif;
       }
+
       html {
         --fallback-fonts: Helvetica Neue, helvetica, arial,
           Hiragino Kaku Gothic Pro, Meiryo, MS Gothic;
       }
 
-      /* Darken thead background */
       .table thead th {
-        background-color: #203268; /* Ganti dengan warna gelap yang Anda inginkan */
+        background-color: #203268;
         color: white;
         text-align: center;
       }
@@ -58,16 +59,11 @@
         text-align: center;
       }
 
-      /* CSS untuk mengatur ukuran card */
       .card {
-        max-width: 100%; /* Atur lebar maksimum card sesuai kebutuhan Anda */
+        max-width: 100%;
         margin: 0 auto;
         background-color: #26483332;
-
-        /* Mengatur margin auto untuk pusatkan card */
       }
-
-      /* CSS untuk mengatur ukuran konten dalam card */
 
       .table {
         width: 100%;
@@ -76,6 +72,7 @@
         border-collapse: collapse;
         font-size: 12px;
       }
+
       .table.table-hover.table-borderless tbody tr:hover {
         background-color: #ddd;
         border: none;
@@ -87,6 +84,7 @@
         margin-bottom: 3%;
         position: center;
       }
+
       .container {
         margin-top: 5%;
         background-color: #ffffff;
@@ -121,8 +119,6 @@
   </head>
 
   <body>
-    <!-- <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav> -->
-
     <div class="card-header p-4">
       <h1 class="text-center">Rekapitulasi Penilaian Karyawan</h1>
     </div>

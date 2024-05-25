@@ -1,167 +1,200 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
-
-<head>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://thymeleaf.org"
+>
+  <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 
     <title>Ubah Profile</title>
-    <link rel="icon" href="/images/logo-sikpi.png" type="image/png">
+    <link rel="icon" href="/images/logo-sikpi.png" type="image/png" />
+
     <style>
-        .center-horizontal {
-    margin-top: 2%;
-    margin-bottom: 5%;
-    text-align: center;
-}
-body, button, input, select, textarea {
-font-family: CircularSp,CircularSp-Arab,CircularSp-Hebr,CircularSp-Cyrl,CircularSp-Grek,CircularSp-Deva,var(--fallback-fonts,sans-serif),sans-serif;}
-html {
---fallback-fonts: Helvetica Neue,helvetica,arial,Hiragino Kaku Gothic Pro,Meiryo,MS Gothic;}
+      .center-horizontal {
+        margin-top: 2%;
+        margin-bottom: 5%;
+        text-align: center;
+      }
 
-body {
-background-image: url('/assets/bg.jpg') ;}
-/* Darken thead background */
-.table thead th {
-    background-color: #1FDF64; /* Ganti dengan warna gelap yang Anda inginkan */
-    color: white;
-}
-.table tbody {
-    background-color: rgba(240, 248, 255, 0);
-    color: aliceblue;
-}
+      body,
+      button,
+      input,
+      select,
+      textarea {
+        font-family: CircularSp, CircularSp-Arab, CircularSp-Hebr,
+          CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva,
+          var(--fallback-fonts, sans-serif), sans-serif;
+      }
 
-/* CSS untuk mengatur ukuran card */
-.card {
-max-width: 100%; /* Atur lebar maksimum card sesuai kebutuhan Anda */
-margin: 0 auto;
-background-color: #26483332;
+      html {
+        --fallback-fonts: Helvetica Neue, helvetica, arial,
+          Hiragino Kaku Gothic Pro, Meiryo, MS Gothic;
+      }
 
- /* Mengatur margin auto untuk pusatkan card */
-}
+      body {
+        background-image: url("/assets/bg.jpg");
+      }
 
-/* CSS untuk mengatur ukuran konten dalam card */
+      .table thead th {
+        background-color: #1fdf64;
+        color: white;
+      }
 
-.table {
-width: 100%;
-border-color: aliceblue;
-align-content: center;
-}
-.table th, .table td {
+      .table tbody {
+        background-color: rgba(240, 248, 255, 0);
+        color: aliceblue;
+      }
+
+      .card {
+        max-width: 100%;
+        margin: 0 auto;
+        background-color: #26483332;
+      }
+
+      .table {
+        width: 100%;
+        border-color: aliceblue;
+        align-content: center;
+      }
+
+      .table th,
+      .table td {
         border: 1px solid #dee2e6; /* Warna garis dan ketebalan sesuaikan dengan kebutuhan Anda */
         text-align: center; /* Teks berada di tengah kolom */
-    }
-h1 {
-font-weight: bolder;
-font-size: 40px;
-color: aliceblue;
-margin-bottom: 3%;
-position: center;
+      }
 
-}
-.container {
-margin-top: 5%;
-background-color: #42504796;
-padding-top: 0%;
-padding: 2%;
-border-radius: 3%;
-display:flexbox;
-align-items: center;
-width: 60%;
-}
-.btn {
-background-color: #1FDF64;
-color: aliceblue;
-top: 20px;
-  right: 10px;
-  float: right;
-}
-.col-md-3{
-  color: aliceblue;
-}
+      h1 {
+        font-weight: bolder;
+        font-size: 40px;
+        color: aliceblue;
+        margin-bottom: 3%;
+        position: center;
+      }
+      .container {
+        margin-top: 5%;
+        background-color: #42504796;
+        padding-top: 0%;
+        padding: 2%;
+        border-radius: 3%;
+        display: flexbox;
+        align-items: center;
+        width: 60%;
+      }
 
-.col-md-9 {
-  color: aliceblue;
-}
-/* label{
-    color: aliceblue;
-    font-size: large;
-} */
-/* .form-group {
-    margin-bottom: 3%;
-}
-.moveRight{
-    float: right;
-} */
+      .btn {
+        background-color: #1fdf64;
+        color: aliceblue;
+        top: 20px;
+        right: 10px;
+        float: right;
+      }
 
-.moveRight{
-    float: right;
-    margin-bottom: 3%;
-}
+      .col-md-3 {
+        color: aliceblue;
+      }
+
+      .col-md-9 {
+        color: aliceblue;
+      }
+
+      .moveRight {
+        float: right;
+        margin-bottom: 3%;
+      }
     </style>
-</head>
-
-<body>
+  </head>
+  <body>
     <th:block th:switch="${loggedInUserRole}">
-        <th:block th:case="'SDM'">
-            <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav>
-        </th:block>
-        <th:block th:case="'Karyawan'">
-            <nav th:replace="~{fragments/navbar-karyawan :: navbar('profile')}"></nav>
-        </th:block>
-        <th:block th:case="'KepalaUnit'">
-            <nav th:replace="~{fragments/navbar-kepala-unit :: navbar('profile')}"></nav>
-        </th:block>
-        <!-- Add additional cases for other roles if needed -->
+      <th:block th:case="'SDM'">
+        <nav th:replace="~{fragments/navbar-login :: navbar('profile')}"></nav>
+      </th:block>
+      <th:block th:case="'Karyawan'">
+        <nav
+          th:replace="~{fragments/navbar-karyawan :: navbar('profile')}"
+        ></nav>
+      </th:block>
+      <th:block th:case="'KepalaUnit'">
+        <nav
+          th:replace="~{fragments/navbar-kepala-unit :: navbar('profile')}"
+        ></nav>
+      </th:block>
     </th:block>
-
     <div class="container">
-        <div class="card m-4 p-4">
-            <div class="card-header p-4">
-                <h1 class="text-center">Restock Gudang</h1>
-                <!-- Tombol untuk menambahkan baris baru -->
-    
-            </div>
-                    <form th:action="@{/profile/edit}" th:object="${userDTO}" method="POST">
-                        <input class="form-control" type="hidden" th:field="*{id}" />
-                        <button class="btn btn-primary btn-tambah" type="submit" name="addRow" style="background-color: yellow; color: black; margin-bottom: 2%;">Tambah Baris</button>
-                        <!-- Daftar barang dengan dropdown dan kuantitas -->
-                        <table class="table">
-
-                            <thead>
-                                <th>Pilih Barang</th>
-                                <th>Kuantitas</th>
-                                <th>Hapus</th>
-                            </thead>
-                            <tbody>
-                                <tr th:each="dokumen, iterationStatus : *{listDokumen}">
-                                    <td>
-                                        <input th:field="*{listDokumen[__${iterationStatus.index}__].namaDokumen}"
-                                            type="text" class="form-control" min="1" />
-                                    </td>
-                                    <td>
-                                        <!-- Tombol untuk menghapus baris -->
-                                        <a style="align-self: center;">
-                                        <button th:value="${iterationStatus.index}" class="btn btn-danger"
-                                            type="submit" name="deleteRow" style="background-color: red;">Hapus</button></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <!-- Tombol untuk menyimpan perubahan -->
-
-                        <a>
-                        <button class="btn btn-primary btn-simpan" type="submit" style="margin: 2%; margin-right:auto; background-color: rgb(0, 255, 0);">Simpan</button></a>
-                    </form>
-                </div>
-            </div>
+      <div class="card m-4 p-4">
+        <div class="card-header p-4">
+          <h1 class="text-center">Restock Gudang</h1>
         </div>
+        <form th:action="@{/profile/edit}" th:object="${userDTO}" method="POST">
+          <input class="form-control" type="hidden" th:field="*{id}" />
+          <button
+            class="btn btn-primary btn-tambah"
+            type="submit"
+            name="addRow"
+            style="background-color: yellow; color: black; margin-bottom: 2%"
+          >
+            Tambah Baris
+          </button>
+          <table class="table">
+            <thead>
+              <th>Pilih Barang</th>
+              <th>Kuantitas</th>
+              <th>Hapus</th>
+            </thead>
+            <tbody>
+              <tr th:each="dokumen, iterationStatus : *{listDokumen}">
+                <td>
+                  <input
+                    th:field="*{listDokumen[__${iterationStatus.index}__].namaDokumen}"
+                    type="text"
+                    class="form-control"
+                    min="1"
+                  />
+                </td>
+                <td>
+                  <!-- Tombol untuk menghapus baris -->
+                  <a style="align-self: center">
+                    <button
+                      th:value="${iterationStatus.index}"
+                      class="btn btn-danger"
+                      type="submit"
+                      name="deleteRow"
+                      style="background-color: red"
+                    >
+                      Hapus
+                    </button></a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Tombol untuk menyimpan perubahan -->
+          <a>
+            <button
+              class="btn btn-primary btn-simpan"
+              type="submit"
+              style="
+                margin: 2%;
+                margin-right: auto;
+                background-color: rgb(0, 255, 0);
+              "
+            >
+              Simpan
+            </button></a
+          >
+        </form>
+      </div>
     </div>
-</body>
-
-
+  </body>
 </html>

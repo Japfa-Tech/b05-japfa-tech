@@ -2,11 +2,9 @@ package com.propensi.sikpi.service;
 
 import com.propensi.sikpi.model.Dokumen;
 import com.propensi.sikpi.model.UserModel;
-
 import java.util.*;
 
 public interface DokumenService {
-    void handleDOC(Dokumen dokumen);
 
     void saveDokumen(Dokumen dokumen);
 

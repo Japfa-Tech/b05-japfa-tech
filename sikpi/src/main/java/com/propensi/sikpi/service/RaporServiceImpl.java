@@ -11,40 +11,32 @@ import com.propensi.sikpi.repository.RaporDb;
 
 @Service
 public class RaporServiceImpl implements RaporService {
+
+    // Injeksi dependency RaporDb
     @Autowired
     RaporDb raporDb;
 
+    // Menyimpan rapor ke database
     @Override
     public void saveRapor(Rapor rapor) {
         raporDb.save(rapor);
     }
 
+    // Mengambil rapor berdasarkan pengguna yang dinilai
     @Override
     public Rapor getRaporByEvaluatedUser(UserModel idUser) {
-        return raporDb.findByEvaluatedUser(idUser).get();
+        return raporDb.findByEvaluatedUser(idUser).orElse(null);
     }
 
+    // Mengambil semua rapor yang belum ditandatangani oleh SDM
     @Override
     public List<Rapor> getUnsignedBySDM() {
         return raporDb.findBySignPenyetujuFalse();
     }
 
+    // Mengambil semua rapor yang belum ditandatangani oleh Kepala Bidang
     @Override
     public List<Rapor> getUnsignedByKepalaBidang() {
         return raporDb.findBySignPenilaiFalse();
     }
-
-    // @Override
-    // public Rapor getRaporByUserId(UserModel idUser) {
-    // return raporDb.findAllByIdUser(idUser);
-    // }
-
-    // @Override
-    // public Rapor getRaporById(Long idRapor) {
-    // if (raporDb.findById(idRapor) != null) {
-    // return raporDb.findById(idRapor).get();
-    // }
-    // return null;
-    // }
-
 }

@@ -40,14 +40,17 @@ public class AktivitasController {
 
             System.out.println(user.getRole().getRole());
 
-            if (user.getRole().getRole().equals("Karyawan") || user.getRole().getRole().equals("SDM")) {
+            if (user.getRole().getRole().equals("Karyawan")) {
                 String path = "redirect:/dashboard-penilaian/" + id;
                 return path;
+            } else if (user.getRole().getRole().equals("Admin") ) {
+                return "redirect:/master-view";
+            } else if (user.getRole().getRole().equals("SDM") ) {
+                return "redirect:/dashboard-penyetuju";
             } else {
                 String path = "redirect:/dashboard-penilaian/top/" + id;
                 return path;
             }
-
 
         } else {
             // User is not authenticated

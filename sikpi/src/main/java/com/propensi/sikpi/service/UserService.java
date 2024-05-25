@@ -4,11 +4,7 @@ import com.propensi.sikpi.DTO.request.CreateUserRequestDTO;
 import com.propensi.sikpi.DTO.request.LoginFormDTO;
 import com.propensi.sikpi.DTO.request.LoginJwtRequestDTO;
 import com.propensi.sikpi.model.UserModel;
-import com.propensi.sikpi.model.Cabinet;
-
 import java.util.List;
-
-
 
 public interface UserService {
     UserModel addUser(UserModel user);

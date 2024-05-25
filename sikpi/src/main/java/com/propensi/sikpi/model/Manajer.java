@@ -30,8 +30,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class Manajer extends UserModel {
-    // @Column(name="list_karyawan", nullable=false)
-    // private List<Karyawan> listKaryawan;
 
     @Column(name = "kepalaUnit", nullable = true)
     private Long kepalaUnit;

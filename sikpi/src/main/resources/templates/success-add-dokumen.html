@@ -1,170 +1,179 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
-
-<head>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://thymeleaf.org"
+>
+  <head>
     <meta charset="UTF-8" />
     <title>Tambah Dokumen</title>
-    <link rel="icon" href="/images/logo-sikpi.png" type="image/png">
+    <link rel="icon" href="/images/logo-sikpi.png" type="image/png" />
     <style>
-        .center-horizontal {
-    margin-top: 2%;
-    margin-bottom: 5%;
-    text-align: center;
-}
-body, button, input, select, textarea {
-font-family: CircularSp,CircularSp-Arab,CircularSp-Hebr,CircularSp-Cyrl,CircularSp-Grek,CircularSp-Deva,var(--fallback-fonts,sans-serif),sans-serif;}
-html {
---fallback-fonts: Helvetica Neue,helvetica,arial,Hiragino Kaku Gothic Pro,Meiryo,MS Gothic;}
+      .center-horizontal {
+        margin-top: 2%;
+        margin-bottom: 5%;
+        text-align: center;
+      }
 
-body {
-background-image: url('/assets/bg.jpg') ;}
-/* Darken thead background */
-.table thead th {
-    background-color: #203268; /* Ganti dengan warna gelap yang Anda inginkan */
-    color: white;
-}
-.table tbody {
-    background-color: rgba(240, 248, 255, 0);
-    color: aliceblue;
-}
+      body,
+      button,
+      input,
+      select,
+      textarea {
+        font-family: CircularSp, CircularSp-Arab, CircularSp-Hebr,
+          CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva,
+          var(--fallback-fonts, sans-serif), sans-serif;
+      }
 
-/* CSS untuk mengatur ukuran card */
-.card {
-max-width: 100%; /* Atur lebar maksimum card sesuai kebutuhan Anda */
-margin: 0 auto;
-background-color: #26483332;
+      html {
+        --fallback-fonts: Helvetica Neue, helvetica, arial,
+          Hiragino Kaku Gothic Pro, Meiryo, MS Gothic;
+      }
 
- /* Mengatur margin auto untuk pusatkan card */
-}
+      body {
+        background-image: url("/assets/bg.jpg");
+      }
 
-/* CSS untuk mengatur ukuran konten dalam card */
+      .table thead th {
+        background-color: #203268;
+        color: white;
+      }
 
-.table {
-width: 100%;
-border-color: aliceblue;
-align-content: center;
-}
-.table th, .table td {
-        border: 1px solid #dee2e6; /* Warna garis dan ketebalan sesuaikan dengan kebutuhan Anda */
-        text-align: center; /* Teks berada di tengah kolom */
-    }
-h1 {
-font-weight: bolder;
-font-size: 40px;
-color: 203268;
-margin-bottom: 3%;
-position: center;
-justify-content: right;
+      .table tbody {
+        background-color: rgba(240, 248, 255, 0);
+        color: aliceblue;
+      }
 
-}
-.container {
-margin-top: 5%;
-background-color: #FFFFFF;
-padding-top: 0%;
-padding: 2%;
-border-radius: 3%;
-display:flexbox;
-align-items: center;
-width: 60%;
-}
-.btn {
-background-color: #56C5F1;
-color: aliceblue;
-top: 20px;
-  right: 10px;
-  float: right;
-}
-.col-md-3{
-  color: aliceblue;
-}
+      .card {
+        max-width: 100%;
+        margin: 0 auto;
+        background-color: #26483332;
+      }
 
-.col-md-9 {
-  color: aliceblue;
-}
-/* label{
-    color: aliceblue;
-    font-size: large;
-} */
-/* .form-group {
-    margin-bottom: 3%;
-}
-.moveRight{
-    float: right;
-} */
+      .table {
+        width: 100%;
+        border-color: aliceblue;
+        align-content: center;
+      }
 
-.moveRight{
-    float: right;
-    margin-bottom: 3%;
-}
-.btn-simpan {
-    background-color: #56C5F1;
-    width: 100px; 
-    padding: 10px; 
-    border-radius: 5px;
-    border: 1px solid aliceblue; 
-    transition-duration: 0.4s;
-    cursor: pointer;
-}
+      .table th,
+      .table td {
+        border: 1px solid #dee2e6;
+        text-align: center;
+      }
 
-.btn-simpan:hover {
-    background-color: #555555;
-    color: white;
-}
+      h1 {
+        font-weight: bolder;
+        font-size: 40px;
+        color: 203268;
+        margin-bottom: 3%;
+        position: center;
+        justify-content: right;
+      }
 
-.card{
-    background-color: #feffff;
-    border-color: #203268;
-    padding: 20px;
-    border: 1px solid #ddd; /* Optional border */
-    border-radius: 5px; /* Optional border-radius */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-left: 50%;
-    
-    width:50%;
-}
-.card-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 4%;
-}
-.btn-back {
-    background-color: #203268;
-    width: 80px;
-    padding: 4px;
-    border-radius: 5px;
-    border: 1px solid aliceblue;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    float: left;
-    bottom: 10px;
-    left: 10px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-}
+      .container {
+        margin-top: 5%;
+        background-color: #ffffff;
+        padding-top: 0%;
+        padding: 2%;
+        border-radius: 3%;
+        display: flexbox;
+        align-items: center;
+        width: 60%;
+      }
 
-.btn-back:hover {
-    background-color: #000000;
-    color: white;
-}
+      .btn {
+        background-color: #56c5f1;
+        color: aliceblue;
+        top: 20px;
+        right: 10px;
+        float: right;
+      }
+
+      .col-md-3 {
+        color: aliceblue;
+      }
+
+      .col-md-9 {
+        color: aliceblue;
+      }
+
+      .moveRight {
+        float: right;
+        margin-bottom: 3%;
+      }
+
+      .btn-simpan {
+        background-color: #56c5f1;
+        width: 100px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid aliceblue;
+        transition-duration: 0.4s;
+        cursor: pointer;
+      }
+
+      .btn-simpan:hover {
+        background-color: #555555;
+        color: white;
+      }
+
+      .card {
+        background-color: #feffff;
+        border-color: #203268;
+        padding: 20px;
+        border: 1px solid #ddd; /* Optional border */
+        border-radius: 5px; /* Optional border-radius */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-left: 50%;
+        width: 50%;
+      }
+
+      .card-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4%;
+      }
+
+      .btn-back {
+        background-color: #203268;
+        width: 80px;
+        padding: 4px;
+        border-radius: 5px;
+        border: 1px solid aliceblue;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        float: left;
+        bottom: 10px;
+        left: 10px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .btn-back:hover {
+        background-color: #000000;
+        color: white;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="card">
-            <div class="card-header p-4">
-                <h1 style="justify-self: right;">Berhasil</h1>
-                <p>Dokumen berhasil ditambahkan!</p>
-                <a th:href="@{/profile/{id}/tambahDokumen(id=${user.id})}" class="btn btn-back">Konfirmasi</a>
-                </div>
-            </div>
+      <div class="card">
+        <div class="card-header p-4">
+          <h1 style="justify-self: right">Berhasil</h1>
+          <p>Dokumen berhasil ditambahkan!</p>
+          <a
+            th:href="@{/profile/{id}/tambahDokumen(id=${user.id})}"
+            class="btn btn-back"
+            >Konfirmasi</a
+          >
         </div>
+      </div>
     </div>
-</body>
-
-
+  </body>
 </html>

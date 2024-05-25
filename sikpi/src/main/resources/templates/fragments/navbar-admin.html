@@ -29,27 +29,8 @@
                    th:classappend="${page == 'home' ? 'active' : ''}"
                    href="/">Home</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link mx-4 dropdown-toggle"
-                   th:classappend="${page == 'dashboard' ? 'active' : ''}"
-                   href="#" id="dashboardDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dashboard
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dashboardDropdown">
-                    <!-- Dropdown items go here -->
-                    <a class="dropdown-item" href="/dashboard-penyetuju">Dashboard Penyetuju</a>
-                    <!-- <a class="dropdown-item" href="/list-employee">Employee</a>
-                    <a class="dropdown-item" href="#">Documents</a> -->
-                </div>
-            </li>
             <li class="nav-item">
-                <!-- Profile button with circular style -->
-                <a class="nav-link btn btn-outline-danger rounded-circle text-center mx-4"
-                   th:classappend="${page == 'profile' ? 'active' : ''}"
-                   th:href="@{/profile/{id}(id=${idUser})}">
-                    <!-- Add your user profile icon or avatar here -->
-                    <i class="bi bi-person"></i>
-                </a>
+                <a class="nav-link btn btn-danger text-white mx-4" href="/logout">Logout</a>
             </li>
         </ul>
     </div>

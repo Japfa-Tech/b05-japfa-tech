@@ -344,4 +344,9 @@ public class BorangPenilaianServiceImpl implements BorangPenilaianService {
         }
         return total;
     }
+
+    @Override
+    public List<BorangPenilaian> getAllBorang() {
+        return borangPenilaianDb.findAll();
+    }
 }

@@ -14,7 +14,6 @@ import lombok.Setter;
 @Data
 @Setter
 public class CreateDokumenRequestDTO {
-
     private String namaDokumen;
     private UserModel idUser;
     private byte[] dokumen;

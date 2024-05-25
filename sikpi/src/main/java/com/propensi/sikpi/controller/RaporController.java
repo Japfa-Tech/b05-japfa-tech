@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.io.IOException;
 import java.time.LocalDateTime;
-
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -20,72 +17,44 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.propensi.sikpi.DTO.DokumenMapper;
-import com.propensi.sikpi.DTO.RiwayatJabatanMapper;
-import com.propensi.sikpi.DTO.RiwayatPenugasanMapper;
-import com.propensi.sikpi.DTO.UserMapper;
-import com.propensi.sikpi.DTO.request.CreateDokumenRequestDTO;
-import com.propensi.sikpi.DTO.request.CreateRiwayatJabatanRequestDTO;
-import com.propensi.sikpi.DTO.request.CreateRiwayatPenugasanRequestDTO;
-import com.propensi.sikpi.DTO.request.UserDTO;
 import com.propensi.sikpi.model.BorangPenilaianIKU;
-import com.propensi.sikpi.model.Cabinet;
-import com.propensi.sikpi.model.Dokumen;
 import com.propensi.sikpi.model.Karyawan;
 import com.propensi.sikpi.model.KepalaUnit;
-import com.propensi.sikpi.model.KriteriaScores;
-import com.propensi.sikpi.model.KriteriaScoresIKI;
 import com.propensi.sikpi.model.KriteriaScoresIKU;
 import com.propensi.sikpi.model.Manajer;
 import com.propensi.sikpi.model.Rapor;
-import com.propensi.sikpi.model.RiwayatJabatan;
-import com.propensi.sikpi.model.RiwayatPenugasan;
 import com.propensi.sikpi.model.SDM;
 import com.propensi.sikpi.model.Unit;
 import com.propensi.sikpi.model.UserModel;
 import com.propensi.sikpi.repository.BorangPenilaianIKUDb;
 import com.propensi.sikpi.repository.UserDb;
 import com.propensi.sikpi.service.BorangPenilaianService;
-import com.propensi.sikpi.service.DokumenService;
 import com.propensi.sikpi.service.PdfGenerateService;
 import com.propensi.sikpi.service.RaporService;
-import com.propensi.sikpi.service.RiwayatJabatanService;
-import com.propensi.sikpi.service.RiwayatPenugasanService;
 import com.propensi.sikpi.service.UnitService;
 import com.propensi.sikpi.service.UserService;
-import jakarta.validation.Valid;
 import javassist.NotFoundException;
 
 @Controller
 public class RaporController {
-
+    // Injeksi dependency
     @Autowired
     private UserService userService;
-
     @Autowired
     private UnitService unitService;
-
     @Autowired
     private PdfGenerateService pdfGenerateService;
-
     @Autowired
     private RaporService raporService;
-
     @Autowired
     private BorangPenilaianService borangPenilaianService;
-
     @Autowired
     private UserDb userDb;
-
     @Autowired
     private BorangPenilaianIKUDb borangPenilaianIKUDb;
 
+    // Mendapatkan id user yg sedang login
     private Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()
@@ -97,14 +66,14 @@ public class RaporController {
                 return userDb.findByUsername(username).getId();
             }
         }
-        // Return a default value or handle as needed
+        // Return nilai default
         return null;
     }
 
+    // Menampilkan rapor user
     @GetMapping("/profile/{id}/rapor")
     public String getRapor(@PathVariable("id") Long id, Model model) throws NotFoundException {
         UserModel user = userDb.findById(getUserId()).get();
-
         var evaluatedUser = userService.getUserById(id);
         var evaluatedUnit = new Unit();
         // var evaluatedUnit = unitService.getUnitByKepalaUnitId(id);
@@ -137,6 +106,7 @@ public class RaporController {
         return "rapor-view";
     }
 
+    // Teken evaluated user
     @GetMapping("/profile/{idUser}/rapor/signEvaluated")
     public String signEvaluated(@PathVariable("idUser") Long idUser,
             Model model) {
@@ -148,6 +118,7 @@ public class RaporController {
         return "redirect:/profile/" + idUser + "/rapor";
     }
 
+    // Teken evaluator
     @GetMapping("/profile/{idUser}/rapor/signEvaluator")
     public String signEvaluator(@PathVariable("idUser") Long idUser,
             Model model) {
@@ -159,6 +130,7 @@ public class RaporController {
         return "redirect:/profile/" + idUser + "/rapor";
     }
 
+    // Teken sdm
     @GetMapping("/profile/{idUser}/rapor/signSDM")
     public String signSDM(@PathVariable("idUser") Long idUser,
             Model model) {
@@ -172,6 +144,7 @@ public class RaporController {
         return "redirect:/profile/" + idUser + "/rapor";
     }
 
+    // Mengunduh rapor
     @GetMapping("/profile/{idUser}/export")
     public ResponseEntity<ByteArrayResource> exportReport(@PathVariable("idUser") Long idUser,
             Model model) throws NotFoundException {
@@ -188,7 +161,7 @@ public class RaporController {
             evaluatedUnit = unitService.getUnitByKepalaUnitId(man.getId());
             evaluator = (Manajer) userService.getUserById(man.getIdManajer());
         }
-       var rapor = raporService.getRaporByEvaluatedUser(evaluatedUser);
+        var rapor = raporService.getRaporByEvaluatedUser(evaluatedUser);
         var iki = borangPenilaianService.getBorangPenilaianIKIByEvaluatedUser(evaluatedUser.getId());
         var iku = borangPenilaianService.getBorangPenilaianIKUByEvaluatedUnit(evaluatedUnit.getId());
         var norma = borangPenilaianService.getBorangPenilaianNormaByEvaluatedUser(evaluatedUser.getId());
@@ -206,18 +179,17 @@ public class RaporController {
         model.addAttribute("rapor", rapor);
         System.out.println(list_kriteria_norma + "INI Normanya PLIS");
         System.out.println(norma.getIdBorangPenilaian() + "INI IDNYA PLIS");
-        // var user = userService.getUserById(idUser);
         String htmlInvoice = pdfGenerateService.buildHtmlFromTemplate(evaluatedUser, evaluator, rapor, iki, iku, norma,
                 totalIki, totalIku, totalNorma);
         ByteArrayOutputStream bos = pdfGenerateService.generateVoucherDocumentBaos(htmlInvoice);
         byte[] pdfReport = bos.toByteArray();
-
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/pdf"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "Report.pdf" + "\"")
                 .body(new ByteArrayResource(pdfReport));
     }
 
+    // Menampilkan dashboard manajemen untuk melihat rekapitulasi pencapaian semua unit
     @GetMapping("/dashboard-manajemen/{id}")
     public String dashboardManajemenDetail(@PathVariable("id") Long id, Model model) throws NotFoundException {
         List<BorangPenilaianIKU> iku = borangPenilaianIKUDb.findByEvaluatedUnitAndIsDeletedNot(id, true);
@@ -231,7 +203,6 @@ public class RaporController {
         model.addAttribute("list_kriteria_iku", kScoresIKU);
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
         model.addAttribute("idUser", getUserId());
-
         return "dashboard-manajemen-detail";
     }
 

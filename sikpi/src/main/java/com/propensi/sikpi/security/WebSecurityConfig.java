@@ -58,7 +58,7 @@ public class WebSecurityConfig {
          .authorizeHttpRequests(requests -> requests
              .requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
              .requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()
-             .requestMatchers(new AntPathRequestMatcher("/forget-password")).permitAll()
+             .requestMatchers(new AntPathRequestMatcher("/images/**")).permitAll()
              .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
              .anyRequest().authenticated()
          )

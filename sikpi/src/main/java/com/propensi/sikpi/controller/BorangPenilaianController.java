@@ -539,34 +539,4 @@ public class BorangPenilaianController {
     return "dashboard-list-penilaian-top";
     }
 
-    // @GetMapping("/")
-    // public String viewDashboardPenilaianPenilai2(Model model) {
-    
-    // Long id = getUserId();
-    // UserModel user = userDb.findById(id).get();
-    // Long unitId = unitService.getUnitIdForUser(id);
-
-    // model.addAttribute("idUser", getUserId());
-    // model.addAttribute("loggedInUserRole", user.getRole().getRole());
-
-    // List<BorangPenilaianIKI> borangIkiEvaluate = borangPenilaianIKIDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
-    // List<BorangPenilaianIKU> borangIkuEvaluate = borangPenilaianIKUDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
-    // List<BorangPenilaianNorma> borangNormaEvaluate = borangPenilaianNormaDb.findByEvaluatorAndIsDeletedNot(user.getId(), true);
-
-    // model.addAttribute("borangIkiEvaluate", borangIkiEvaluate);
-    // model.addAttribute("borangIkuEvaluate", borangIkuEvaluate);
-    // model.addAttribute("borangNormaEvaluate", borangNormaEvaluate);
-
-    // List<BorangPenilaianIKI> borangIki = borangPenilaianService.filterIKIByUser(id);
-    // List<BorangPenilaianIKU> borangIku = borangPenilaianService.filterIKUByUnit(unitId);
-    // List<BorangPenilaianNorma> borangNorma = borangPenilaianService.filterNormaByUnit(id);
-
-    // model.addAttribute("borangIki", borangIki);
-    // model.addAttribute("borangIku", borangIku);
-    // model.addAttribute("borangNorma", borangNorma);
-
-    // if (user.getRole().getRole().equals("Karyawan")) return "redirect:/dashboard-penilaian/"+id;
-    // else return "dashboard-list-penilaian-top";
-    // }
-
 }

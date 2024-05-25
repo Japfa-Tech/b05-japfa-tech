@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.io.IOException;
 import java.time.LocalDateTime;
-
-import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -22,8 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.propensi.sikpi.DTO.DokumenMapper;
 import com.propensi.sikpi.DTO.RiwayatJabatanMapper;
 import com.propensi.sikpi.DTO.RiwayatPenugasanMapper;
@@ -31,9 +27,8 @@ import com.propensi.sikpi.DTO.UserMapper;
 import com.propensi.sikpi.DTO.request.CreateDokumenRequestDTO;
 import com.propensi.sikpi.DTO.request.CreateRiwayatJabatanRequestDTO;
 import com.propensi.sikpi.DTO.request.CreateRiwayatPenugasanRequestDTO;
-import com.propensi.sikpi.DTO.request.ForgetPasswordDTO;
 import com.propensi.sikpi.DTO.request.UserDTO;
-import com.propensi.sikpi.model.Cabinet;
+import com.propensi.sikpi.model.BorangPenilaian;
 import com.propensi.sikpi.model.Dokumen;
 import com.propensi.sikpi.model.Karyawan;
 import com.propensi.sikpi.model.KepalaUnit;
@@ -44,7 +39,6 @@ import com.propensi.sikpi.model.UserModel;
 import com.propensi.sikpi.repository.UserDb;
 import com.propensi.sikpi.service.BorangPenilaianService;
 import com.propensi.sikpi.service.DokumenService;
-import com.propensi.sikpi.service.PdfGenerateService;
 import com.propensi.sikpi.service.RiwayatJabatanService;
 import com.propensi.sikpi.service.RiwayatPenugasanService;
 import com.propensi.sikpi.service.UnitService;
@@ -52,11 +46,10 @@ import com.propensi.sikpi.service.UserService;
 import jakarta.validation.Valid;
 import javassist.NotFoundException;
 
-
-
 @Controller
 public class ProfileController {
 
+    // Injeksi dependency
     @Autowired
     private UserService userService;
     @Autowired
@@ -74,14 +67,13 @@ public class ProfileController {
     @Autowired
     private RiwayatPenugasanService riwayatPenugasanService;
     @Autowired
-    private PdfGenerateService pdfGenerateService;
-    @Autowired
     private BorangPenilaianService borangPenilaianService;
     @Autowired
     private UserDb userDb;
     @Autowired
     private UnitService unitService;
 
+    // Mengambil id user yang sedang login
     private Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()
@@ -93,24 +85,11 @@ public class ProfileController {
                 return userDb.findByUsername(username).getId();
             }
         }
-        // Return a default value or handle as needed
+        // Return nilai default
         return null;
     }
 
-    // @GetMapping("/profile/{id}/edit")
-    // public String formEditProfile(@PathVariable("id") Long id, Model model) {
-
-    // // Mengambil barang dengan id tersebut
-    // var user = userService.getUserById(id);
-
-    // // Memindahkan data barang ke DTO untuk selanjutnya diubah di form pengguna
-    // var userDTO = userMapper.userToUserDTO(user);
-    // model.addAttribute("user", user);
-    // model.addAttribute("userDTO", userDTO);
-
-    // return "form-edit-profile";
-    // }
-
+    // Menampilkan halaman profile user
     @GetMapping("/profile/{id}")
     public String getProfile(@PathVariable("id") Long id, Model model) throws NotFoundException {
         var user = userService.getUserById(id);
@@ -142,11 +121,10 @@ public class ProfileController {
         model.addAttribute("RiwayatPenugasan", listPenugasan);
         model.addAttribute("idUser", getUserId());
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
-
-        // model.addAttribute("daftarBarang", daftarBarang);
         return "profile-page";
     }
 
+    // Menambahkan dokumen lampiran
     @GetMapping("/profile/{id}/tambahDokumen")
     public String formEditDokumen(@PathVariable("id") Long id, Model model) {
         var user = userService.getUserById(id);
@@ -158,10 +136,10 @@ public class ProfileController {
         model.addAttribute("listDokumen", listDok);
         model.addAttribute("idUser", getUserId());
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
-
         return "form-tambah-dokumen";
     }
 
+    // Meng-approve dokumen oleh SDM
     @GetMapping("/profile/{idUser}/approve/{idDokumen}")
     public String approveDokumen(@PathVariable("idUser") Long idUser, @PathVariable("idDokumen") Long idDokumen,
             Model model) {
@@ -172,6 +150,7 @@ public class ProfileController {
         return "redirect:/profile/" + idUser;
     }
 
+    // Menolak dokumen oleh SDM
     @GetMapping("/profile/{idUser}/reject/{idDokumen}")
     public String rejectDokumen(@PathVariable("idUser") Long idUser, @PathVariable("idDokumen") Long idDokumen,
             Model model) {
@@ -182,6 +161,7 @@ public class ProfileController {
         return "redirect:/profile/" + idUser;
     }
 
+    // Menambahkan riwayat jabatan
     @GetMapping("/profile/{id}/tambahJabatan")
     public String formEditJabatan(@PathVariable("id") Long id, Model model) {
         var user = userService.getUserById(id);
@@ -193,10 +173,10 @@ public class ProfileController {
         model.addAttribute("riwayatJabatan", listJabatan);
         model.addAttribute("idUser", getUserId());
         model.addAttribute("loggedInUserRole", user.getRole().getRole());
-
         return "form-tambah-jabatan";
     }
 
+    // Menambahkan riwayat penugasan
     @GetMapping("/profile/{id}/tambahPenugasan")
     public String formEditPenugasan(@PathVariable("id") Long id, Model model) {
         var user = userService.getUserById(id);
@@ -207,10 +187,10 @@ public class ProfileController {
         model.addAttribute("user", user);
         model.addAttribute("riwayatPenugasan", listPenugasan);
         model.addAttribute("idUser", getUserId());
-
         return "form-tambah-penugasan";
     }
 
+    // Menyimpan dokumen yang diunggah
     @PostMapping("/profile/tambahDokumen")
     public String tambahDokumen(@Valid @ModelAttribute CreateDokumenRequestDTO createDokumenRequestDTO,
             @RequestParam("dokumenApaKek") MultipartFile dokumen,
@@ -221,12 +201,12 @@ public class ProfileController {
         dokumenModel.setNamaDokumen(dokumen.getOriginalFilename());
         dokumenModel.setUploadedDate(LocalDateTime.now());
         dokumenService.saveDokumen(dokumenModel);
-
         var user = userService.getUserById(dokumenModel.getIdUser().getId());
         model.addAttribute("user", user);
         return "success-add-dokumen";
     }
 
+    // Menyimpan riwayat jabatan yang diunggah
     @PostMapping("/profile/tambahJabatan")
     public String tambahJabatan(@Valid @ModelAttribute CreateRiwayatJabatanRequestDTO createRiwayatJabatanRequestDTO,
             @RequestParam("JabatanDiganti") MultipartFile dokumenJabatan,
@@ -238,13 +218,12 @@ public class ProfileController {
         dokumenJabatanModel.setJabatan(dokumenJabatan.getOriginalFilename());
         dokumenJabatanModel.setUploadedDate(LocalDateTime.now());
         riwayatJabatanService.saveRiwayatJabatan(dokumenJabatanModel);
-
         var user = userService.getUserById(dokumenJabatanModel.getIdUser().getId());
         model.addAttribute("user", user);
         return "success-add-jabatan";
-
     }
 
+    // Menyimpan riwayat penugasan yang diuanggah
     @PostMapping("/profile/tambahPenugasan")
     public String tambahPenugasan(
             @Valid @ModelAttribute CreateRiwayatPenugasanRequestDTO createRiwayatPenugasanRequestDTO,
@@ -257,13 +236,12 @@ public class ProfileController {
         dokumenPenugasanModel.setPenugasan(dokumenPenugasan.getOriginalFilename());
         dokumenPenugasanModel.setUploadedDate(LocalDateTime.now());
         riwayatPenugasanService.saveRiwayatPenugasan(dokumenPenugasanModel);
-
         var user = userService.getUserById(dokumenPenugasanModel.getIdUser().getId());
         model.addAttribute("user", user);
         return "success-add-penugasan";
-
     }
 
+    // Menghapus dokumen terunggah
     @GetMapping("/profile/{idUser}/deleteDokumen/{idDokumen}")
     public String deleteDokumen(@PathVariable("idUser") Long idUser, @PathVariable("idDokumen") Long idDokumen,
             Model model) {
@@ -274,6 +252,7 @@ public class ProfileController {
         return "success-delete-dokumen";
     }
 
+    // Menghapus riwayat jabatan terunggah
     @GetMapping("/profile/{idUser}/deleteJabatan/{idRiwayatJabatan}")
     public String deleteRiwayatJabatan(@PathVariable("idUser") Long idUser,
             @PathVariable("idRiwayatJabatan") Long idRiwayatJabatan,
@@ -285,6 +264,7 @@ public class ProfileController {
         return "success-delete-jabatan";
     }
 
+    // Menghapus riwayat penugasan terunggah
     @GetMapping("/profile/{idUser}/deletePenugasan/{idRiwayatPenugasan}")
     public String deleteRiwayatPenugasan(@PathVariable("idUser") Long idUser,
             @PathVariable("idRiwayatPenugasan") Long idRiwayatPenugasan,
@@ -296,6 +276,7 @@ public class ProfileController {
         return "success-delete-penugasan";
     }
 
+    // Menyimpan row dokumen lampiran
     @PostMapping(value = "/profile/edit")
     public String saveRowDokumenUserUpdate(@Valid @ModelAttribute UserDTO userDTO, BindingResult bindingResult,
             Model model) {
@@ -310,7 +291,6 @@ public class ProfileController {
                         return error.getDefaultMessage();
                     })
                     .collect(Collectors.toList());
-
             model.addAttribute("errors", errors);
             return "error-viewall";
         }
@@ -319,13 +299,12 @@ public class ProfileController {
         }
         var userFromDTO = userMapper.userDTOToUser(userDTO);
         var user = userService.updateUser(userFromDTO);
-
         model.addAttribute("userDTO", userDTO);
         model.addAttribute("user", user);
-        // model.addAttribute("listDokumen", dokumenService.getAllDokumen());
         return "success-edit";
     }
 
+    // Mengunduh dokumen lampiran
     @GetMapping("/profile/{idUser}/download/{idDokumen}")
     public ResponseEntity<ByteArrayResource> downloadAttachment(@PathVariable("idUser") Long idUser,
             @PathVariable("idDokumen") Long idDokumen,
@@ -338,6 +317,7 @@ public class ProfileController {
                 .body(new ByteArrayResource(dok.getDokumen()));
     }
 
+    // Menampilkan daftar karyawan
     @GetMapping("/list-employee")
     public String getAllEmployee(Model model) {
         List<UserModel> listUser = userService.getAllUser();
@@ -348,44 +328,12 @@ public class ProfileController {
         return "list-user";
     }
 
-    // @GetMapping("/forget-password")
-    // public String viewForgetPassword(Model model) {
-
-    //     ForgetPasswordDTO passwordDTO = new ForgetPasswordDTO();
-    //     System.out.println("pp");
-
-    //     model.addAttribute("passwordDTO", passwordDTO);
-    //     model.addAttribute("isLoggedIn", false);
-    //     model.addAttribute("errorUsername", false);
-    //     model.addAttribute("errorPassword", false);
-
-
-    //     return "forget-password";
-    // }
-
-    // @PutMapping("/forget-password")
-    // public String postForgetPassword(@ModelAttribute ForgetPasswordDTO passwordDTO, Model model) {
-    //     UserModel user = userDb.findByUsername(passwordDTO.getUsername());
-    //     System.out.println("masuk");
-    
-    //     if (user == null) {
-    //         model.addAttribute("errorUsername", true);
-    //         return "forget-password"; // Return the view directly
-    //     }
-    
-    //     if (!passwordDTO.getPassword().equals(passwordDTO.getConfirmPassword())) {
-    //         model.addAttribute("errorPassword", true);
-    //         return "forget-password"; // Return the view directly
-    //     }
-    
-    //     userService.changePassword(user, passwordDTO.getPassword());
-    //     System.out.println("masuk2");
-
-    
-    //     model.addAttribute("message", "Password has been successfully changed.");
-    //     return "redirect:/login"; // Redirect to login page
-    // }
-    
-    
-
+    @GetMapping("/master-view")
+    public String masterView(Model model) {
+        List<UserModel> listUser = userService.getAllUser();
+        List<BorangPenilaian> listBorang = borangPenilaianService.getAllBorang();
+        model.addAttribute("listUser", listUser);
+        model.addAttribute("listBorang", listBorang);
+        return "master-view";
+    }
 }

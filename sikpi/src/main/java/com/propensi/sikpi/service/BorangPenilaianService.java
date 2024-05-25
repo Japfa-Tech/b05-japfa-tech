@@ -35,6 +35,8 @@ public interface BorangPenilaianService {
 
     List<BorangPenilaianNorma> filterNormaByUnit(Long id);
 
+    List<BorangPenilaian> getAllBorang();
+
     Long getTotalBorangIKI(Long idBorang);
     Long getTotalBorangNorma(Long idBorangNorma) ;
     Long getTotalBorangIKU(Long idBorang);
